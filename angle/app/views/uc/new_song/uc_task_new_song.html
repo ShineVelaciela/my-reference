@@ -1,0 +1,264 @@
+<style>
+    .detail table tbody tr{
+        height: 35px;
+    }
+    .detail table tbody tr td.name{
+        width: 6%;
+    }
+    .detail table tbody tr td.content{
+        width: 17%;
+    }
+    .detail table tbody tr td select{
+        border-radius: 0;
+        height: 22px;
+        width: 81%;
+    }
+    .detail table tbody tr td input{
+        width: 80%;
+    }
+    .detail table tbody tr td.name {
+    text-align: right;
+    }
+    .detail table tbody tr td select{
+    border-radius: 0;
+    height: 21px;
+    }
+
+    .dropdown-menu table{
+        margin-left: 0;
+    }
+    .dropdown-menu .btn{
+        padding: 0;
+    }
+    .dropdown-menu table thead tr{
+        height: 20px;
+    }
+    .dropdown-menu table tbody tr{
+        height: 20px;
+    }
+    #body div #page #list_part div #widget-body div ul li ul li{
+        float: none;
+        height: 26px;
+        margin: 0 0 0 0;
+        border: none;
+        width: 250px;
+        text-align: left;
+    }
+    .row-fluid .onlyOne {
+        border: 1px solid #5faee3;
+        border-radius: 25px 25px 25px 25px;
+    }
+    div form div table tbody tr td input {
+        margin-bottom: 5px;
+        margin-top: 5px;
+        width: 125px;
+    }
+    div form div table tbody tr td input[readonly] {
+        cursor: auto;
+        background-color: white;
+    }
+    div form div table tbody tr td a {
+    font-size: 20px;
+    margin: 5px;
+    }
+    .uc-task-count {
+        height: 33px;
+        border-bottom: 2px solid #5EAFE3;
+    }
+    .uc-task-count .sub{
+        margin: 9px 0 0 20px;
+        float: left;
+        width: 100%;
+    }
+    [class^="icon-"], [class*=" icon-"]{
+        vertical-align: middle;
+    }
+    a {
+        cursor: pointer;
+    }
+    ul.ul-groups li.border-right{
+        border-right: 1px solid #5faee3;
+    }
+    tr.gradeX.odd{
+        /*height: 54px;*/
+        vertical-align: top;
+        line-height: 25px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>用户中心
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default" id="panelDemo1">
+                <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" >
+                    <span ng-if="p_type == 10">新歌流程</span>
+                    <paneltool tool-collapse="tool-collapse"></paneltool>
+                </div>
+                <div collapse="panelDemo1" class="panel-wrapper">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-pill-left btn-default btn-sm" ng-if="userRole == 'fzr'" ng-class="pageType == 'unassigned' ? 'active':''"  ui-sref="app.uc_task_new_song.unassigned({pId:pId,taskStatusList:'',taskStatus:0,uId:''})" ui-sref-opts="{reload: false, inherit: false}">未分配</button>
+                                        <button type="button" class="btn btn-default btn-sm " ng-if="userRole == 'fzr'" ng-class="pageType == 'assigned' ? 'active':''" ui-sref="app.uc_task_new_song.assigned({pId:pId,taskStatusList:'-1,1,2',taskStatus:'',uId:''})" ui-sref-opts="{reload: false, inherit: false}">已分配</button>
+                                        <button type="button" class="btn btn-default btn-sm " ng-class="pageType == 'uncompelete' ? 'active':''" ui-sref="app.uc_task_new_song.uncompelete({pId:pId,taskStatusList:'-1,1,2',taskStatus:'',uId:uId})" ui-sref-opts="{reload: false, inherit: false}">未完成</button>
+                                        <button type="button" class="btn btn-pill-right btn-default btn-sm " ng-if="userRole == 'fzr'" ng-class="pageType == 'compelete' ? 'active':''" ui-sref="app.uc_task_new_song.compelete({pId:pId,taskStatusList:'',taskStatus:3,uId:''})" ui-sref-opts="{reload: false, inherit: false}">已完成</button>
+                                        <button type="button" class="btn btn-pill-right btn-default btn-sm " ng-if="userRole == 'cyr'" ng-class="pageType == 'compelete' ? 'active':''" ui-sref="app.uc_task_new_song.compelete({pId:pId,taskStatusList:'',taskStatus:3,uId:uId})" ui-sref-opts="{reload: false, inherit: false}">已完成</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" ng-if="pageType == 'unassigned' || pageType == 'assigned'">
+                                    <select class="form-control input-sm"ng-options="cyr as cyr.uName for cyr in cyr_list" ng-change="selectCyr(params.selectedUser)" ng-model="params.selectedUser" >
+                                        <option value="">全部</option>
+                                    </select>
+                                </div>
+                                <!--<div class="col-sm-2" ng-if="pageType == 'unassigned' || pageType == 'assigned'">-->
+                                    <!--<select class="form-control input-sm" ng-options="setting as setting.name for setting in authoritySetting" ng-model="params.task_auth_setting"  ></select>-->
+                                <!--</div>-->
+                                <div class="col-sm-2" ng-if="pageType == 'unassigned' || pageType == 'assigned'">
+                                    <button class="btn btn-default btn-sm" ng-click="distributionTask(params.selectedUser.uid)" >确定分配</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div ui-view="condition"></div>
+                        <div class="uc-task-count">
+                        <span class="sub">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-1">
+                                        <span ng-if="user.name == undefined">全部</span>
+                                        <span ng-if="user.name != undefined">用户{{user.name}}</span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        当前一共{{params.totalItems}}条任务
+                                    </div>
+                                    <div class="col-sm-2" ng-if="pageType != 'compelete'">
+                                        打标签
+                                        <select ng-model="errorType"  class="">
+                                            <option value="">请选择分类标签</option>
+                                            <option value="cp申报错误">cp申报错误</option>
+                                            <option value="音源错误">音源错误</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="song_table"
+                                   aria-describedby="sample_1_info">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 30px;" class="sorting_disabled">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-click="checkAll(all, datas)"/>
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th style="    width: 90px;">版权ID</th>
+                                    <th style="    width: 80px;">歌曲ID</th>
+                                    <!--<th style="width: 60px;">数据状态</th>-->
+                                    <th style="    width: 110px;">产品歌曲名</th>
+                                    <th style="    width: 100px;">产品艺人名</th>
+                                    <th style="    width: 110px;">产品专辑名</th>
+                                    <th style="    width: 110px;">编目歌曲名</th>
+                                    <th style="width: 130px;">编目艺人名</th>
+                                    <th style="width: 130px;">编目专辑名</th>
+                                    <th  style="    width: 60px;">新歌/首发</th>
+                                    <th style="    width: 60px;">优质度</th>
+                                    <th style="    width: 60px;" ng-if="pageType == 'assigned' || pageType == 'uncompelete'">工单状态</th>
+                                    <th style="    width: 60px;" ng-if="userRole == 'fzr' && pageType != 'unassigned' && pageType != 'uncompelete'">用户</th>
+                                    <th ng-if="pageType == 'unassigned'" style="    width: 80px;">创建时间</th>
+                                    <th ng-if="pageType != 'unassigned'" style="    width: 80px;">分配时间</th>
+                                    <th ng-if="pageType == 'uncompelete'" style="    width: 60px;">操作</th>
+                                    <th ng-if="pageType == 'compelete'" style="    width: 80px;">完成时间</th>
+                                </thead>
+
+                                <tbody role="alert" >
+                                <tr class="gradeX odd"  ng-repeat="data in datas track by $index">
+                                    <td class="sorting_1">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="data.isCheck"/>
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="hidden-phone">{{data.copyrightId}}</td>
+                                    <td >{{data.songId}}</td>
+                                    <td >{{data.cpSongName}}</td>
+                                    <td >{{data.cpArtistName}}</td>
+                                    <td >{{data.cpAlbumName}}</td>
+                                    <td >
+                                        <td-song></td-song>
+                                        <td-song-search></td-song-search>
+                                    </td>
+                                    <td >
+                                        <span ng-repeat="data in data.artists">
+                                            <td-artist></td-artist>
+                                            <td-artist-search></td-artist-search>
+                                        </span>
+                                    </td>
+                                    <td >
+                                        <span ng-repeat="data in data.albums">
+                                            <td-album></td-album>
+                                            <td-album-search></td-album-search>
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                    <td>{{data.degree}}</td>
+                                    <td ng-if="pageType == 'assigned' || pageType == 'uncompelete'">
+                                        <span ng-if="data.taskStatus == 0">未分配</span>
+                                        <span ng-if="data.taskStatus == 1">待办</span>
+                                        <span ng-if="data.taskStatus == 2">待审核</span>
+                                        <span ng-if="data.taskStatus == 3">正常</span>
+                                        <span ng-if="data.taskStatus == -1">审核不通过</span>
+                                    </td>
+                                    <td ng-if="userRole == 'fzr' && pageType != 'unassigned' && pageType != 'uncompelete'">{{data.edit.name}}</td>
+                                    <td ng-if="pageType == 'unassigned'">{{data.createTime | date: "yyyy-MM-dd"}}</td>
+                                    <td ng-if="pageType != 'unassigned'">{{data.distributionTime | date: "yyyy-MM-dd"}}</td>
+                                    <td ng-if="pageType == 'uncompelete'">
+                                        <a ng-click="dealSong(data);" ng-right-click="rightClick(data);" >处理</a>
+                                    </td>
+                                    <td ng-if="pageType == 'compelete'">{{data.completeTime | date: "yyyy-MM-dd"}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="row-fluid paginate">
+                                <ng-include src="'app/views/partials/pagination.html'"></ng-include>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="import.html">
+    <div class="modal-header">
+        <h3 class="modal-title">导入excel数据</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <form class="form-horizontal" >
+        <div class="control-group">
+            <label class="control-label">上传附件</label>
+            <div class="controls">
+                <input type="file" id="excelFile" name="excelFile" class="default" fileread="uploadme.src">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </form>
+</script>

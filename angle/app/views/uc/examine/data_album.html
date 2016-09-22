@@ -1,0 +1,48 @@
+<table class="table table-striped">
+    <thead>
+    <tr role="row">
+        <th style="width: 40px;">
+            <check-all-btn></check-all-btn>
+        </th>
+        <th style="width: 80px;">专辑ID</th>
+        <th style="width: 100px;">专辑名&nbsp;&nbsp;<i class="icon-double-angle-down" ui-sref="app.examine.2({orderBys:[{key:'albumId',value:'ASC'}]})"></i></th>
+        <th style="width: 100px;">艺人名&nbsp;&nbsp;<i class="icon-double-angle-down" ui-sref="app.examine.2({orderBys:[{key:'artistId',value:'ASC'}]})"></i></th>
+        <th style="width: 100px;">编辑人员</th>
+        <th style="width: 80px;">提交时间</th>
+        <th style="width: 100px;">操作</th>
+    </thead>
+    <tbody role="alert" >
+    <tr class="gradeX odd" ng-repeat="data in datas">
+        <td>
+            <div class="checkbox c-checkbox">
+                <label>
+                    <input type="checkbox" ng-model="data.isCheck">
+                    <span class="fa fa-check"></span>
+                </label>
+            </div>
+        </td>
+        <td>{{data.albumId}}</td>
+        <td>
+            <span class="text-danger" ng-if="data.type == 0">[G]</span>
+            <td-album></td-album>
+        </td>
+        <td>
+            <td-artists></td-artists>
+        </td>
+        <td>{{data.username}}</td>
+        <td>{{data.subTime | date : 'yyyy-MM-dd'}}</td>
+        <td>
+            <!--<a href="javascript:;" ng-click="examineJump(data,'album')">审核</a>-->
+            <a href="javascript:;" ng-click="examineJump(data,'album');" ng-right-click="examineJump(data,'album', '_blank');" ng-if="!data.lockUser">审核</a>
+            <a href="javascript:;" ng-click="examineJump(data,'album');" ng-right-click="examineJump(data,'album', '_blank');" ng-if="data.lockUser && (user.id == data.lockUser.uid)">{{data.lockUser.name}}</a>
+            <span ng-if="data.lockUser && (user.id != data.lockUser.uid)">{{data.lockUser.name}}</span>
+        </td>
+    </tr>
+    <!--<tr ng-if="datas.length < 1">-->
+        <!--<td colspan="6">暂无数据</td>-->
+    <!--</tr>-->
+    </tbody>
+</table>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>
+<!--<span class="page-detail">总共{{totalPage}}页,共{{bigTotalItems}}条记录,每页显示{{itemsPerPage}}条记录</span>-->
+<!--<uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>-->

@@ -1,0 +1,69 @@
+//
+   Created by hao.cheng on 2016/7/25.
+div.row-fluid
+    h3.page-title  媒资库
+        span.divider /
+        span 预编目工单
+div
+    div.row
+        div.col-lg-12
+            div.panel.panel-default(id="paneDemo1")
+                div.panel-heading(ng-class="{'panel-heading-collapsed':paneDemo1}") 条件查询
+                    paneltool(tool-collapse="tool-collapse")
+                div.panel-wrapper(collapse="paneDemo1")
+                    div.panel-body
+                        form.form-horizontal
+                            div.form-group
+                                label.col-sm-1.control-label 版权ID
+                                div.col-sm-2
+                                    input.form-control.input-sm(type="text",placeholder="请输入版权ID",ng-model="form.copyrightId")
+                                label.col-sm-1.control-label 编目状态
+                                div.col-sm-2
+                                    select.form-control.input-sm(ng-model="form.catalogStatus")
+                                        option(value="") 请选择
+                                        option(value="1") 已编目
+                                        option(value="0") 未编目
+                                label.col-sm-1.control-label 歌曲完成状态
+                                div.col-sm-2
+                                    select.form-control.input-sm(ng-model="form.songStatus")
+                                        option(value="") 请选择
+                                        option(value="1") 已完成
+                                        option(value="0") 未完成
+                                label.col-sm-1.control-label 已打标签
+                                div.col-sm-2
+                                    select.form-control.input-sm(ng-model="form.istag")
+                                        option(value="") 请选择
+                                        option(value="1") 是
+                                        option(value="0") 否
+                            div.form-group
+                                label.col-sm-1.control-label 版权接收时间起
+                                div.col-sm-2
+                                    input.form-control.input-sm(type="text",placeholder="版权接收起始时间",ng-model="form.startTime",my-date="",uib-datepicker-popup="",is-open="date1",datepicker-options="dateOptions",close-text="关闭",clear-text="清除",current-text="今天",ng-click="date1 = !date1")
+                                label.col-sm-1.control-label 版权接收时间止
+                                div.col-sm-2
+                                    input.form-control.input-sm(type="text",placeholder="版权接收截止时间",ng-model="form.endTime",my-date="",uib-datepicker-popup="",is-open="date2",datepicker-options="dateOptions",close-text="关闭",clear-text="清除",current-text="今天",ng-click="date2 = !date2")
+                                label.col-sm-1.control-label 导入者
+                                div.col-sm-2
+                                    edit-user-tpl
+                            div.form-group
+                                div.col-sm-5
+                                    div.btn-group(ng-controller="ModalCtrl")
+                                        button.btn.btn-default.btn-sm(ng-click="submit();") 查询
+                                        button.btn.btn-default.btn-sm(ng-click="exportCommon(datas,form);") 导出
+                                        button.btn.btn-default.btn-sm(ng-click="preCatalogImport();") 导入
+                                        button.btn.btn-default.btn-sm(bacth-update-btn) 批量修改
+                                        button.btn.btn-default.btn-sm(ng-click="new('song');") 新建
+                                        button.btn.btn-default.btn-sm(ng-click="preCatalogEmergImport();") 紧急歌曲导入
+                                        button.btn.btn-default.btn-sm(ng-click="reset();") 重置
+                                        div(ng-include="'app/views/modals/modal-export.html'")
+                                        div(ng-include="'app/views/modals/modal-import.html'")
+                                        div(ng-include="'app/views/modals/modal-emergimport.html'")
+
+    div.row
+        div.col-lg-12
+            div.panel.panel-default(id="paneDemo2")
+                div.panel-heading(ng-class="{'panel-heading-collapsed':paneDemo2}") 数据列表
+                    paneltool(tool-collapse="tool-collapse")
+                div.panel-wrapper(collapse="paneDemo2")
+                    div.panel-body
+                        div.table-responsive(ui-view="data-list")

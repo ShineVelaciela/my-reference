@@ -1,0 +1,512 @@
+<style>
+    .ng-isolate-scope{
+        background: #fff;
+    }
+    .nav{
+        margin-bottom: 0;
+    }
+    .tab-content{
+        padding-top: 5px;
+    }
+    .tab-content .tab-pane h5{
+        margin: 0 0 0 10px;
+    }
+</style>
+<div class="container-fluid">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+            <h4 class="page-title">
+                <i class="icon-home"></i>&nbsp;&nbsp;媒资库<span class="divider">/</span>所有艺人展示
+            </h4>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+    <!-- END PAGE HEADER-->
+    <div class="row-fluid" id="search_part">
+        <div class="span12">
+            <!-- BEGIN EXTRAS PORTLET-->
+            <div class="widget">
+                <div class="widget-title">
+                    <h4><i class="icon search-icon"></i>条件查询</h4>
+                   <span class="tools">
+                   <a href="javascript:;" class="chevron-down" onclick="hideBody(this);"></a>
+                   </span>
+                </div>
+                <div class="widget-body form">
+                    <!-- BEGIN FORM-->
+                    <form action="#" class="form-horizontal">
+                        <div class="control-group">
+                            <div class="span12">
+                                <!--BEGIN TABS-->
+                                <div class="tabbable tabbable-custom">
+                                    <uib-tabset justified="true">
+                                        <uib-tab ng-repeat="tag in tags_title" heading="{{tag.name}}">
+                                            <label><h5>
+                                                <a ng-repeat="t in tag.children" ng-click="tagSearch(t);">{{t.name}}</a>
+                                            </h5></label>
+                                        </uib-tab>
+                                    </uib-tabset>
+                                </div>
+                                <!--END TABS-->
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                    <div class="row-fluid" id="conditions">
+                        <span class="badge badge-warning" id="" ng-repeat="tag in tagList" ng-if="tag.name != undefined"><i>{{tag.name}}</i>&nbsp;&nbsp;<i class="icon-remove" style="cursor:pointer;" onclick="removeCondition(this,'artist')"></i></span>
+                    </div>
+                </div>
+            </div>
+            <!-- END EXTRAS PORTLET-->
+        </div>
+    </div>
+    <!-- BEGIN PAGE CONTENT-->
+    <div id="page" class="dashboard">
+        <div class="row-fluid" id="list_part">
+            <div class="span12">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="widget ">
+                    <div class="widget-title">
+                        <h4><i class="icon list-icon"></i>歌曲列表</h4>
+							<span class="tools">
+							<a href="javascript:;" class="chevron-down" onclick="hideBody(this);"></a>
+							</span>
+                    </div>
+                    <div class="widget-body" id="widget-body">
+                        <div class="row-fluid" id="content_title" style="background-color: rgb(255, 255, 255); z-index: 99; position: static;">
+                            <ul class="ul-groups">
+                                <a href="#myModal" data-toggle="modal"><li class="li-first">导入</li></a>
+                                <li class="li-last disabled">导出</li>
+                            </ul>
+                            <ul class="ul-groups">
+                                <li class="li-first other" >
+                                    <div class="checker" style="margin: 0;">
+                                        <span><input type="checkbox" class="checkboxes" value="2" style="opacity: 0;margin-top: -20px;" name="" onclick="checkAll_th(this);"></span>
+                                    </div>
+                                    全部
+                                </li>
+                                <li class="li-last other" style="border-left: 0;position: relative;" onclick="showDrop(this);">已选
+                                    <ul class="dropdown-search" style="min-width: 120px;height: auto;max-height: none;" onclick="preventParentAll(event);">
+                                        <div class="list" style="max-height: none;">
+                                            <li class="chooseth">
+                                                <div class="checker" style="margin: 0;">
+                                                    <span class="checked"><input type="checkbox" class="checkboxes thcheck" value="2" style="opacity: 0;" name="Status" onclick="checkStatus_chooseth(this);"></span>
+                                                </div>
+                                                状态
+                                            </li>
+                                            <li class="chooseth">
+                                                <div class="checker" style="margin: 0;">
+                                                    <span class="checked"><input type="checkbox" class="checkboxes thcheck" value="2" style="opacity: 0;" name="cId" onclick="checkStatus_chooseth(this);"></span>
+                                                </div>
+                                                版权ID
+                                            </li>
+                                            <li class="chooseth">
+                                                <div class="checker" style="margin: 0;">
+                                                    <span class="checked"><input type="checkbox" class="checkboxes thcheck" value="2" style="opacity: 0;" name="songId" onclick="checkStatus_chooseth(this);"></span>
+                                                </div>
+                                                歌曲ID
+                                            </li>
+                                            <li class="chooseth">
+                                                <div class="checker" style="margin: 0;">
+                                                    <span class="checked"><input type="checkbox" class="checkboxes thcheck" value="2" style="opacity: 0;" name="songName" onclick="checkStatus_chooseth(this);"></span>
+                                                </div>
+                                                歌曲名
+                                            </li>
+                                            <li class="chooseth">
+                                                <div class="checker" style="margin: 0;">
+                                                    <span class="checked"><input type="checkbox" class="checkboxes thcheck" value="2" style="opacity: 0;" name="artistName" onclick="checkStatus_chooseth(this);"></span>
+                                                </div>
+                                                歌手
+                                            </li>
+                                            <li class="chooseth">
+                                                <div class="checker" style="margin: 0;">
+                                                    <span class="checked"><input type="checkbox" class="checkboxes thcheck" value="2" style="opacity: 0;" name="albumName" onclick="checkStatus_chooseth(this);"></span>
+                                                </div>
+                                                专辑名
+                                            </li>
+                                            <li class="chooseth">
+                                                <div class="checker" style="margin: 0;">
+                                                    <span class="checked"><input type="checkbox" class="checkboxes thcheck" value="2" style="opacity: 0;" name="language" onclick="checkStatus_chooseth(this);"></span>
+                                                </div>
+                                                语言
+                                            </li>
+                                            <li class="chooseth">
+                                                <div class="checker" style="margin: 0;">
+                                                    <span class="checked"><input type="checkbox" class="checkboxes thcheck" value="2" style="opacity: 0;" name="oPerson" onclick="checkStatus_chooseth(this);"></span>
+                                                </div>
+                                                执行人
+                                            </li>
+                                            <li class="chooseth">
+                                                <div class="checker" style="margin: 0;">
+                                                    <span class="checked"><input type="checkbox" class="checkboxes thcheck" value="2" style="opacity: 0;" name="checkStatus" onclick="checkStatus_chooseth(this);"></span>
+                                                </div>
+                                                审核状态
+                                            </li>
+                                        </div>
+                                    </ul>
+                                    <i class="triangle_down"></i>
+                                </li>
+                            </ul>
+                            <ul class="ul-groups">
+                                <li class="li-first" style="width: 160px;background: #f7fcfd !important;">
+                                    <input style="width: 95%;" id="song_search" onkeydown="searchSongAll_enter(this,event);">
+                                </li>
+                                <li class="li-last" style="border-left: 0;  font-size: 19px;width: 40px;background-color: #5faee3;" onclick="searchSongAll(this);"><i class="icon-search"></i></li>
+                            </ul>
+                            <ul class="ul-groups">
+                                <li class="li-first disabled">新建</li>
+                                <li onclick="toMergePage('song');">合并</li>
+                                <li class="disabled">通过</li>
+                                <li class="disabled">驳回</li>
+                                <li style="position: relative;">
+                                    <span href="#" class="dropdown-toggle" data-toggle="dropdown" style="display: block;width: 100%;" onclick="getProject(2);">指派</span>
+                                    <table class="table table-striped table-bordered dataTable dropdown-menu">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="hidden-phone sorting" style="width: 130px;border-left: 0;">操作</th>
+                                            <th class="sorting cId" style="width: 107px;">项目名称</th>
+                                            <th class="hidden-phone sorting" style="width: 123px;">项目状态</th>
+                                            <th class="hidden-phone sorting" style="width: 81px;">任务总数</th>
+                                            <th class="hidden-phone sorting" style="width: 144px;">已分配</th>
+                                            <th class="hidden-phone sorting" style="width: 81px;">未分配</th>
+                                            <th class="hidden-phone sorting" style="width: 100px;">已完成</th>
+                                            <th class="hidden-phone sorting" style="width: 100px;">未完成</th>
+                                        </thead>
+
+                                        <tbody id="project_tbody">
+
+                                        </tbody>
+                                    </table>
+                                </li>
+                                <li class="li-last disabled">批量播放</li>
+                            </ul>
+                        </div>
+                        <div id="sample_1_wrapper" class="dataTables_wrapper form-inline" role="grid" ui-view="data_list">
+                            <table class="table table-striped table-bordered dataTable" id="song_table"
+                                   aria-describedby="sample_1_info">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 24px;" class="sorting_disabled" role="columnheader"
+                                        rowspan="1"
+                                        colspan="1" aria-label="">
+                                        <div class="checker" ><span><input type="checkbox"
+                                                                           class="group-checkable"
+                                                                           data-set=".checkboxes"
+                                                                           onclick='checkAll(this);'
+                                                                           style="opacity: 0;margin-top:0;"></span>
+                                        </div>
+                                    </th>
+                                    <th class="hidden-phone sorting Status" role="columnheader" tabindex="0"
+                                        aria-controls="sample_1" rowspan="1" colspan="1"
+                                        aria-label="Status: activate to sort column ascending" style="width: 80px;border-left: 0;">
+                                        状态
+                                    </th>
+                                    <th class="hidden-phone sorting Status relative" style="width: 150px;">
+                                        曲库状态
+                                        <i class="icon-double-angle-down" data-toggle="dropdown" ></i>
+                                        <ul class="dropdown-menu" style="position: absolute;left: 0px;width: auto;cursor: pointer;">
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:''})">所有</a></li>
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:10})">正常</a></li>
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:11})">正常待编目</a></li>
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:12})">正常待审核</a></li>
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:14})">审核中</a></li>
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:15})">编辑中</a></li>
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:20})">删除</a></li>
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:30})">禁用</a></li>
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:111})">审核未通过</a></li>
+                                            <li><a href="javascript:;" target="_blank" onclick="locationHref('song/search',{karakalStatus:-1})">未关联曲库</a></li>
+                                        </ul>
+                                    </th>
+                                    <th class="sorting cId" role="columnheader" tabindex="0" aria-controls="sample_1"
+                                        rowspan="1" colspan="1"
+                                        aria-label="Username: activate to sort column ascending"
+                                        style="width: 107px;">版权ID
+                                    </th>
+                                    <th class="hidden-phone sorting songId relative" rowspan="1" colspan="1" style="width: 123px;"
+                                        id="song_id_th" onclick="showDrop(this);"><p id="song_id_title">歌曲ID</p>
+                                        <ul class="dropdown-search" onclick="preventParentAll(event);">
+                                            <div>
+                                                <input type="text" id="songIdSearch"
+                                                       onkeydown="searchThSongId(this,event);">
+                                                <i class="icon-search"></i>
+                                            </div>
+                                        </ul>
+                                        <i class="triangle_down"></i>
+                                    </th>
+                                    <th class="hidden-phone sorting songName relative" rowspan="1" colspan="1" style="width: 194px;" onclick="showDrop(this);">
+                                        <p id="song_name_title">
+                                            歌曲名
+                                        </p>
+                                        <ul class="dropdown-search" onclick="preventParentAll(event);">
+                                            <div>
+                                                <input type="text" id="songNameSearch"
+                                                <%--oninput="searchThSongName(this);"--%>
+                                                onkeydown="fillThSong(this,event);" value="${song.songName}">
+                                                <i class="icon-search"></i>
+                                            </div>
+                                            <div id="dropdown-search" class="list">
+                                            </div>
+                                        </ul>
+                                        <i class="triangle_down"></i>
+                                    </th>
+                                    <th class="hidden-phone sorting artistName relative" rowspan="1" colspan="1"
+                                        style="width: 141px;"
+                                        onclick="showDrop(this);">
+                                        <p id="artist_name_title_song">
+                                            歌手
+                                        </p>
+                                        <ul class="dropdown-search" onclick="preventParentAll(event);">
+                                            <div>
+                                                <input type="text" id="artistNameSearch_song"
+                                                <%--oninput="searchThArtistName_song(this);"--%>
+                                                onkeydown="fillThArtist_song(event);" value="${song.artist}">
+                                                <i class="icon-search"></i>
+                                            </div>
+                                            <div id="dropdown-search-artist" class="list">
+                                            </div>
+                                        </ul>
+                                        <i class="triangle_down"></i>
+                                    </th>
+                                    <th class="hidden-phone sorting albumName relative" rowspan="1" colspan="1" style="width: 240px;"
+                                        id="song_name_th" onclick="showDrop(this);">
+                                        <p id="album_name_title_song">
+                                            专辑名
+                                        </p>
+                                        <ul class="dropdown-search" onclick="preventParentAll(event);">
+                                            <div>
+                                                <input type="text" id="albumNameSearch_song" onkeydown="fillThAlbum_song(event);" value="${song.album}">
+                                                <i class="icon-search"></i>
+                                            </div>
+                                            <div id="dropdown-search-album" class="list">
+                                            </div>
+                                        </ul>
+                                        <i class="triangle_down"></i>
+                                    </th>
+                                    <th class="hidden-phone sorting language" role="columnheader" tabindex="0"
+                                        aria-controls="sample_1" rowspan="1" colspan="1"
+                                        aria-label="Joined: activate to sort column ascending"
+                                        style="width: 101px;">时长
+                                    </th>
+                                    <th class="hidden-phone sorting oPerson" role="columnheader" tabindex="0"
+                                        aria-controls="sample_1" rowspan="1" colspan="1"
+                                        aria-label="Joined: activate to sort column ascending"
+                                        style="width: 141px;">执行人
+                                    </th>
+                                    <th class="hidden-phone sorting checkStatus" role="columnheader" tabindex="0"
+                                        aria-controls="sample_1" rowspan="1" colspan="1"
+                                        aria-label="Joined: activate to sort column ascending"
+                                        style="width: 110px;">
+                                        审核状态
+                                    </th>
+                                    <th class="hidden-phone sorting checkStatus" role="columnheader" tabindex="0"
+                                        style="width: 150px;">
+                                        操作
+                                    </th>
+                                </thead>
+
+                                <tbody role="alert" aria-live="polite" aria-relevant="all" id="song_tbody" >
+                                {{datas}}
+                                <tr class="gradeX odd" ng-repeat="song in datas">
+                                    <td class="sorting_1">
+                                        <div class="checker" id="uniform-undefined"><span><input type="checkbox" name="check_box" class="checkboxes" value="${song.songId}" style="opacity: 0;" onclick="checkStatus(this);">
+                                                <input type="text" style="display: none;" value="${song.karakalStatus}">
+                                                </span>
+                                        </div>
+                                    </td>
+                                    <td class="hidden-phone Status">
+                                        <!--<c:choose>-->
+                                        <!--<c:when test="${song.status == 0}"><span class="badge badge-info mark" title="初始状态">初</span></c:when>-->
+                                        <!--<c:when test="${song.status == 1}"><span class="badge badge-info mark" title="已抽取状态">抽</span></c:when>-->
+                                        <!--<c:when test="${song.status == -1}"><span class="badge badge-info mark" title="未关联曲库">未关联</span></c:when>-->
+                                        <!--<c:when test="${song.status == 10}"><span class="badge badge-info mark" title="正常状态">正常</span></c:when>-->
+                                        <!--<c:when test="${song.status == 12}"><span class="badge badge-info mark" title="待审核">待审核</span></c:when>-->
+                                        <!--<c:when test="${song.status == 111}"><span class="badge badge-info mark" title="审核未通过">未通过</span></c:when>-->
+                                        <!--<c:when test="${song.status == 20}"><span class="badge badge-info mark" title="待删除">待删除</span></c:when>-->
+                                        <!--<c:when test="${song.status == 30}"><span class="badge badge-info mark" title="禁用">禁</span></c:when>-->
+                                        <!--<c:when test="${song.status == 14}"><span class="badge badge-info mark" title="审核中">审核中</span></c:when>-->
+                                        <!--<c:when test="${song.status == 15}"><span class="badge badge-info mark" title="编辑中">编辑中</span></c:when>-->
+                                        <!--</c:choose>-->
+                                        <!--<c:if test="${song.mstat == 4}"><span class="badge badge-success mark" title="素材锁定">锁</span></c:if>-->
+                                    </td>
+                                    <td class="hidden-phone Status" >
+                                        <!--<c:choose>-->
+                                        <!--<c:when test="${song.karakalStatus == 10}">正常</c:when>-->
+                                        <!--<c:when test="${song.karakalStatus == 11}">正常待编目</c:when>-->
+                                        <!--<c:when test="${song.karakalStatus == 12}">正常待审核</c:when>-->
+                                        <!--<c:when test="${song.karakalStatus == 14}">审核中</c:when>-->
+                                        <!--<c:when test="${song.karakalStatus == 15}">编辑中</c:when>-->
+                                        <!--<c:when test="${song.karakalStatus == 20}">删除</c:when>-->
+                                        <!--<c:when test="${song.karakalStatus == 30}">禁用</c:when>-->
+                                        <!--<c:when test="${song.karakalStatus == 111}">审核未通过</c:when>-->
+                                        <!--<c:when test="${song.karakalStatus == -1}">未关联曲库</c:when>-->
+                                        <!--</c:choose>-->
+                                    </td>
+                                    <td class="cId ">
+                                        ${song.cids.copyrightId}
+                                    </td>
+                                    <td class="hidden-phone songId" id="'${song.songId}'">${song.songId}
+                                    </td>
+                                    <td class="hidden-phone songName"><a href="#edit_part"
+                                                                         onclick="editSong(this,${song.songId},null,null,0)">${song.songName}</a><a
+                                            href="javascript:;" style="margin-left:5px;"
+                                            onclick="findSameData('${song.songName}','song','${song.artists[0].artistName}');"><i
+                                            class="icon-search"></i></a>
+                                    </td>
+                                    <td class="hidden-phone artistName">
+                                        <c:choose>
+                                            <c:when test="${fn:length(song.artists) == 1}">
+                                                <a href="/mls/artist?artistId=${song.artists[0].artistId}" target="_blank">${song.artists[0].artistName}</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:forEach items="${song.artists}" var="artist">
+                                                    <a href="/mls/artist?artistId=${artist.artistId}"
+                                                       target="_blank">${artist.artistName};</a>
+                                                </c:forEach>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td class="hidden-phone albumName relative">
+                                        <c:forEach items="${song.albums}" var="album" varStatus="s">
+                                            <c:choose>
+                                                <c:when test="${fn:length(song.albums) == 1}">
+                                                    <a href="/mls/album/search?albumId=${album.albumId}" target="_blank">《${album.albumName}》</a>
+                                                </c:when>
+                                                <c:when test="${fn:length(song.albums) > 1}">
+                                                    <c:if test="${s.index == 0}">
+                                                        <a href="/mls/album/search?albumId=${album.albumId}" target="_blank">《${album.albumName}》</a>
+                                                        <i class="icon-double-angle-down" data-toggle="dropdown" ></i>
+                                                        <ul class="dropdown-menu" style="position: absolute;left: 0px;width: auto;cursor: pointer;">
+                                                            <c:forEach items="${song.albums}" var="album2" varStatus="s2">
+                                                                <c:if test="${s2.index > 0}">
+                                                                    <li><a href="/mls/album/search?albumId=${album2.albumId}" target="_blank">${album2.albumName}</a></li>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </ul>
+                                                    </c:if>
+                                                </c:when>
+                                                <c:otherwise></c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                    </td>
+                                    <td class="hidden-phone language">${song.playTime}</td>
+                                    <td class="hidden-phone oPerson"></td>
+                                    <td class="hidden-phone center checkStatus"></td>
+                                    <td class="hidden-phone option" style="line-height: 30px;width: 120px">
+                                        <a href="javascript:;" onclick="separateReturn(${song.songId},'song');" title="拆分" class="icon huge">
+                                            <i class="icon-wrench"></i></a>
+                                        <a href="javascript:;" onclick="checkEdit(${song.songId},'song',this,1);" title="编辑" class="icon huge">
+                                            <i class="icon-edit"></i></a>
+                                        <a href="javascript:;" onclick="checkData(${song.songId},'song');" title="审核" class="icon huge">
+                                            <i class="icon-eye-open"></i></a>
+                                        <label class="relative btn-more">...
+                                                    <span class="btn-sub">
+                                                        <div>
+                                                            <a  href="javascript:;" onclick="addStore(${song.songId},'song');" title="添加存储" class="icon huge">
+                                                                <i class="icon-plus-sign"></i></a>
+                                                            <a href="javascript:;" title="试听" class="icon huge">
+                                                                <i class="icon-play" id="{{song.cids.copyrightId}}"
+                                                                   onclick="addPlaySong('${song.songId}','${song.cids.copyrightId}');"
+                                                                <input value="${song.cids.copyrightId}" style="display: none"/>
+                                                                <input value="${song.songId}" style="display: none;"/>
+                                                                </i>
+                                                            </a>
+                                                            <a href="javascript:;" onclick="extractedMaterial(${song.songId},'song');" title="重新抽取素材" class="icon huge">
+                                                                <i class="icon-signout"></i></a>
+                                                        </div>
+                                                    </span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="row-fluid paginate">
+                                <div class="span6">
+                                    <div class="dataTables_info" id="sample_1_info">总共<span
+                                            id="totalPage">${page.totalPage}</span>页,共<span
+                                            id="totalNum">${page.totalRecord}</span>条记录,每页显示<span
+                                            id="eveNum">${page.pageSize}</span>条记录
+                                    </div>
+                                </div>
+                                <div class="span3 pull-right">
+                                    <div class="">
+                                        <div class="dataTables_length" style="margin-top: 5px;">
+                                            <select name="sample_1_length" size="1" aria-controls="sample_1"
+                                                    class="span4" onchange="choosePageNum(this,'song');"
+                                                    id="pageSize">
+                                                <option value="20"
+                                                <c:if test="${page.pageSize == 20}">selected="selected"</c:if>>20
+                                                </option>
+                                                <option value="40"
+                                                <c:if test="${page.pageSize == 40}">selected="selected"</c:if>>40
+                                                </option>
+                                                <option value="60"
+                                                <c:if test="${page.pageSize ==60}">selected="selected"</c:if>>60
+                                                </option>
+                                                <option value="100"
+                                                <c:if test="${page.pageSize == 100}">selected="selected"</c:if>>
+                                                100
+                                                </option>
+                                            </select>
+                                            <select name="sample_1_length" class="span5"
+                                                    onchange="choosePage(this,'song');" id="pageNum">
+                                                <c:choose>
+                                                    <c:when test="${not empty page.pageNum }">
+                                                        <c:forEach items="${page.pageNum }" var="p" varStatus="s">
+                                                            <option value="${p }"
+                                                            <c:if test="${p == page.pageNo }">selected="selected"</c:if>>
+                                                            第${p }页
+                                                            </option>
+                                                        </c:forEach>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <option value="1">第1页</option>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+        <div class="row-fluid" style="display:none;" id="edit_part">
+            <div class="span12">
+                <!-- BEGIN EXTRAS PORTLET-->
+                <div class="widget">
+                    <div class="widget-title">
+                        <h4><i class="icon material-icon"></i>歌曲资料</h4>
+                   <span class="tools">
+                   <a href="javascript:;" class="chevron-down" onclick="hideBody(this);"></a>
+                   </span>
+                    </div>
+                    <div class="widget-body form">
+                        <!--BEGIN TABS-->
+                        <div class="tabbable tabbable-custom">
+                            <ul class="nav nav-tabs nav-first">
+                                <li class="active" id="song_title_123"
+                                    style="width: auto;  float: left;display:none;">
+                                    <a href="#song_content_3_1" data-toggle="tab">十年 <i
+                                            class="icon-remove-sign"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="song_content_3_1">
+                                </div>
+                            </div>
+                        </div>
+                        <!--END TABS-->
+                    </div>
+                </div>
+                <!-- END EXTRAS PORTLET-->
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</div>

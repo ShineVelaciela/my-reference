@@ -1,0 +1,22 @@
+//
+   Created by kiracheng on 2016/6/17.
+div.paginate(ng-controller='PaginationCustomController')
+    div.col-sm-5 每页显示
+        select(ng-change='choosePageSize(pageSize);',ng-model='pageSize',ng-options='option.value as option.value for option in pageSizeOptions')
+        span 总共{{page.totalPage}}页,共
+        span {{page.totalItems}}条记录,每页显示
+        span {{page.itemsPerPage}}条记录
+    div.col-sm-7
+        uib-pagination(total-items="page.totalItems"
+            items-per-page="page.itemsPerPage"
+            ng-change="choosePage();" ng-model="page.currentPage"
+            max-size="page.maxSize" class="pagination-sm"
+            boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后" rotate="false"
+            style="margin: 0 5px 0 0;width:auto;")
+        ul.pagination-sm.pagination(style='margin: 0 5px 0 0;width:auto;')
+            li.pagination-first
+                a(style='padding: 3px 12px;')
+                    input(style='width: 50px;',ng-model='pageNo',valid-number)
+            li.pagination-prev
+                a(href='javascript:;',ng-click='jumpPage(pageNo);') 跳转
+

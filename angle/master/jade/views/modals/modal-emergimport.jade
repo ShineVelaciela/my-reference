@@ -1,0 +1,27 @@
+//
+   Created by hao.cheng on 2016/7/26.
+script( type="text/ng-template",id="emergImportTpl.html")
+    div.modal-header
+        button.close(type="button",ng-click="cancel();") ×
+        h4.modal-title(id="myModalLabel") 导入
+    div.modal-body
+        form.form-horizontal
+            div.form-group
+                label.control-label.col-sm-2 下载模板
+                label.control-label.col-sm-3
+                    a(ng-click="downloadEmergTpl();") 点击下载模板
+            div.form-group
+                label.control-label.col-sm-2 上传附件
+                div.col-sm-4
+                    input.form-control.input-sm(type="file",id="file",name="file")
+            div.form-group
+                label.control-label.col-sm-2 是否创建
+                div.col-sm-2
+                    div.checkbox.c-checkbox
+                        label
+                            input(type="checkbox",ng-model="emergImport.isNeedRelated")
+                            span.fa.fa-check
+    div.modal-footer
+        button.btn.btn-primary(type="button",ng-click="emergImport(emergImport.isNeedRelated);") 确认
+        button.btn.btn-warning(type="button",ng-click="cancel();") 取消
+

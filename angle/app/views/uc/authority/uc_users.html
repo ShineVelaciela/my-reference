@@ -1,0 +1,101 @@
+<style>
+    .control-group.role{
+        margin-bottom: 10px;
+    }
+    .form{
+        max-height: 400px;
+        overflow-y: auto;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库
+                <span class="divider">/</span>用户中心
+                <span class="divider">/</span>权限管理
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default" id="panelDemo1">
+                <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" >用户列表 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+                <div collapse="panelDemo1" class="panel-wrapper">
+                    <div class="panel-body" ng-controller="taskCtrl">
+                        <div class="col-sm-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="请输入关键字搜索" ng-model="search.$">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ><em class="icon-magnifier"></em></button>
+                                    </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default " ui-sref="app.role">角色设置</button>
+                                <button type="button" class="btn btn-default disabled ">权限设置</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped" ng-controller="ModalCtrl">
+                                <thead>
+                                <tr role="row">
+                                    <!--<th style="width: 24px;" class="sorting_disabled">-->
+                                    <!--<div class="checker" id="uniform-undefined"><span ng-class="{true: 'checked', false: ''}[allIsCheck]"><input type="checkbox" class="group-checkable" ng-model="all" data-set=".checkboxes" ng-click='checkAll(all, datas)' style="opacity: 0;margin-top:0;"></span>-->
+                                    <!--</div>-->
+                                    <!--</th>-->
+                                    <th class="hidden-phone sorting" style="width: 130px;border-left: 0;">用户id</th>
+                                    <th class="sorting" style="width: 107px;">姓名</th>
+                                    <th class="hidden-phone sorting" style="width: 123px;">用户名</th>
+                                    <th class="hidden-phone sorting" style="width: 123px;">邮箱</th>
+                                    <th class="hidden-phone sorting" style="width: 123px;">角色</th>
+                                    <th class="hidden-phone sorting" style="width: 123px;">操作</th>
+                                </thead>
+
+                                <tbody role="alert" >
+                                <tr class="gradeX odd" ng-repeat="data in datas | filter:search">
+                                    <!--<td class="sorting_1">-->
+                                    <!--<div class="checker">-->
+                                    <!--<span ng-class="{true: 'checked', false: ''}[data.isCheck]"><input type="checkbox" name="check_box" class="checkboxes" style="opacity: 0;" ng-model="checkb" ng-true-value="true" ng-click="chk(data.id, data.isCheck)"></span>-->
+                                    <!--</div>-->
+                                    <!--</td>-->
+                                    <td class="hidden-phone" >{{data.id}}</td>
+                                    <td >{{data.name}}</td>
+                                    <td class="hidden-phone">{{data.username}}</td>
+                                    <td class="hidden-phone">{{data.email}}</td>
+                                    <td class="hidden-phone"><span ng-repeat="r in data.roles">{{r.name}}&nbsp;&nbsp;</span></td>
+                                    <td class="hidden-phone"><a href="javascript:;" ng-click="openRole(data.id,data.name);">分配权限</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="role.html">
+    <div class="modal-header">
+        <h3 class="modal-title">角色列表</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <form class="form-horizontal">
+        <div class="form-group" ng-repeat="data in roles">
+            <div class="col-lg-offset-2 col-lg-10">
+                <div class="checkbox c-checkbox">
+                    <label>
+                        <input type="checkbox" name="check_box" ng-model="data.checkb" class="checkboxes" ng-true-value="true" ng-click="chk(data, data.isCheck)">
+                        <span class="fa fa-check"></span>{{data.name}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <button class="btn btn-primary" type="button" ng-click="ok(pro.pId,user.id)">确认</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </form>
+</script>

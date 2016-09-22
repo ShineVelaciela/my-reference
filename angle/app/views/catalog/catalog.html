@@ -1,0 +1,112 @@
+<style>
+    .detail table tbody tr{
+        height: 35px;
+    }
+    .detail table tbody tr td.name{
+        width: 6%;
+    }
+    .detail table tbody tr td.content{
+        width: 13%;
+    }
+    .detail table tbody tr td select{
+        border-radius: 0;
+        height: 22px;
+    }
+    .detail .well{
+        margin-bottom: 0;
+    }
+    form{
+        margin-bottom: 0;
+    }
+    .widget{
+        margin-bottom: 10px;
+    }
+</style>
+<div class="container-fluid" >
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>编目管理
+            </h3>
+        </div>
+    </div>
+    <div ui-view="catalog-page">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default" id="panelDemo1">
+                    <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" >条件查询 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+                    <div collapse="panelDemo1" class="panel-wrapper">
+                        <div class="panel-body">
+                            <!-- BEGIN FORM-->
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="param-name" class="col-sm-1 control-label" >编目状态</label>
+                                    <div class="col-sm-2">
+                                        <select id="param-name" class="form-control input-sm" ng-model="copy.karakalStatus">
+                                            <option value="">请选择状态</option>
+                                            <option value="11">未编目</option>
+                                            <option value="10">已编目</option>
+                                        </select>
+                                    </div>
+                                    <label for="param-artist" class="col-sm-1 control-label" >版权ID</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-artist" type="text" placeholder="请输入版权ID" class="form-control input-sm" ng-model="copy.copyrightId">
+                                    </div>
+                                    <label for="param-copyfName" class="col-sm-1 control-label" >产品名称</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-copyfName" type="text" placeholder="请输入产品名称" class="form-control input-sm" ng-model="copy.projectnameKeyword">
+                                    </div>
+                                    <label for="param-1" class="col-sm-1 control-label" >产品歌手</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-1" type="text" placeholder="请输入产品歌手" class="form-control input-sm" ng-model="copy.cpArtistKeyword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="param-2" class="col-sm-1 control-label" >产品专辑</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-2" type="text" placeholder="请输入产品专辑" class="form-control input-sm" ng-model="copy.cpAlbumKeyword">
+                                    </div>
+                                    <label for="param-3" class="col-sm-1 control-label" >歌曲名称</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-3" type="text" placeholder="请输入歌曲名称" class="form-control input-sm" ng-model="copy.songKeyword">
+                                    </div>
+                                    <label for="param-4" class="col-sm-1 control-label" >歌手名称</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-4" type="text" placeholder="请输入歌手名称" class="form-control input-sm" ng-model="copy.artistKeyword">
+                                    </div>
+                                    <label for="param-5" class="col-sm-1 control-label" >专辑名称</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-5" type="text" placeholder="请输入专辑名称" class="form-control input-sm" ng-model="copy.albumKeyword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <div class="btn-group" >
+                                            <button class="btn btn-default btn-sm" ui-sref="app.catalog.search({pageNo:1,copyrightId:copy.copyrightId,projectnameKeyword:copy.projectnameKeyword,cpArtistKeyword:copy.cpArtistKeyword,cpAlbumKeyword:copy.cpAlbumKeyword,songKeyword:copy.songKeyword,artistKeyword:copy.artistKeyword,albumKeyword:copy.albumKeyword,karakalStatus:copy.karakalStatus})">查询</button>
+                                            <button class="btn btn-default btn-sm" data-ng-click="clearInput();">重置</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default" id="panelDemo2">
+                    <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo2}" >条件查询 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+                    <div collapse="panelDemo2" class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="table-responsive" ui-view="catalog-list">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

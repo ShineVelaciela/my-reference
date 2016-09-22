@@ -1,0 +1,33 @@
+//
+   Created by kiracheng on 2016/7/18.
+table.table.table-striped
+    thead
+        tr
+            th(style="width: 50px") 选择
+            th(style="width: 180px;") 歌曲名
+            th(style="width: 120px;") 歌曲ID
+            th(style="width: 180px;") 艺人
+            th(style="width: 180px;") 专辑名称
+            th(style="width: 100px;") 语言
+            th(style="width: 100px;") 时长
+            th(style="width: 100px;") 词作者
+            th(style="width: 100px;") 曲作者
+            th(style="width: 120px;") 操作
+    tbody
+        tr.gradeX.odd(ng-repeat="data in datas")
+            td
+                radio-button
+            td {{data.songName}}
+            td {{data.songId}}
+            td
+                span(ng-repeat="artist in data.artists") {{artist.artistName}};
+            td
+                span(ng-repeat="album in data.albums") {{album.albumName}};
+            td
+            td {{data.playTime}}
+            td {{data.lyricsers}}
+            td {{data.composers}}
+            td
+                a(ui-sref="songInfo({songId:data.songId})") 查看&nbsp
+                a(ng-click="remove(datas,data)") 删除
+ng-include(src="'app/views/merge/merge-btn.html'")

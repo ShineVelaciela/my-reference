@@ -1,0 +1,19 @@
+//
+   Created by hao.cheng on 2016/8/22.
+.col-sm-3
+    tag-search-tpl
+.col-sm-2(ng-if="form.style")
+    .radio.c-radio.c-radio-nofont(change-tag-type="")
+        label
+            input(type="radio", value="1", ng-model="form.style")
+            span
+            div(style="display: inline-block;") 主风格
+    .radio.c-radio.c-radio-nofont(change-tag-type="")
+        label
+            input(type="radio", value="2", ng-model="form.style")
+            span
+            div(style="display: inline-block;") 次风格
+label.col-sm-7.control-label(style="text-align: left")
+    span.label.label-default.tag(ng-repeat="tag in form.tagBeans")
+        i {{tag.name}}
+        em.fa.fa-remove(ng-click="artistTagRemove(tag)")

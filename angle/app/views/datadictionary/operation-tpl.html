@@ -1,0 +1,18 @@
+<!--Created by hao.cheng on 2016/8/17.-->
+<!-- form-->
+<form editable-form="" name="rowform" ng-show="rowform.$visible" shown="table.inserted == data" class="form-buttons form-inline">
+   <button type="button" ng-disabled="rowform.$waiting" title="Save" ng-click="saveDic(data,rowform);" class="btn btn-sm btn-info">
+      <em class="fa fa-save"></em>
+   </button>
+   <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+      <em class="fa fa-times"></em>
+   </button>
+</form>
+<div ng-show="!rowform.$visible" class="buttons">
+   <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+      <em class="fa fa-pencil"></em>
+   </button>
+   <button ng-click="deleteDic(data);" title="Delete" class="btn btn-sm btn-danger">
+      <em class="fa fa-trash"></em>
+   </button>
+</div>

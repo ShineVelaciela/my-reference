@@ -1,0 +1,59 @@
+<!--Created by hao.cheng on 2016/7/25.-->
+<table class="table table-striped">
+   <thead>
+      <tr>
+         <th style="width: 50px">
+            <check-all-btn></check-all-btn>
+         </th>
+         <th style="width: 40px;">序号</th>
+         <th style="width: 120px;">版权ID</th>
+         <th style="width: 120px;">歌曲ID</th>
+         <th style="width: 140px;">编目歌曲名</th>
+         <th style="width: 140px;">编目专辑名</th>
+         <th style="width: 140px;">编目艺人名</th>
+         <th style="width: 100px;">详情</th>
+         <th style="width: 100px;">导入者</th>
+         <th style="width: 120px;">状态</th>
+         <th style="width: 120px;">操作</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="data in $parent.datas track by $index" class="gradeX odd">
+         <td>
+            <div class="checkbox c-checkbox">
+               <label>
+                  <input type="checkbox" ng-model="data.isCheck" />
+                  <span class="fa fa-check"></span>
+               </label>
+            </div>
+         </td>
+         <td>{{$index+1}}</td>
+         <td>{{data.copyrightId}}</td>
+         <td>{{data.songId}}</td>
+         <td>
+            <td-song></td-song>
+            <td-song-search></td-song-search>
+         </td>
+         <td>
+            <td-albums></td-albums>
+         </td>
+         <td>
+            <td-artists></td-artists>
+         </td>
+         <td>
+            <div>时长：{{data.playTime}}</div>
+            <div>&nbsp;&nbsp;标签数：{{data.tagcount}}</div>
+         </td>
+         <td>{{data.uname}}</td>
+         <td>
+            <span ng-if="data.catalogStatus == 0" class="label label-default tag">未编目</span>
+            <span ng-if="data.catalogStatus == 1" class="label label-default tag">已编目</span>
+            <span ng-if="data.songStatus == 0 &amp;&amp; data.catalogStatus == 1" class="label label-default tag">未完成</span>
+            <span ng-if="data.songStatus == 1 &amp;&amp; data.catalogStatus == 1" class="label label-default tag">已完成</span>
+         </td>
+         <td><a ng-click="delete(data.copyrightId);" ng-if="data.catalogStatus != 1">删除&nbsp;</a><a ng-if="data.catalogStatus == 1" ui-sref="app.catalog.info({copyId:data.copyrightId})">编目&nbsp;</a><a ng-if="data.catalogStatus == 1" ng-click="tagging(data, '_self');"
+               ng-right-click="tagging(data, '_blank');">打标签&nbsp;</a><a ng-if="data.songStatus == 0 &amp;&amp; data.catalogStatus == 1" ng-click="dataConfirm(data.copyrightId);">确认&nbsp;</a></td>
+      </tr>
+   </tbody>
+</table>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>

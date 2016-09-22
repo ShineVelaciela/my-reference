@@ -1,0 +1,223 @@
+<style>
+    .table-bordered th, .table-bordered td{
+        text-align: left;
+    }
+    .migu{
+        border: 0;
+        width: 18px;
+        border-radius: 5px;
+        height: 18px;
+    }
+    [class^="icon-"], [class*=" icon-"]{
+
+        vertical-align: initial;
+    }
+    .collapse{
+        position: inherit;
+    }
+    .input-append .btn-group:last-child>.dropdown-toggle{
+        border-radius: 0 !important;
+    }
+    .dropdown-menu li{
+        line-height: 25px;
+    }
+    /*.dropdown-menu li input{*/
+        /*height: 13px;width: 30px;margin-right: 0px;line-height: 13px;*/
+        /*vertical-align: top;*/
+        /*margin-top: 7px;*/
+    /*}*/
+    .longText{
+        width: 175px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+    }
+    .status{
+        display: table-cell;
+    }
+    .top-new{
+        color: #cc6665;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>日榜列表
+            </h3>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+    <div id="page">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">榜单类型--{{topType}}</div>
+                    <div ui-view="menu-list">
+                    </div>
+                    <div class="panel-footer">
+                        <a class="bt0 clearfix btn-block" ng-click="topListShowFlag = !topListShowFlag" >
+                            <span class="pull-left" ng-if="!topListShowFlag">展示全部</span>
+                            <span class="pull-left" ng-if="topListShowFlag">折叠部分</span>
+                            <span class="pull-right">
+                               <em class="fa fa-chevron-circle-right" ng-if="!topListShowFlag"></em>
+                                <em class="fa fa-chevron-circle-left" ng-if="topListShowFlag"></em>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <!-- BEGIN GRID SAMPLE PORTLET-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">歌曲列表</div>
+                    <div class="panel-body">
+                        <p>
+                            {{name}}前{{totalCount}}
+                        </p>
+                        <form role="form" class="form-inline">
+                            <div class="form-group">
+                                查看日期
+                                <input type="text" placeholder="请选择查看日期" ng-model="topListDate" class="form-control input-sm" my-date uib-datepicker-popup is-open="dateStatus.opened1"  datepicker-options="dateOptions"
+                                       close-text="关闭" clear-text="清除" current-text="今天" ng-click="open(1)"/>
+                                对比日期
+                                <input type="text" placeholder="请选择对比日期" ng-model="compareDate" class="form-control input-sm" my-date uib-datepicker-popup is-open="dateStatus.opened2"  datepicker-options="dateOptions"
+                                       close-text="关闭" clear-text="清除" current-text="今天" ng-click="open(2)"/>
+                                行数
+                                <input type="text" placeholder="请输入要查看的行数" ng-model="songCount" class="form-control" tooltip-placement="top" uib-tooltip="请输入要查看的行数" tooltip-trigger="mouseenter"  />
+                            </div>
+                        </form>
+                        <form role="form" class="form-inline">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-default btn-sm" ng-click="searchTopByDate(topListDate, compareDate, songCount)">查看</button>
+                                <div dropdown="dropdown" class="btn-group" auto-close="outsideClick">
+                                    <button type="button" class="btn btn-default btn-sm">导出表格</button>
+                                    <button type="button" dropdown-toggle="" class="btn dropdown-toggle btn-default btn-sm">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">primary</span>
+                                    </button>
+                                    <ul role="menu" class="dropdown-menu panel-body lg animated flipInY">
+                                        <li role="menuitem" ng-repeat="top in tops"><input type="checkbox" ng-model="top.check"><span >{{top.name}}</span></li>
+                                        <li class="divider"></li>
+                                        <li>
+                                            <form class="form-horizontal">
+                                                <div class="form-group">
+                                                    <div class="btn-group" >
+                                                        <button class="btn btn-default btn-sm " ng-click="downloadCheckAll(tops)" ng-init="allCheck = false;">全选</button>
+                                                        <button class="btn btn-default btn-sm " ng-click="download(tops,num)">导出</button>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <div class="row">
+                                                            <div class="col-md-2">
+                                                                <input type="text" placeholder="请输入要导出的行数" ng-model="num" class="form-control" tooltip-placement="top" uib-tooltip="请输入要导出的行数，默认为10行" tooltip-trigger="mouseenter"  />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="table-responsive">
+                            <table class="table table-striped" >
+                                <thead>
+                                <tr>
+                                    <th >版权ID</th>
+                                    <th >版权方</th>
+                                    <th >版权有效期</th>
+                                    <th  class="hidden-phone">歌曲名</th>
+                                    <th  class="hidden-phone">专辑名</th>
+                                    <th  class="hidden-phone">歌手</th>
+                                    <th  class="hidden-phone">排名</th>
+                                    <th  class="hidden-phone">排位变化</th>
+                                    <th  class="hidden-phone">备注</th>
+                                    <th  class="hidden-phone">是否商用</th>
+                                    <th  class="hidden-phone">互联网引入</th>
+                                    <th >操作</th>
+                                </tr>
+                                </thead>
+                                <tbody >
+                                <tr ng-if="songs.length < 1">
+                                    <td colspan="12">暂无数据</td>
+                                </tr>
+                                <tr class="odd gradeX" ng-repeat="data in songs">
+                                    <td id="copyId_261577458">
+                                        {{data.cids.copyrightId}}
+                                        <!--<input style="display: none;" class="ctime" value="2016-01-21">-->
+                                        <!--<input style="display: none;" class="navid" value="103">-->
+                                        <!--<input type="checkbox" name="top_checkbox" style="display: none;" value="261577458" checked="checked">-->
+                                    </td>
+                                    <td id="expirationDate_261577458">
+                                        {{data.cids.coprCompany}}
+                                    </td>
+                                    <td class="hidden-phone">
+                                        {{data.cids.coprTerm | date:'yyyy-MM-dd'}}
+                                    </td>
+                                    <td>
+                                        <span class="longText" data-ng-class="{new: 'top-new'}[data.crank]">{{data.name}}</span>
+                                    </td>
+                                    <td>
+                                    <span ng-if="data.albums.length == 1" class="longText">
+                                        {{data.albums[0].name}}
+                                    </span>
+                                    <span ng-if="data.albums.length > 1" class="longText">
+                                        {{data.albums[0].name}}
+                                        <span uib-dropdown>
+                                            <i class="icon-double-angle-down" uib-dropdown-toggle></i>
+                                            <ul class="dropdown-menu" role="menu"  style="max-width: 234px;width: auto;">
+                                                <li role="menuitem" ng-repeat="album in data.albums track by $index" >
+                                                    <p title="{{album.name}}" ng-if="$index > 0" style="width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a>{{album.albumName}}</a></p>
+                                                </li>
+                                            </ul>
+                                        </span>
+                                    </span>
+                                    </td>
+                                    <td>
+                                    <span ng-if="data.artists.length == 1">
+                                        <span ng-repeat="artist in data.artists" style="width: 100px;" class="longText">{{artist.name}}</span>
+                                    </span>
+                                    <span ng-if="data.artists.length > 1">
+                                        <span ng-repeat="artist in data.artists" style="width: 100px;" class="longText">{{artist.name}};</span>
+                                    </span>
+                                    </td>
+                                    <td class="hidden-phone">
+                                        <span ng-class="{'rank-top3':data.index < 4,'first':data.index == 1}">{{data.index}}</span>
+                                        <input value="103" class="navId" style="display: none;">
+                                    </td>
+                                    <td class="hidden-phone center status">
+                                        <em class="fa fa-minus" ng-if="data.crank == '0'"></em>
+                                        <span data-ng-class="{new: 'top-new'}[data.crank]" ng-if="data.crank == 'new'">新</span>
+                                        <span ng-if="data.crank > 0">
+                                            <em class="fa fa-long-arrow-up" style="color: #b53131;" ng-if="data.crank > 0"></em>{{data.crank}}
+                                        </span>
+                                        <span ng-if="data.crank < 0">
+                                            <em class="fa fa-long-arrow-down" style="color: #7cbee8;" ng-if="data.crank < 0"></em>{{data.crank * -1}}
+                                        </span>
+                                    </td>
+                                    <td class="hidden-phone"><span></span></td>
+                                    <td class="center">
+                                        {{data.cids.commercial}}
+                                    </td>
+                                    <td>
+                                        {{data.cids.netImport}}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" target="_blank" class="icon huge tooltips" data-placement="right" data-original-title="播放" title="播放">
+                                            <i class="fa fa-play-circle" style="position: relative;" ng-click="addPlaySong(data.songId,data.cids.copyrightId);"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

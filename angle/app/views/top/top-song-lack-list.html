@@ -1,0 +1,142 @@
+<style>
+    .modal{
+        width: 900px;
+    }
+    .page-detail{
+        display: inline-block;
+        margin: 20px 0 20px 10px;
+    }
+</style>
+<table class="table table-striped">
+    <thead>
+    <tr role="row">
+        <th>
+            <div class="checker" id="uniform-undefined">
+                <span ng-class="{true: 'checked', false: ''}[allIsCheck]">
+                    <input type="checkbox" class="group-checkable" ng-model="all" data-set=".checkboxes" ng-click='checkAll(all, datas)' style="opacity: 0;margin-top:0;">
+                </span>
+            </div>
+        </th>
+        <th>歌曲名称</th>
+        <th>歌手名称</th>
+        <th>专辑名称</th>
+        <th>语种</th>
+        <th>对标时间</th>
+        <th>版权方</th>
+        <th>版权ID</th>
+        <th>一次引入</th>
+        <th>二次引入</th>
+        <th>缺歌类型</th>
+        <th>中音合作</th>
+        <th>操作</th>
+    </thead>
+    <tbody role="alert" >
+        <tr class="gradeX odd" ng-repeat="data in datas" ng-controller="ModalCtrl">
+            <td>
+                <div class="checker">
+                <span ng-class="{true: 'checked', false: ''}[data.isCheck]">
+                    <input type="checkbox" name="check_box" class="checkboxes" style="opacity: 0;" ng-true-value="true" ng-click="chk(data, data.isCheck)">
+                </span>
+                </div>
+            </td>
+            <td>{{data.songName}}{{tip}}</td>
+            <td>{{data.singerName}}</td>
+            <td>{{data.albumName}}</td>
+            <td>{{data.lange}}</td>
+            <td >{{data.dbDate}}</td>
+            <td >{{data.copyfName}}</td>
+            <td >{{data.copyId}}</td>
+            <td >{{data.oneStatus}}</td>
+            <td >{{data.twoStatus}}</td>
+            <td >{{data.qgType}}</td>
+            <td >{{data.cooperation}}</td>
+            <td ><a href="javascript:;" ng-click="openEdit(data,'lg');">编辑</a></td>
+        </tr>
+        <tr ng-if="datas.length < 1">
+            <td></td>
+            <td>暂无数据</td>
+        </tr>
+    </tbody>
+</table>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>
+<!--<span class="page-detail">总共{{totalPage}}页,共{{totalRecord}}条记录,每页显示{{maxResult}}条记录</span>-->
+<!--<uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>-->
+<script type="text/ng-template" id="edit.html">
+    <div class="modal-header">
+        <h3 class="modal-title">编辑数据</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="detail" style="padding: 0 !important;">
+        <form class="form-inline">
+            <div class="well" style="margin-top: 0;">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td class="name">歌曲名称:</td>
+                        <td class="content"><input type="text" class="border1px" ng-model="song.songName"></td>
+                        <td class="name">歌手名称:</td>
+                        <td class="content"><input type="text" class="border1px" ng-model="song.singerName"></td>
+                        <td class="name">专辑名称:</td>
+                        <td class="content"><input type="text" class="border1px" ng-model="song.albumName"></td>
+                        <td class="name">语种:</td>
+                        <td class="content"><input type="text" class="border1px" ng-model="song.lange"></td>
+                    </tr>
+                    <tr>
+                        <td class="name">一次引入:</td>
+                        <td class="content"><input type="text" class="border1px" ng-model="song.oneStatus"></td>
+                        <td class="name">二次引入:</td>
+                        <td class="content"><input type="text" class="border1px" ng-model="song.twoStatus"></td>
+                        <td class="name">缺歌类型:</td>
+                        <td class="content">
+                            <select ng-model="song.qgType">
+                                <option></option>
+                                <option value="中音已合作cp">中音已合作cp</option>
+                                <option value="未合作唱片公司发行">未合作唱片公司发行</option>
+                                <option value="影视原声">影视原声</option>
+                                <option value="游戏广告歌曲">游戏广告歌曲</option>
+                                <option value="原创歌曲">原创歌曲</option>
+                                <option value="录音室唱片">录音室唱片</option>
+                                <option value="媒体节目">媒体节目</option>
+                                <option value="公益歌曲">公益歌曲</option>
+                                <option value="影视剧歌曲">影视剧歌曲</option>
+                                <option value="游戏歌曲">游戏歌曲</option>
+                                <option value="演唱会版本">演唱会版本</option>
+                            </select>
+                        </td>
+                        <td class="name">版权方:</td>
+                        <td class="content"><input type="text" class="border1px" ng-model="song.copyfName"></td>
+                    </tr>
+                    <tr>
+                        <td class="name">版权ID:</td>
+                        <td class="content"><input type="text" class="border1px" ng-model="song.copyId">
+                        </td>
+                        <td class="name">对标时间:</td>
+                        <td class="content" ng-controller="DatepickerCtrl">
+                            <input type="text" style="width: 90px;" class="border1px" uib-datepicker-popup ng-model="song.dbDate" is-open="status.eopened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"close-text="Close" />
+                                                  <span class="input-group-btn">
+                                                    <i class="icon-calendar" ng-click="eopen($event)" style="font-size: 20px;"></i>
+                                                  </span>
+                        </td>
+                        <td class="name">中音合作:</td>
+                        <td class="content">
+                            <select ng-model="song.cooperation">
+                                <option></option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </td>
+                        <td class="name">自动更新:</td>
+                        <td class="content"><input type="checkbox" ng-model="song.scanner" ng-init="song.scanner=true"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <span style="color: red;">{{error}}</span>
+                <button class="btn btn-primary" type="button" ng-click="ok(song)">确认</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+            </div>
+        </form>
+    </div>
+</script>

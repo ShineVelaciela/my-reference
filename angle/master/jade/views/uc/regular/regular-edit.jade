@@ -1,0 +1,57 @@
+//
+   Created by YuChunzhuo-Dev on 2016/8/22.
+
+style.
+    input.ng-invalid.ng-dirty{
+        border: 1px solid red;
+    }
+    .error{
+        color: red;
+        margin-top: 5px;
+    }
+    .form-group .col-lg-4 textarea{
+        width: 363px;
+        height: 93px;
+    }
+.container-fluid
+    .row-fluid
+        .span12
+            h3.page-title 媒资库/用户中心/定时任务配置
+    .row
+        .col-lg-12
+            #panelDemo1.panel.panel-info
+                .panel-heading(ng-class="{'panel-heading-collapsed':panelDemo1}") 配置详情
+                    paneltool(tool-collapse="tool-collapse")
+                .panel-wrapper(collapse="panelDemo1")
+                    .panel-body(ng-controller="RegularEditController")
+                        form.form-horizontal(name="form" ng-submit="submit(data)")
+                            .form-group
+                                label.col-lg-1.control-label 名称
+                                .col-lg-4
+                                    input.form-control.input-sm(ng-model="data.triggerName" name="triggerName" ng-required="true" ng-disabled="readonly")
+                                .span(ng-class="{error: form.triggerName.$dirty && form.triggerName.$invalid}" ng-show="form.triggerName.$dirty && form.triggerName.$invalid") 名称不能为空
+                            .form-group
+                                label.col-lg-1.control-label 定时时间
+                                .col-lg-4
+                                    input.form-control.input-sm(ng-model="data.time" name="time" ng-required="true" ng-disabled="readonly" placeholder="请输入定时时间")
+                                .span(ng-class="{error: form.time.$dirty && form.time.$invalid}" ng-show="form.time.$dirty && form.time.$invalid") 时间不能为空
+                            .form-group
+                                label.col-lg-1.control-label 来源
+                                .col-lg-4
+                                    select.form-control.input-sm(ng-model="data.dataSource" name="dataSource" ng-required="true" ng-options="item.key as item.value for item in dataSources" ng-disabled="readonly")
+                                        option(value="") 请选择数据来源
+                                .span(ng-class="{error: form.dataSource.$dirty && form.dataSource.$invalid}" ng-show="form.dataSource.$dirty && form.dataSource.$invalid") 来源不能为空
+                            .form-group
+                                label.col-lg-1.control-label 语句
+                                .col-lg-4
+                                    textarea(ng-model="data.sqlTxt" name="sqlTxt" ng-required="true" ng-disabled="readonly")
+                                .span(ng-class="{error: form.sqlTxt.$dirty && form.sqlTxt.$invalid}" ng-show="form.sqlTxt.$dirty && form.sqlTxt.$invalid") 语句不能为空
+                            .form-group
+                                label.col-lg-1.control-label 备注
+                                .col-lg-4
+                                    textarea(ng-model="data.remark" name="remark" ng-disabled="readonly")
+                            .form-group
+                                label.col-lg-1.control-label
+                                .col-lg-4
+                                    button.btn.btn-primary.btn-sm(type="submit" ng-disabled="form.$invalid" ng-if="!readonly") 确认提交
+                                    button.btn.btn-warning.btn-sm(type="button" ui-sref="app.regular.list") 返回

@@ -1,0 +1,191 @@
+<style>
+    .artist{
+        float: left;
+        width: 150px;
+        margin-top: 30px;
+    }
+    .artist a{
+        cursor: pointer;
+        line-height: 24px;
+        vertical-align: middle;
+        color: #999;
+    }
+    .artist strong a{
+        font-size: 14px;
+        color: #333;
+    }
+    .artist .image{
+        margin: 0 0 10px 20px;
+        position: relative;
+        float: left;
+        width: 100px;
+        height: 100px;
+        font-size: 0;
+    }
+    .artist .image:hover i{
+        display: inline;
+    }
+    .artist .image i{
+        display: none;
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        top: 0;
+        width: 100px;
+        height: 100px;
+        background-color: #000;
+        opacity: .3;
+    }
+    .artist .image img{
+        border-radius: 3px;
+    }
+    .artist .info{
+        clear: left;
+        overflow: hidden;
+        width: 100px;
+        margin-left: 20px;
+    }
+    .info p{
+        height: 24px;
+    }
+    .song{
+        float: left;
+        width: 265px;
+        padding: 5px 0;
+        margin-top: 10px;
+    }
+    .song:hover{
+        border-radius:3px;
+        background-color:#DBEEF5;
+    }
+    .song .image{
+        position: relative;
+        z-index: 3;
+        margin: 0 10px 0 20px;
+        float: left;
+        width: 55px;
+        height: 55px;
+        font-size: 0;
+    }
+    .song strong a{
+        font-size: 14px;
+        color: #333;
+    }
+    .song a{
+        line-height: 24px;
+        color: #999;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" id="panelDemo1">
+            <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" >代表艺人 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+            <div collapse="panelDemo1" class="panel-wrapper">
+                <div class="panel-body">
+                    <div class="row-fluid" id="content_title" style="background-color: rgb(255, 255, 255); z-index: 99; position: static;">
+                        <div class="artist" ng-repeat="artist in artists">
+                            <div class="image">
+                                <!--<img src="http://img.xiami.net/images/artistlogo/38/14060004412838_1.jpg">-->
+                                <!--<a href="/artist/135"><i></i></a>-->
+                                <span ng-if="artist.artistImgUrl == ''">
+                                    <img src="../../img/photo.jpg" style="width:100px;height:100px;">
+                                </span>
+                                <span ng-if="artist.artistImgUrl != ''">
+                                    <img src="{{artist.artistImgUrl}}" style="width:100px;height:100px;">
+                                </span>
+                                <a href="/mls/artist?artistId={{artist.artistId}}"><i></i></a>
+                            </div>
+                            <div class="info">
+                                <p style="width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                    <strong><a ui-sref="artistInfo({artistId:artist.artistId})" title="{{artist.artistName}}">{{artist.artistName}}</a></strong>
+                                </p>
+                                <a>评分:{{artist.score}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dataTables_wrapper form-inline" ui-view="data-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" id="panelDemo2">
+            <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo2}" >代表专辑 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+            <div collapse="panelDemo2" class="panel-wrapper">
+                <div class="panel-body">
+                    <div class="row-fluid" style="background-color: rgb(255, 255, 255); z-index: 99; position: static;">
+                        <div class="artist" ng-repeat="album in albums">
+                            <div class="image">
+                                <!--<img src="http://img.xiami.net/images/album/img72/119672/9080955371408095708_1.jpg">-->
+                                <!--<a href="/album/908095537?spm=a1z1s.3057857.0.0.YpNSfD"><i ></i></a>-->
+                                <!--<b onclick="playalbum(908095537);" title="播放" style="display: none;"></b>-->
+                                <span ng-if="album.albumImgUrl == ''">
+                                    <img src="../../img/album_separate.gif" style="width:100px;height:100px;">
+                                </span>
+                                <span ng-if="album.albumImgUrl != ''">
+                                    <img src="{{album.albumImgUrl}}" style="width:100px;height: 100px">
+                                </span>
+                                <a href="javascript:;"><i ></i></a>
+                                <b title="{{album.albumName}}" style="display: none;"></b>
+                            </div>
+                            <div class="info">
+                                <p style="width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong><a ui-sref="albumInfo({albumId:album.albumId})" target="_blank"  title="{{album.albumName}}">{{album.albumName | cut:true:20:' ...'}}</a></strong></p>
+                                <p  style="width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                    <!--<a href="/mls/artist?artistId={{albumArtist.artistId}}">{{albumArtist.artistName | cut:true:20:' ...'}}</a>-->
+                                    <a title="{{album.artistName}}">{{album.artistName}}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" id="panelDemo3">
+            <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo3}" >代表曲目 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+            <div collapse="panelDemo3" class="panel-wrapper">
+                <div class="panel-body">
+                    <div class="row-fluid" style="background-color: rgb(255, 255, 255); z-index: 99; position: static;">
+                        <div class="song" ng-repeat="song in songs">
+                            <div class="image">
+                                <!--<img src="http://img.xiami.net/images/album/img72/119672/9080955371408095708_3.jpg">-->
+                                <span ng-if="song.albumImgUrl == ''">
+                                    <img src="../../img/album_separate.gif" style="width:55px;height:55px;">
+                                </span>
+                                <span ng-if="song.albumImgUrl != ''">
+                                    <img src="{{song.albumImgUrl}}" style="width:55px;height:55px;">
+                                </span>
+                                <i></i>
+                                <b title="播放"></b>
+                            </div>
+                            <div class="info">
+                                <p style="width:150px;overflow:hidden;"><strong><a ui-sref="songInfo({songId:song.songId})" target="_blank" title="{{song.songName}}">{{song.songName | cut:true:20:' ...'}}</a></strong></p>
+                                <p>
+                                    <!--<a href="/artist/119672" target="_blank" title="The Voice of China"></a>-->
+                                    <!--<a  style="width:100px;overflow:hidden">-->
+                                    <span style="width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                    <a ui-sref="artistInfo({artistId:song.artist[0].artistId})" target="_blank" title="{{song.artistName}}">{{song.artistName | cut:true:20:' ...'}}</a>
+                                    </span>
+                                    <!--</a>-->
+                                    &nbsp;&nbsp;
+                                    <a>评分:{{song.score}}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

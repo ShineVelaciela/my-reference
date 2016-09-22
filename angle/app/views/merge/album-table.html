@@ -1,0 +1,32 @@
+<!--Created by kiracheng on 2016/7/18.-->
+<table class="table table-striped">
+   <thead>
+      <tr>
+         <th style="width: 50px">选择</th>
+         <th style="width: 180px;">专辑</th>
+         <th style="width: 120px;">专辑ID</th>
+         <th style="width: 200px;">艺人</th>
+         <th style="width: 60px;">曲目数量</th>
+         <th style="width: 100px;">发行时间</th>
+         <th style="width: 100px;">语言</th>
+         <th style="width: 120px;">操作</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="data in datas" class="gradeX odd">
+         <td>
+            <radio-button></radio-button>
+         </td>
+         <td>{{data.albumName}}</td>
+         <td>{{data.albumId}}</td>
+         <td>
+            <span ng-repeat="artist in data.artists">{{artist.artistName}};</span>
+         </td>
+         <td>{{data.num}}</td>
+         <td>{{data.publishTime}}</td>
+         <td></td>
+         <td><a ui-sref="albumInfo({albumId:data.albumId})">查看&nbsp</a><a ng-click="remove(datas,data)">删除</a></td>
+      </tr>
+   </tbody>
+</table>
+<ng-include src="'app/views/merge/merge-btn.html'"></ng-include>

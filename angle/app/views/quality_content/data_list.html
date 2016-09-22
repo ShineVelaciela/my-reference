@@ -1,0 +1,174 @@
+<!--{{type}}-->
+<table class="table table-striped">
+    <thead>
+        <tr role="row" ng-if="type == 1">
+            <th style="width: 30px;">
+                <div class="checkbox c-checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="allIsCheck" ng-click="checkAll(datas)">
+                        <span class="fa fa-check"></span>
+                    </label>
+                </div>
+                <!--<input type="checkbox" ng-model="allIsCheck" ng-click="checkAll(datas)">-->
+            </th>
+            <th style="width: 40px;">序号</th>
+            <th style="width: 90px;">艺人ID</th>
+            <th style="width: 100px;">状态</th>
+            <th style="width: 100px;">艺人名</th>
+            <th style="width: 100px;">地域</th>
+            <th style="width: 80px;">艺人评分</th>
+            <th style="width: 100px;">咪咕指数</th>
+            <th style="width: 100px;">入库时间</th>
+            <th style="width: 100px;">更新时间</th>
+            <th style="width: 100px;">操作</th>
+        </tr>
+        <tr role="row" ng-if="type == 2">
+            <th style="width: 30px;">
+                <div class="checkbox c-checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="allIsCheck" ng-click="checkAll(datas)">
+                        <span class="fa fa-check"></span>
+                    </label>
+                </div>
+            </th>
+            <th style="width: 40px;">序号</th>
+            <th style="width: 100px;">专辑ID</th>
+            <th style="width: 100px;">状态</th>
+            <th style="width: 100px;">专辑名</th>
+            <th style="width: 100px;">艺人名</th>
+            <th style="width: 80px;">艺人评分</th>
+            <th style="width: 100px;">咪咕指数</th>
+            <th style="width: 60px;">内容推荐</th>
+            <th style="width: 60px;">紧急程度</th>
+            <th style="width: 100px;">入库时间</th>
+            <th style="width: 100px;">更新时间</th>
+            <th style="width: 100px;">操作</th>
+        </tr>
+        <tr role="row" ng-if="type == 3">
+            <th style="width: 30px;">
+                <div class="checkbox c-checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="allIsCheck" ng-click="checkAll(datas)">
+                        <span class="fa fa-check"></span>
+                    </label>
+                </div>
+            </th>
+            <th style="width: 40px;">序号</th>
+            <th style="width: 100px;">版权ID</th>
+            <th style="width: 100px;">状态</th>
+            <th style="width: 100px;">版权状态</th>
+            <th style="width: 100px;">过期时间</th>
+            <th style="width: 100px;">语种</th>
+            <th style="width: 80px;">歌曲名</th>
+            <th style="width: 100px;">艺人名</th>
+            <th style="width: 60px;">优质艺人</th>
+            <th style="width: 60px;">咪咕指数</th>
+            <th style="width: 60px;">内容推荐</th>
+            <th style="width: 60px;">紧急程度</th>
+            <th style="width: 100px;">入库时间</th>
+
+            <th style="width: 100px;">更新时间</th>
+            <th style="width: 100px;">操作</th>
+        </tr>
+    </thead>
+    <tbody role="alert" >
+    <tr class="gradeX odd" ng-if="type == 1" ng-repeat="data in datas track by $index">
+        <td>
+            <div class="checkbox c-checkbox">
+                <label>
+                    <input type="checkbox" ng-model="data.checked">
+                    <span class="fa fa-check"></span>
+                </label>
+            </div>
+        </td>
+        <td>{{$index + 1}}</td>
+        <td>{{data.artistId}}</td>
+        <td>
+            <span ng-if="data.status == 0">未更新</span>
+            <span ng-if="data.status == 1">已更新</span>
+            <span ng-if="data.status == -1">已删除</span>
+        </td>
+        <td>{{data.artistName}}</td>
+        <td>{{data.district}}</td>
+        <td><span ng-if="data.originScore == 1">优质</span><span ng-if="data.originScore == 0">无</span></td>
+        <td><span ng-if="data.originMigu == 1">优质</span><span ng-if="data.originMigu == 0">无</span></td>
+        <td>{{data.ctime | date:'yyyy/MM/dd'}}</td>
+        <td>{{data.utime | date:'yyyy/MM/dd'}}</td>
+        <td>
+            <a ng-click="showDataInfo(data, 'artist')" style="cursor: pointer;">查看</a>
+            <a ng-click="editData(data, 'artist')" style="cursor: pointer;">编辑</a>
+            <a has-permission="quality_content_delete" ng-click="deleteMaterial(data, 'artist')" style="cursor: pointer;">删除</a>
+        </td>
+    </tr>
+    <tr class="gradeX odd" ng-if="type == 2" ng-repeat="data in datas track by $index">
+        <td>
+            <div class="checkbox c-checkbox">
+                <label>
+                    <input type="checkbox" ng-model="data.checked">
+                    <span class="fa fa-check"></span>
+                </label>
+            </div>
+        </td>
+        <td>{{$index + 1}}</td>
+        <td>{{data.albumId}}</td>
+        <td>
+            <span ng-if="data.status == 0">未更新</span>
+            <span ng-if="data.status == 1">已更新</span>
+            <span ng-if="data.status == -1">已删除</span>
+        </td>
+        <td>{{data.albumName}}</td>
+        <td>
+            <ng-include src="'app/views/partials/artistsrepeat-tpl.html'"></ng-include>
+        </td>
+        <td><span ng-if="data.originArtist == 1">优质</span><span ng-if="data.originArtist == 0">无</span></td>
+        <td><span ng-if="data.originMigu == 1">优质</span><span ng-if="data.originMigu == 0">无</span></td>
+        <td><span ng-if="data.originContent == 1">优质</span><span ng-if="data.originContent == 0">无</span></td>
+        <td><span ng-if="data.originUrgent == 1">优质</span><span ng-if="data.originUrgent == 0">无</span></td>
+        <td>{{data.ctime | date:'yyyy/MM/dd'}}</td>
+        <td>{{data.utime | date:'yyyy/MM/dd'}}</td>
+        <td>
+            <a ng-click="showDataInfo(data, 'album')" style="cursor: pointer;">查看</a>
+            <a ng-click="editData(data, 'album')" style="cursor: pointer;">编辑</a>
+            <a has-permission="quality_content_delete" ng-click="deleteMaterial(data, 'album')" style="cursor: pointer;">删除</a>
+        </td>
+    </tr>
+    <tr class="gradeX odd" ng-if="type == 3" ng-repeat="data in datas track by $index">
+        <td>
+            <div class="checkbox c-checkbox">
+                <label>
+                    <input type="checkbox" ng-model="data.checked">
+                    <span class="fa fa-check"></span>
+                </label>
+            </div>
+        </td>
+        <td>{{$index + 1}}</td>
+        <td>{{data.copyrightId}}</td>
+        <td>
+            <span ng-if="data.status == 0">未更新</span>
+            <span ng-if="data.status == 1">已更新</span>
+            <span ng-if="data.status == -1">已删除</span>
+        </td>
+        <td><span ng-if="data.hidden == 0">未隐藏</span><span ng-if="data.hidden == 1">已隐藏</span></td>
+        <td>{{data.vdate | date:'yyyy-MM-dd' }}</td>
+        <td>{{data.language}}</td>
+        <td>{{data.songName}}</td>
+        <td>
+            <ng-include src="'app/views/partials/artistsrepeat-tpl.html'"></ng-include>
+        </td>
+        <td><span ng-if="data.originArtist == 1">优质</span><span ng-if="data.originArtist == 0">无</span></td>
+        <td><span ng-if="data.originMigu == 1">优质</span><span ng-if="data.originMigu == 0">无</span></td>
+        <td><span ng-if="data.originContent == 1">优质</span><span ng-if="data.originContent == 0">无</span></td>
+        <td><span ng-if="data.originUrgent == 1">优质</span><span ng-if="data.originUrgent == 0">无</span></td>
+        <td>{{data.ctime | date:'yyyy/MM/dd'}}</td>
+        <td>{{data.utime | date:'yyyy/MM/dd'}}</td>
+        <td>
+            <a ng-click="showDataInfo(data, 'song')" style="cursor: pointer;">查看</a>
+            <a ng-click="editData(data, 'song')" style="cursor: pointer;">编辑</a>
+            <a has-permission="quality_content_delete" ng-click="deleteMaterial(data, 'song')" style="cursor: pointer;">删除</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>
+<!--<span class="page-detail">总共{{totalPage}}页,共{{bigTotalItems}}条记录,每页显示{{itemsPerPage}}条记录</span>-->
+<!--<uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>-->

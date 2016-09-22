@@ -1,0 +1,51 @@
+//
+   Created by hao.cheng on 2016/8/31.
+div.examine(ng-if="check",ng-class="{'examineOp':app.checkStyle}",ng-mouseleave="app.checkStyle = !app.checkStyle")
+    div.panel-body
+        form.form-horizontal
+            div.form-group
+                label.col-sm-1.control-label 抽查操作
+                div.col-sm-2
+                    select.form-control.input-sm(ng-model="$parent.$parent.ckResult",ng-init="$parent.$parent.ckResult = $parent.$parent.ckResult || '0'",last-examine="")
+                        option(value="0") 合格
+                        option(value="1") 可优化
+                        option(value="2") 不合格
+            div.form-group
+                label.col-sm-1.control-label 抽查意见
+                div.col-sm-8
+                    textarea.form-control(ng-model="$parent.$parent.ckSuggest",style="height: 100px;",placeholder="请输入抽查意见",last-examine="")
+            div.form-group
+                label.col-sm-1.control-label 错误分类
+                label.col-sm-1.control-label 人员侧
+                div.col-sm-6
+                    div.checkbox.c-checkbox
+                        label
+                            input(type="checkbox",ng-model="$parent.$parent.ckTagError.tag1",value="1",last-examine="")
+                            span.fa.fa-check
+                    span 人工错误
+                    div.checkbox.c-checkbox
+                        label
+                            input(type="checkbox",ng-model="$parent.$parent.ckTagError.tag2",value="2",last-examine="")
+                            span.fa.fa-check
+                    span 产品错误
+                    div.checkbox.c-checkbox
+                        label
+                            input(type="checkbox",ng-model="$parent.$parent.ckTagError.tag3",value="3",last-examine="")
+                            span.fa.fa-check
+                    span 业务不熟
+            div.form-group
+                label.col-sm-1.control-label
+                label.col-sm-1.control-label 产品侧
+                div.col-sm-6
+                    div.checkbox.c-checkbox
+                        label
+                            input(type="checkbox",ng-model="$parent.$parent.ckTagError.tag4",value="4",last-examine="")
+                            span.fa.fa-check
+            div.form-group
+                label.col-sm-1.control-label
+                label.col-sm-1.control-label 运营侧
+                div.col-sm-6
+                    div.checkbox.c-checkbox
+                        label
+                            input(type="checkbox",ng-model="$parent.$parent.ckTagError.tag5",value="5",last-examine="")
+                            span.fa.fa-check

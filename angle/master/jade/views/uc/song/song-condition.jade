@@ -1,0 +1,37 @@
+//
+   Created by YuChunzhuo-Dev on 2016/8/22.
+div
+    div.form-group
+        div.col-sm-4(ng-include="'app/views/partials/taskswitch-tpl.html'")
+        div(ng-include="'app/views/partials/taskassign-tpl.html'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/copyright-id.html'")
+        ng-include(src="'app/views/partials/search-conditions/song-id.html'")
+        ng-include(src="'app/views/partials/search-conditions/song-name.html'")
+        ng-include(src="'app/views/partials/search-conditions/artist-name.html'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/album-name.html'")
+        ng-include(src="'app/views/partials/search-conditions/person-lyric.html'")
+        ng-include(src="'app/views/partials/search-conditions/person-compose.html'")
+        ng-include(src="'app/views/partials/search-conditions/urgentdegree.html'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/time-create.html'" ng-if="module == 0")
+        ng-include(src="'app/views/partials/search-conditions/time-distribution.html'" ng-if="module != 0")
+        ng-include(src="'app/views/partials/search-conditions/mscore.html'")
+        ng-include(src="'app/views/partials/search-conditions/hotscore.html'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/time-complete.html'" ng-if="module == 3")
+        ng-include(src="'app/views/partials/search-conditions/status.html'" ng-if="module == 0")
+        ng-include(src="'app/views/partials/search-conditions/status-task.html'" ng-if="module == 1 || module == '-1,1,2'")
+        ng-include(src="'app/views/partials/search-conditions/user.html'" ng-if="module != 0 && module != '-1,1,2' && userRole == 'fzr'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/tagsearch-song.html'")
+    div.form-group
+        div.col-sm-4
+            div.btn-group(ng-controller="ModalCtrl")
+                button.btn.btn-default.btn-sm(task-submit="") 查询
+                button.btn.btn-default.btn-sm(task-reset="") 重置
+                button.btn.btn-default.btn-sm(ng-if="module == 0" ng-click="songTagImport('song');") 导入
+                button.btn.btn-default.btn-sm(ng-if="module == 0" state-to-feedback="" feed-back="song") 已导入
+                button.btn.btn-default.btn-sm(ng-if="module == '-1,1,2'" bacth-update-btn="") 批量修改
+div(ng-include="'app/views/modals/modal-import.html'")

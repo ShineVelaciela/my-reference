@@ -1,0 +1,7 @@
+//
+   Created by hao.cheng on 2016/8/8.
+div.btn-group
+    button.btn.btn-default.btn-sm(type="button",ng-click="taskSwitch(0,form.projectId);",ng-class="module == 0 ? 'active' : ''",ng-if="userRole == 'fzr'") 未分配
+    button.btn.btn-default.btn-sm(type="button",ng-click="taskSwitch(1,form.projectId);",ng-class="module == 1 ? 'active' : ''",ng-if="userRole == 'fzr'") 已分配
+    button.btn.btn-default.btn-sm(type="button",ng-click="taskSwitch('-1,1,2',form.projectId);",ng-class="module == '-1,1,2' ? 'active' : ''") 未完成
+    button.btn.btn-default.btn-sm(type="button",ng-click="taskSwitch(3,form.projectId);",ng-class="module == 3 ? 'active' : ''") 已完成

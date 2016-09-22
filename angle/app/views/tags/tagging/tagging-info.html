@@ -1,0 +1,254 @@
+<style>
+    .ztree li span.button.chk{
+        display: none;
+    }
+    .ztree a.curSelectedNode{
+        background-color: #FFFFFF !important;
+        border: none !important;
+    }
+    .ztree a.checked{
+        padding-top: 0px;
+        background-color: #FFE6B0 !important;
+        color: black;
+        height: 16px;
+        border: 1px #FFB951 solid;
+        opacity: 0.8;
+    }
+    li.level1{
+        clear: both;
+    }
+    li.level2{
+        clear: both;
+    }
+    li.level3{
+        float: left;
+    }
+    .material-content{
+        overflow-y: visible;
+    }
+    #treeDemo{
+        max-height: 400px;
+        overflow-y: auto;
+    }
+</style>
+<div style="background: #fff;overflow: auto" class="layout-fixed" ng-controller="GotoAnchor">
+    <div class="wrapper">
+        <div class="top-nav">
+            <play-button></play-button>
+            <!--<a type="button" class="btn btn-default" ng-click="goBack();" ng-if="!pre">返回</a>-->
+            <a type="button" class="btn btn-default" ng-if="tagging && !pre" ng-click="tagging(tagExt)">提交</a>
+            <a type="button" class="btn btn-default" ng-if="examine && !pre" ng-click="examineConfirm(examineResult,examineSuggest)" href="">提交</a>
+            <a type="button" class="btn btn-default" ng-if="check && !pre" ng-click="checkMaterial(ckResult, ckSuggest, ckTagError)" href="">提交</a>
+            <a type="button" class="btn btn-default" ng-if="examine && !pre" ng-mouseenter="app.examineStyle = !app.examineStyle">审核</a>
+            <a type="button" class="btn btn-default" ng-if="check && !pre" ng-mouseenter="app.checkStyle = !app.checkStyle">抽查</a>
+            <material-operation></material-operation>
+        </div>
+        <aside class="offsidebar material" ng-include="'app/views/partials/record-list.html'"></aside>
+        <div>
+            <div class="material-content">
+                <!-- 抽查-->
+                <ng-include src="'app/views/partials/material/tpl-check.html'"></ng-include>
+                <!-- 审核-->
+                <ng-include src="'app/views/partials/material/tpl-examine.html'"></ng-include>
+                <div >
+                    <h4 class="material" id="catalog-2">歌曲信息</h4>
+                    <div class="divider-top"></div>
+                    <table class="info">
+                        <tbody>
+                        <!--公用-->
+                        <tr >
+                            <td class="name">歌曲名称:</td>
+                            <td class="value border-rg1">{{data.songName}}</td>
+                            <td class="name" ng-if="data.type == 0">专辑名称:</td>
+                            <td class="value" ng-if="data.type == 0">
+                                <span class="tx" ng-repeat="album in data.albums">
+                                    <a ui-sref="albumInfo({albumId:album.albumId})">{{album.albumName}}(<a ui-sref="albumInfo({albumId:album.albumId, returnBtn: returnBtn})">{{album.albumId}}</a>)</a>
+                                </span>
+                            </td>
+                            <td class="name" ng-if="data.type != 0">专辑名称:</td>
+                            <td class="value" ng-if="data.type != 0">
+                                <span class="tx" ng-repeat="album in data.albums">
+                                    <a ui-sref="albumInfo({albumId:album.albumId})">{{album.albumName}}(<a ui-sref="albumInfo({albumId:album.albumId, returnBtn: returnBtn})">{{album.albumId}}</a>)</a>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">艺人名称:</td>
+                            <td class="value border-rg1">
+                                <span class="tx" ng-repeat="artist in data.artists">
+                                    <a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}(<a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistId}}</a>)</a>
+                                </span>
+                            </td>
+                            <td class="name" ng-if="data.type != 0">所属影视:</td>
+                            <td class="value" ng-if="data.type != 0">
+                                <span ng-repeat="movie in data.movies">
+                                    <span ng-if="movie.name != '' && movie.movieType != '' && movie.type != ''">{{movie.name}}-{{movie.movieType}}-{{movie.type}}</span>
+                                    <span ng-if="!$last">、</span>
+                                </span>
+                            </td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">词作者:</td>
+                            <td class="value border-rg1"><span class="tx" ng-repeat="artist in data.lyricsers"><a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}</a></span></td>
+                            <td class="name">曲作者:</td>
+                            <td class="value"><span class="tx" ng-repeat="artist in data.composers"><a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}</a></span></td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">演奏者:</td>
+                            <td class="value border-rg1"><span class="tx" ng-repeat="artist in data.performers"><a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}</a></span></td>
+                            <td class="name">时长:</td>
+                            <td class="value">{{data.playTime}}</td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type == 2" >
+                            <td class="name">指挥者:</td>
+                            <td class="value" colspan="3"><span class="tx" ng-repeat="artist in data.cantors"><a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}</a></span></td>
+                        </tr>
+                        <!--公用-->
+                        <tr>
+                            <td class="name">歌词:</td>
+                            <td class="value" colspan="3"><span class="tx"><pre>{{data.lyric}}</pre></span></td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">歌曲介绍:</td>
+                            <td class="value" colspan="3"><span class="tx">{{data.introduction}}</span></td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">创作背景:</td>
+                            <td class="value" colspan="3"><span class="tx">{{data.creatingBackground}}</span></td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">歌曲评价:</td>
+                            <td class="value" colspan="3"><span class="tx">{{data.evaluate}}</span></td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">歌曲故事:</td>
+                            <td class="value" colspan="3"><span class="tx">{{data.story}}</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div >
+                        <h4 class="material" class="material" id="catalog-3">歌曲标签</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div>
+                            <table class="info" ng-if="!tagging">
+                                <tbody>
+                                <tr >
+                                    <td class="name">自定义标签:</td>
+                                    <td class="value">{{tagExt.tags}}</td>
+                                    <td class="name">新歌时间:</td>
+                                    <td class="value">{{tagExt.isnew}}</td>
+                                    <td class="name">热歌时间:</td>
+                                    <td class="value">{{tagExt.ishot}}</td>
+                                </tr>
+                                <tr >
+                                    <td class="name">曲库标签:</td>
+                                    <td class="value" colspan="5">
+                                    <span class="tx label label-default tag" ng-repeat="tag in artistTags | orderBy : 'sort'">
+                                        {{tag.tagName}}
+                                    </span>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td class="name">腾讯标签:</td>
+                                    <td class="value" colspan="5">
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="info" ng-if="tagging">
+                                <tbody>
+                                <tr>
+                                    <td class="name">自定义标签:</td>
+                                    <td class="value border-rg1">
+                                        <div class="col-sm-8">
+                                            <input placeholder="请输入自定义标签" type="text" ng-model="$parent.tagExt.tags" value="{{tagExt.tags}}" class="form-control input-sm">
+                                        </div>
+                                    </td>
+                                    <td class="name">新歌时间:</td>
+                                    <td class="value border-rg1">
+                                        <div class="col-sm-8" ng-controller="DatepickerDemoCtrl as dpick1">
+                                            <input type="text" placeholder="请输入热歌时间" my-date class="form-control input-sm" ng-model="$parent.tagExt.isnew" data-ng-click="dpick1.open($event)"
+                                                   current-text="今天" clear-text="清除" close-text="关闭" uib-datepicker-popup is-open="dpick1.opened" datepicker-options="dpick1.dateOptions">
+                                        </div>
+                                        <!--<input data-inputmask="'mask': '9999-19-39'" masked="" type="text" ng-model="$parent.tagExt.isnew" class="form-control input-sm" >-->
+                                    </td>
+                                    <td class="name">热歌时间:</td>
+                                    <td class="value">
+                                        <div class="col-sm-8" ng-controller="DatepickerDemoCtrl as dpick2">
+                                            <input type="text" placeholder="请输入发行日期" my-date class="form-control input-sm" ng-model="$parent.tagExt.ishot" data-ng-click="dpick2.open($event)"
+                                                   current-text="今天" clear-text="清除" close-text="关闭" uib-datepicker-popup is-open="dpick2.opened" datepicker-options="dpick2.dateOptions">
+                                        </div>
+                                        <!--<input data-inputmask="'mask': '9999-19-39'" masked="" type="text" ng-model="$parent.tagExt.ishot" class="form-control input-sm" >-->
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td class="name">预定义模板选择:</td>
+                                    <td class="value border-rg1">
+                                        <input type="radio" ng-model="tagType">腾讯<input type="radio" ng-model="tagType">曲库
+                                    </td>
+                                    <td class="name">搜索打标签:</td>
+                                    <td class="value">
+                                        <div class="col-sm-8">
+                                            <input class="form-control input-sm" type="text" placeholder="请输入歌曲标签搜索" ng-model="filterTag" uib-typeahead="tag as tag.name for tag in tagTreeFilter | filter:{name:$viewValue}"
+                                                   typeahead-focus-first="false" typeahead-on-select="tagTagging($item)" popover-placement="right" uib-popover="请输入要搜索的标签名称">
+                                        </div>
+                                    </td>
+                                    <td class="name"></td>
+                                    <td class="value">
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td class="name">腾讯:</td>
+                                    <td class="value" colspan="5"></td>
+                                </tr>
+                                <tr >
+                                    <td class="name">曲库:</td>
+                                    <td class="value" colspan="5">
+                                        <div class="tag-content" style="background: #fff">
+                                            <!--标签-->
+                                            <span ng-repeat="tag in artistTags">
+                                                <span >
+                                                    <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag">
+                                                        <span class="W_arrow_bor W_arrow_bor_l"><i class="S_line3"></i><em class="S_bg2_br"></em></span>
+                                                        <i id="{{tag.tagId}}">{{tag.tagName}}</i>&nbsp;&nbsp;
+                                                        <em class="fa fa-remove" style="cursor:pointer;" onclick="removeTag(this);"></em>
+                                                        <input type="checkbox" name="taggingCheck" style="display:none;" checked="checked" value="{{tag.tagId}}">
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td class="name">曲库歌曲标签:</td>
+                                    <td class="value" colspan="5">
+                                        <span class="tx"><a href="javascript:;" ng-click="expandAll();">展开所有标签</a></span>
+                                        <span class="tx"><a href="" ng-click="collapseAll();">折叠所有标签</a></span>
+                                        <span class="tx"><a href="javascript:;" ng-click="deleteAll();">删除所有已打标签</a></span>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td class="name"></td>
+                                    <td class="value" colspan="5">
+                                        <ul id="treeDemo" class="ztree"></ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

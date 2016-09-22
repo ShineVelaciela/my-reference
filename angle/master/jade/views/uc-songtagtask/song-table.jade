@@ -1,0 +1,52 @@
+//
+   Created by hao.cheng on 2016/8/2.
+table.table.table-striped
+    thead
+        tr
+            th(style="width: 50px")
+                check-all-btn
+            th(style="width: 40px;") 序号
+            th(style="width: 100px;",ng-if="$parent.module == 0") 状态
+            th(style="width: 140px;") 歌曲ID
+            th(style="width: 120px;") 歌曲名
+            th(style="width: 120px;") 艺人名
+            th(style="width: 140px;") 专辑名
+            th(style="width: 100px;",ng-if="$parent.module == 0") 创建时间
+            th(style="width: 100px;",ng-if="$parent.module == 1 || $parent.module == '-1,1,2'") 工单状态
+            th(style="width: 80px;",ng-if="$parent.module == 1 || $parent.module == 3") 用户
+            th(style="width: 120px;",ng-if="$parent.module == '-1,1,2'") 操作
+            th(style="width: 100px;",ng-if="$parent.module != 0 ") 分配时间
+            th(style="width: 100px;",ng-if="$parent.module == 3") 完成时间
+    tbody
+        tr.gradeX.odd(ng-repeat="data in $parent.datas track by $index")
+            td
+                div.checkbox.c-checkbox
+                    label
+                        input(type="checkbox",ng-model="data.isCheck")
+                        span.fa.fa-check
+            td {{$index+1}}
+            td(ng-if="$parent.module == 0")
+                span.label.label-default.tag(ng-if="data.status == 10") 正常
+                span.label.label-default.tag(ng-if="data.status == 12") 待审核
+                span.label.label-default.tag(ng-if="data.status == 14") 审核中
+                span.label.label-default.tag(ng-if="data.status == 111") 审核未通过
+                span.label.label-default.tag(ng-if="data.status == 30") 禁用
+            td {{data.songId}}
+            td
+                play-icon
+                td-song
+            td
+                td-artists
+            td
+                td-albums
+            td(ng-if="$parent.module == 0") {{data.createTime | date : 'yyyy-MM-dd'}}
+            td(ng-if="$parent.module == 1 || $parent.module == '-1,1,2'")
+                span.label.label-default.tag(ng-if="data.taskStatus == 1") 待办
+                span.label.label-default.tag(ng-if="data.taskStatus == 2") 待审核
+                span.label.label-default.tag(ng-if="data.taskStatus == -1") 审核未通过
+            td(ng-if="$parent.module == 1 || $parent.module == 3") {{data.edit.name}}
+            td(ng-if="$parent.module == '-1,1,2'")
+                a(ng-click="tagging(data, '_self');",ng-right-click="tagging(data, '_blank');",ng-if="data.status != 30") 打标签&nbsp;
+            td(ng-if="$parent.module != 0 ") {{data.distributionTime | date : 'yyyy-MM-dd'}}
+            td(ng-if="$parent.module == 3") {{data.completeTime | date : 'yyyy-MM-dd'}}
+ng-include(src="'app/views/partials/pagination.html'")

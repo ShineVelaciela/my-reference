@@ -1,0 +1,44 @@
+//
+   Created by YuChunzhuo-Dev on 2016/8/8.
+
+.container-fluid
+    .row-fluid
+        .span12
+            h3.page-title
+                span.divider 媒资库/用户中心/系统常量配置
+                //span 用户中心
+                //span.divider /
+                //span 系统常量配置
+    .row
+        .col-lg-12
+            #panelDemo1.panel.panel-default
+                .panel-heading(ng-class="{'panel-heading-collapsed':panelDemo1}") 配置列表
+                    paneltool(tool-collapse="tool-collapse")
+                .panel-wrapper(collapse="panelDemo1")
+                    .panel-body
+                        .col-sm-3
+                            .input-group
+                                input.form-control(type="text" placeholder="请输入关键字搜索" ng-model="search.$")
+                                span.input-group-btn
+                                    button.btn.btn-default(type="button")
+                                        em.icon-magnifier
+                        .col-sm-3.pull-right
+                            .btn-group
+                                button.btn.btn-default(ui-sref="app.constant.edit") 新增
+                        .table-responsive(style="padding-top: 10px;")
+                            table.table.table-striped
+                                thead
+                                    tr(role="row")
+                                        th(style="width: 35%;") 常量名称
+                                        th(style="width: 35%;") 常量值
+                                        th(style="width: 20%;") 常量描述
+                                        th(style="width: 10%;") 操作
+                                tbody(role="alert")
+                                    tr.gradeX.odd(ng-repeat="data in datas | filter:search")
+                                        td
+                                            a(ui-sref="app.constant.edit({key: data.config, readonly: true})") {{data.config}}
+                                        td {{data.value}}
+                                        td {{data.description}}
+                                        td
+                                            a(href="javascript:;" ui-sref="app.constant.edit({key: data.config})") 编辑
+                                            a(href="javascript:;" ng-click="deleteData(data)")  删除

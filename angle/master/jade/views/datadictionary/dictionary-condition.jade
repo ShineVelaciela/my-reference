@@ -1,0 +1,25 @@
+//
+   Created by hao.cheng on 2016/8/17.
+div.form-group
+    label.col-sm-1.control-label 全局搜索
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入名称或者拼音",ng-model="form.searchKeyWord")
+div.form-group(ng-if="type == 'nation'")
+    label.col-sm-1.control-label 全局搜索
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入民族名称",ng-model="$parent.form.name")
+    label.col-sm-1.control-label 所在国家/地区
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入所在国家/地区",ng-model="$parent.form.countryName")
+    label.col-sm-1.control-label 民族全拼音
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入民族全拼音",ng-model="$parent.form.pinyin")
+    label.col-sm-1.control-label 拼音首字母组合
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入拼音首字母组合",ng-model="$parent.form.pyfirstletters")
+div.form-group
+    div.col-sm-4
+        div.btn-group
+            button.btn.btn-default.btn-sm(task-submit="") 查询
+            button.btn.btn-default.btn-sm(task-reset="") 重置
+            button.btn.btn-default.btn-sm(ng-click='addDic()') 新建

@@ -1,0 +1,11 @@
+<!--Created by hao.cheng on 2016/8/22.-->
+<label ng-if="module == 3" class="col-sm-1 control-label">完成时间起</label>
+<div ng-if="module == 3" class="col-sm-2">
+   <input type="text" placeholder="请输入完成时间起" ng-model="form.completeStartTime" my-date="" uib-datepicker-popup="" is-open="date5" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date5 = !date5" class="form-control input-sm"
+   />
+</div>
+<label ng-if="module == 3" class="col-sm-1 control-label">完成时间止</label>
+<div ng-if="module == 3" class="col-sm-2 special-datepicker">
+   <input type="text" placeholder="请输入完成时间止" ng-model="form.completeEndTime" my-date="" uib-datepicker-popup="" is-open="date6" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date6 = !date6;" class="form-control input-sm"
+   />
+</div>

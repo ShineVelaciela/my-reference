@@ -1,0 +1,47 @@
+//
+   Created by hao.cheng on 2016/8/22.
+table.table.table-striped
+    thead
+        tr
+            th(style="width: 50px")
+                check-all-btn
+            th(style="width: 40px;") 序号
+            th(style="width: 140px;",ng-if="module == 0") 状态
+            th(style="width: 100px;") 艺人ID
+            th(style="width: 120px;") 艺人名
+            th(style="width: 120px;") 别名及昵称
+            th(style="width: 60px;") 性别
+            th(style="width: 80px;") 国家
+            th(style="width: 100px;",ng-if="module == 0") 创建时间
+            th(style="width: 100px;",ng-if="module == 1 || module == '-1,1,2'") 工单状态
+            th(style="width: 80px;",ng-if="module != 0 && module != '-1,1,2' && userRole == 'fzr'") 用户
+            th(style="width: 120px;",ng-if="module == '-1,1,2'") 操作
+            th(style="width: 100px;",ng-if="module != 0 ") 分配时间
+            th(style="width: 100px;",ng-if="module == 3") 完成时间
+    tbody
+        tr.gradeX.odd(ng-repeat="data in datas track by $index")
+            td
+                div.checkbox.c-checkbox
+                    label
+                        input(type="checkbox",ng-model="data.isCheck")
+                        span.fa.fa-check
+            td {{$index+1}}
+            td(ng-if="module == 0")
+                ng-include(src="'app/views/partials/table/td-status.html'")
+            td {{data.artistId}}
+            td
+                td-artist
+            td
+                span(ng-if="data.nickName") {{data.nickName}}、
+                span {{data.artistNameAlias}}
+            td {{data.sex}}
+            td {{data.nation}}
+            td(ng-if="module == 0") {{data.createTime | date : 'yyyy-MM-dd'}}
+            td(ng-if="module == 1 || module == '-1,1,2'")
+                ng-include(src="'app/views/partials/table/td-status-task.html'")
+            td(ng-if="module != 0 && module != '-1,1,2' && userRole == 'fzr'") {{data.edit.name}}
+            td(ng-if="module == '-1,1,2'")
+                ng-include(src="'app/views/partials/table/td-edit.html'")
+            td(ng-if="module != 0 ") {{data.distributionTime | date : 'yyyy-MM-dd'}}
+            td(ng-if="module == 3") {{data.completeTime | date : 'yyyy-MM-dd'}}
+ng-include(src="'app/views/partials/pagination.html'")

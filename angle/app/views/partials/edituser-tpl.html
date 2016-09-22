@@ -1,0 +1,3 @@
+<!--Created by kiracheng on 2016/7/14.-->
+<input placeholder="请输入用户名" ng-model="form.lastEditSearch" type="text" uib-typeahead="user.name as user.allname for user in users | filter:{allname:$viewValue}" typeahead-on-select="selectLastEdit($item)" autocomplete="off" class="form-control input-sm"
+/>

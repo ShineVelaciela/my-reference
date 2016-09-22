@@ -1,0 +1,26 @@
+//
+   Created by kiracheng on 2016/6/7.
+h5.text-center.text-thin 审核记录
+ul.nav
+    li
+        // START User status
+        a(href="javascript:;" ng-repeat="auditData in auditDatas").media-box.p.mt0
+            span.pull-right
+                span(data-ng-class="{1: 'circle-success', 0: 'circle-danger', '-1': 'circle-danger', '-2': 'circle-danger'}[auditData.auditResut]").circle.circle-lg
+            // Contact info
+            span.media-box-body
+                span.media-box-heading
+                    strong {{auditData.user.name}} -
+                        span(ng-if="auditData.auditResut == 1") 通过
+                        span(ng-if="auditData.auditResut == 0") 不通过
+                        span(ng-if="auditData.auditResut == -1") A不通过
+                        span(ng-if="auditData.auditResut == -2") B不通过
+                    br
+                    small.text-muted {{auditData.optTime | date:'yyyy-MM-dd HH:mm'}}
+                    br
+                    small.text-muted(title="{{auditData.opinion}}") {{auditData.opinion | cut:true:14:' ...'}}
+        // END User status
+    li
+        .p-lg.text-center
+            a.btn.btn-purple.btn-sm(href="javascript:;", title="See more contacts",data-ng-click="loadMoreExamine();")
+                strong(translate="offsidebar.chat.LOAD_MORE") Load more..

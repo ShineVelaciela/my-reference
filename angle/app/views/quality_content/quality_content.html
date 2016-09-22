@@ -1,0 +1,314 @@
+<style>
+    .detail table tbody tr{
+        height: 35px;
+    }
+    .detail table tbody tr td.name{
+        width: 6%;
+    }
+    .detail table tbody tr td.content{
+        width: 13%;
+    }
+    .detail table tbody tr td select{
+        border-radius: 0;
+        height: 22px;
+    }
+    .detail .well{
+        margin-bottom: 0;
+    }
+    form{
+        margin-bottom: 0;
+    }
+    i{
+        cursor: pointer;
+    }
+    .detail table tbody tr td input[type="checkbox"]{
+        width: auto;
+        margin-top: 0;
+    }
+
+
+    /*.detail table tbody tr td select{*/
+        /*border-radius: 0;*/
+        /*height: 21px;*/
+    /*}*/
+    /*日期选择控件的样式*/
+    .dropdown-menu table{
+        margin-left: 0;
+    }
+    /*.dropdown-menu .btn{*/
+        /*padding: 0;*/
+    /*}*/
+    .dropdown-menu table thead tr{
+        height: 20px;
+    }
+    .dropdown-menu table tbody tr{
+        height: 20px;
+    }
+    input.control-label[type=radio]{
+        width: 20px;
+        margin-left: 100px;
+        float:left;
+    }
+    .quality_export .controls{
+        margin-left: 140px;
+    }
+    .quality_export .controls input{
+        width: 60px;
+        margin: 0px 10px;
+    }
+</style>
+<div class="container-fluid" >
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>优质内容
+            </h3>
+        </div>
+    </div>
+    <div ui-view="quality_statistics">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default" id="panelDemo1">
+                    <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" >条件查询 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+                    <div collapse="panelDemo1" class="panel-wrapper">
+                        <div class="panel-body">
+                            <!-- BEGIN FORM-->
+                            <form class="form-horizontal" ng-controller="quality_controller">
+                                <div class="form-group" >
+                                    <label for="param-name" class="col-sm-1 control-label" >状态</label>
+                                    <div class="col-sm-2">
+                                        <select id="param-name" class="form-control input-sm" ng-model="data.status">
+                                            <option value="">请选择状态</option>
+                                            <option value="0">未更新</option>
+                                            <option value="1">已更新</option>
+                                            <option value="-1">已删除</option>
+                                        </select>
+                                    </div>
+                                    <label for="param-artist" class="col-sm-1 control-label" >入库时间起</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-artist" type="text" placeholder="请输入入库起始时间" class="form-control input-sm" ng-model="data.cstartTime"  my-date uib-datepicker-popup is-open="dateStatus.opened1"  datepicker-options="dateOptions"
+                                               close-text="关闭" clear-text="清除" current-text="今天" ng-click="open(1);" />
+                                    </div>
+                                    <label for="param-1" class="col-sm-1 control-label" >入库时间止</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-1" type="text" placeholder="请输入入库截止时间" class="form-control input-sm" ng-model="data.cendTime"  my-date uib-datepicker-popup is-open="dateStatus.opened2"  datepicker-options="dateOptions"
+                                               close-text="关闭" clear-text="清除" current-text="今天" ng-click="open(2);" />
+                                    </div>
+                                    <label for="param-2" class="col-sm-1 control-label" ng-if="type == 1">地域</label>
+                                    <div class="col-sm-2" ng-if="type == 1">
+                                        <select id="param-2" class="form-control input-sm" ng-model="$parent.data.tagIds">
+                                            <option value="">请选择地域</option>
+                                            <option  ng-repeat="location in locations" value="{{location.tagId}}">{{location.tagName}}</option>
+                                        </select>
+                                    </div>
+                                    <label for="param-3" class="col-sm-1 control-label" ng-if="type == 2">艺人名</label>
+                                    <div class="col-sm-2" ng-if="type == 2">
+                                        <input id="param-3" type="text" placeholder="请输入艺人名" class="form-control input-sm" ng-model="$parent.data.artistName" >
+                                    </div>
+                                    <label for="param-4" class="col-sm-1 control-label" ng-if="type == 3">语种</label>
+                                    <div class="col-sm-2" ng-if="type == 3">
+                                        <input id="param-4" type="text" placeholder="请输入语种" class="form-control input-sm" ng-model="$parent.data.language" >
+                                    </div>
+                                </div>
+                                <div class="form-group" >
+                                    <label for="param-5" class="col-sm-1 control-label" >更新时间起</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-5" type="text" placeholder="请输入更新起始时间" class="form-control input-sm" ng-model="data.ustartTime"  my-date uib-datepicker-popup is-open="dateStatus.opened3"  datepicker-options="dateOptions"
+                                               close-text="关闭" clear-text="清除" current-text="今天" ng-click="open(3);" />
+                                    </div>
+                                    <label for="param-6" class="col-sm-1 control-label" >更新时间止</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-6" type="text" placeholder="请输入更新截止时间" class="form-control input-sm" ng-model="data.uendTime"  my-date uib-datepicker-popup is-open="dateStatus.opened4"  datepicker-options="dateOptions"
+                                               close-text="关闭" clear-text="清除" current-text="今天" ng-click="open(4);" />
+                                    </div>
+                                    <label for="param-7" class="col-sm-1 control-label" ng-if="type == 1">艺人ID</label>
+                                    <div class="col-sm-2" ng-if="type == 1">
+                                        <input id="param-7" type="text" placeholder="请输入艺人ID" class="form-control input-sm" ng-model="$parent.data.artistId" >
+                                    </div>
+                                    <label for="param-8" class="col-sm-1 control-label" ng-if="type == 1">艺人名</label>
+                                    <div class="col-sm-2" ng-if="type == 1">
+                                        <input id="param-8" type="text" placeholder="请输入艺人ID" class="form-control input-sm" ng-model="$parent.data.artistName" >
+                                    </div>
+                                    <label for="param-9" class="col-sm-1 control-label" ng-if="type == 2">专辑ID</label>
+                                    <div class="col-sm-2" ng-if="type == 2">
+                                        <input id="param-9" type="text" placeholder="请输入专辑ID" class="form-control input-sm" ng-model="$parent.data.albumId" >
+                                    </div>
+                                    <label for="param-10" class="col-sm-1 control-label" ng-if="type == 2">专辑名</label>
+                                    <div class="col-sm-2" ng-if="type == 2">
+                                        <input id="param-10" type="text" placeholder="请输入专辑名" class="form-control input-sm" ng-model="$parent.data.albumName" >
+                                    </div>
+                                    <label for="param-11" class="col-sm-1 control-label" ng-if="type == 3">歌手名</label>
+                                    <div class="col-sm-2" ng-if="type == 3">
+                                        <input id="param-11" type="text" placeholder="请输入歌手名" class="form-control input-sm" ng-model="$parent.data.artistName" >
+                                    </div>
+                                    <label for="param-12" class="col-sm-1 control-label" ng-if="type == 3">歌曲名</label>
+                                    <div class="col-sm-2" ng-if="type == 3">
+                                        <input id="param-12" type="text" placeholder="请输入歌曲名" class="form-control input-sm" ng-model="$parent.data.songName" >
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if="type == 3">
+                                    <label for="param-13" class="col-sm-1 control-label" >版权ID</label>
+                                    <div class="col-sm-2" >
+                                        <input id="param-13" type="text" placeholder="请输入版权ID" class="form-control input-sm" ng-model="$parent.data.copyrightId" >
+                                    </div>
+                                    <label for="param-14" class="col-sm-1 control-label" ng-if="type == 3">是否过期</label>
+                                    <div class="col-sm-2" ng-if="type == 3">
+                                        <select id="param-14" class="form-control input-sm"  ng-model="$parent.data.overdue" >
+                                            <option value="">请选择</option>
+                                            <option value="1">已过期</option>
+                                            <option value="0">未过期</option>
+                                        </select>
+                                    </div>
+                                    <label for="param-15" class="col-sm-1 control-label" ng-if="type == 3">是否隐藏</label>
+                                    <div class="col-sm-2" ng-if="type == 3">
+                                        <select id="param-15" class="form-control input-sm"  ng-model="$parent.data.hidden" >
+                                            <option value="">请选择</option>
+                                            <option value="1">隐藏</option>
+                                            <option value="0">未隐藏</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" >
+                                    <label class="col-sm-1 control-label" >优质来源</label>
+                                    <div class="col-sm-2" >
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="data.originScore" ng-true-value="1" ng-false-value="0" ng-if="type == 1">
+                                                <input type="checkbox" ng-model="data.originArtist" ng-true-value="1" ng-false-value="0" ng-if="type != 1">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        艺人评分
+                                    </div>
+                                    <div class="col-sm-2" data-ng-if="type == 1">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="data.originMigu" ng-true-value="1" ng-false-value="0">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        咪咕指数
+                                    </div>
+                                    <div class="col-sm-2" data-ng-if="type != 1">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="data.originContent" ng-true-value="1" ng-false-value="0">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        内容推荐
+                                    </div>
+                                    <div class="col-sm-2" data-ng-if="type != 1">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="data.originUrgent" ng-true-value="1" ng-false-value="0">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        紧急程度
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div class="btn-group" >
+                                            <button class="btn btn-default btn-sm" data-ng-click="searchBtn(type);">查询</button>
+                                            <button class="btn btn-default btn-sm" data-ng-click="clearInput();">重置</button>
+                                            <button class="btn btn-default btn-sm" data-ng-click="export(type, selectedDataIds);">导出</button>
+                                            <button class="btn btn-default btn-sm" data-ng-click="import(type)">导入</button>
+                                            <button class="btn btn-default btn-sm" ui-sref="app.qualityContent.staistics({type:type})">统计</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default" id="panelDemo2">
+                    <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo2}" >条件查询 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+                    <div collapse="panelDemo2" class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="table-responsive" ui-view="data-list">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="quality_import.html">
+    <div class="modal-header">
+        <h3 class="modal-title">导入excel数据</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <form class="form-horizontal" >
+        <div class="form-group">
+            <label class="col-lg-2 control-label">状态</label>
+            <div class="col-lg-4">
+                <select ng-model="import_status" class="border1px form-control">
+                    <option value="0">未更新</option>
+                    <option value="1">已更新</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">时间</label>
+            <div class="col-lg-4">
+                <input type="text" class="border1px form-control" tooltip-placement="top" uib-tooltip="请选择入库时间" ng-model="import_ctime" uib-datepicker-popup is-open="dateStatus.opened1" datepicker-options="dateOptions" ng-required="true" current-text="今天" clear-text="清除" close-text="关闭" ng-click="open(1)">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">上传附件</label>
+            <div class="col-lg-8">
+                <input type="file" id="file" name="file" class="form-control" fileread="uploadme.src">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/ng-template" id="quality_export.html">
+    <div class="modal-header">
+        <h3 class="modal-title">导出数据</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <form class="form-horizontal quality_export" >
+        <div class="form-group">
+            <input class="control-label" type="radio" ng-model="export_type" value="1">
+            <div class="controls">
+                按选中导出
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="control-label" type="radio" ng-model="export_type" value="2">
+            <div class="controls">
+                序号
+                起<input type="number" ng-model="numberStart" class="border1px">止<input type="number" ng-model="numberEnd" class="border1px">
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="control-label" type="radio" ng-model="export_type" value="3">
+            <div class="controls">
+                页数
+                起<input type="number" ng-model="pageStart" class="border1px">止<input type="number" ng-model="pageEnd" class="border1px">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </form>
+</script>

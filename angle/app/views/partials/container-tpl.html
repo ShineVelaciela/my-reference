@@ -1,0 +1,37 @@
+<!--Created by hao.cheng on 2016/8/8.-->
+<div class="row-fluid">
+   <h3 class="page-title"> 媒资库
+      <span class="divider">/</span>
+      <span>{{container.title}}</span>
+   </h3>
+</div>
+<div>
+   <div ng-show="container.head.show" class="row">
+      <div class="col-lg-12">
+         <div id="paneDemo1" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':paneDemo1}" class="panel-heading">条件查询
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="paneDemo1" class="panel-wrapper">
+               <div class="panel-body">
+                  <form ui-view="condition" class="form-horizontal"></form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div ng-show="container.body.show" class="row">
+      <div class="col-lg-12">
+         <div id="paneDemo2" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':paneDemo2}" class="panel-heading">数据列表
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="paneDemo2" class="panel-wrapper">
+               <div class="panel-body">
+                  <div ui-view="data-list" class="table-responsive"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

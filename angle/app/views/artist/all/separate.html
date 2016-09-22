@@ -1,0 +1,738 @@
+<style>
+    .table td{
+        width: 10%;
+    }
+    a{
+        color: #2195E2;
+    }
+    tr>th:nth-child(1){
+        color: #2195E2;
+    }
+    tr>td:nth-child(1){
+        color: #2195E2;
+    }
+
+    .sourceTh {
+        border: 0;
+        border-left: 1px solid #ddd !important;
+        border-right: 1px solid #ddd !important;
+    }
+    #body{
+        min-width: 1110px;
+    }
+    table{
+        table-layout: fixed;
+    }
+    tr div {
+        text-align: left;
+    }
+    .table thead th{
+        vertical-align: top !important;
+    }
+
+    th.artist_name_th:hover .btn-close-separate{
+        visibility: visible !important;
+    }
+    tr img{
+        height: 114px;
+        width: 114px;
+    }
+    .label-warning, .badge-warning{
+        margin-bottom: 3px;
+    }
+    .label, .badge{
+        padding: 2px 5px;
+        margin-top: 20px;
+    }
+    .table-bordered th, .table-bordered td{
+        border-left: 1px solid #ddd;
+    }
+    tr.gradeX.odd td{
+        text-align: left;
+        /*border-left: 1px solid #ccc;*/
+    }
+    tr.gradeX.odd:hover pre{
+        background: #CBE8F6 !important;
+    }
+    pre{
+        border: 0;
+        background: #fff;
+    }
+    pre:hover{
+        background: #CBE8F6 !important;
+    }
+    #sample_1_wrapper{
+        overflow: auto;
+    }
+    .table .checkbox{
+        width: auto;
+    }
+</style>
+<!-- BEGIN PAGE CONTAINER-->
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span><span ng-if="type == 'artist'">艺人</span><span ng-if="type == 'song'">歌曲</span><span ng-if="type == 'album'">专辑</span>拆分
+            </h3>
+        </div>
+    </div>
+    <!-- BEGIN PAGE CONTENT-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default" id="panelDemo1">
+                <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}"><span ng-if="type == 'artist'">艺人</span><span ng-if="type == 'song'">歌曲</span><span ng-if="type == 'album'">专辑</span>拆分列表<paneltool tool-collapse="tool-collapse"></paneltool></div>
+                <div collapse="panelDemo1" class="panel-wrapper">
+                    <div class="panel-body">
+                        <div id="sample_1_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                            <table class="table table-striped" id="separate_table">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 154px;border-left:none;" id="separateTitle" class="sorting"
+                                        role="columnheader" rowspan="1" colspan="1" aria-label="">
+                                        <div class="">
+                                            <h3>对比<span ng-if="type == 'artist'">艺人</span><span ng-if="type == 'song'">歌曲</span><span ng-if="type == 'album'">专辑</span></h3>
+                                        </div>
+                                        <div>
+                                            <div class="checkbox c-checkbox">
+                                                <label>
+                                                    <input type="checkbox" ng-model="site.ALL" ng-click="showSiteOnly(site)">
+                                                    <span class="fa fa-check"></span>
+                                                </label>
+                                            </div>
+                                            显示全部
+                                        </div>
+                                        <div>
+                                            <div class="checkbox c-checkbox">
+                                                <label>
+                                                    <input type="checkbox" ng-model="site.TENCENT" ng-click="showSiteOnly(site)">
+                                                    <span class="fa fa-check"></span>
+                                                </label>
+                                            </div>
+                                            只显示腾讯
+                                        </div>
+                                        <div>
+                                            <div class="checkbox c-checkbox">
+                                                <label>
+                                                    <input type="checkbox" ng-model="site.WANGYI" ng-click="showSiteOnly(site)">
+                                                    <span class="fa fa-check"></span>
+                                                </label>
+                                            </div>
+                                            只显示网易
+                                        </div>
+                                        <div>
+                                            <div class="checkbox c-checkbox">
+                                                <label>
+                                                    <input type="checkbox" ng-model="site.BAIDU" ng-click="showSiteOnly(site)">
+                                                    <span class="fa fa-check"></span>
+                                                </label>
+                                            </div>
+                                            只显示百度
+                                        </div>
+                                        <div>
+                                            <div class="checkbox c-checkbox">
+                                                <label>
+                                                    <input type="checkbox" ng-model="site.XIAMI" ng-click="showSiteOnly(site)">
+                                                    <span class="fa fa-check"></span>
+                                                </label>
+                                            </div>
+                                            只显示虾米
+                                        </div>
+                                        <div>
+                                            <div class="checkbox c-checkbox">
+                                                <label>
+                                                    <input type="checkbox" ng-model="site.KARAKAL" ng-click="showSiteOnly(site)">
+                                                    <span class="fa fa-check"></span>
+                                                </label>
+                                            </div>
+                                            只显示曲库
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="btn-group" >
+                                                <button class="btn btn-default btn-xs" data-ng-click="back();">返回</button>
+                                                <button class="btn btn-default btn-xs" data-ng-click="submit(type,datas);">提交</button>
+                                                <button class="btn btn-default btn-xs" data-ng-click="dialog();">抓取</button>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    <th class="artist_name_th" role="columnheader" rowspan="1" colspan="1" style="width: 154px;" ng-repeat="data in datas track by $index" ng-class="{'hide':data.hide}">
+                                        <p id="artist_name_title">
+                                            <a class="btn-close-separate" href="javascript:;" title="关闭"></a>
+                                        <div class="center">
+                                            <!--<a href="javascript:;" class="icon-chevron-left" style="margin-right: 5px;"></a>-->
+                                            <span ng-if="data.param.site == 'TENCENT'">腾讯</span>
+                                            <span ng-if="data.param.site == 'WANGYI'">网易</span>
+                                            <span ng-if="data.param.site == 'XIAMI'">虾米</span>
+                                            <span ng-if="data.param.site == 'BAIDU'">百度</span>
+                                            <span ng-if="data.param.site == 'KARAKAL'">曲库</span>
+                                            <!--<a href="javascript:;" class="icon-chevron-right" style="margin-left: 5px"></a>-->
+                                        </div>
+                                        <a  href="{{data.data.imgs[0]}}" data-lightbox="image-1"><img src="{{data.data.imgs[0]}}"></a>
+                                        <div class="center" style="margin-top: 10px;" ng-if="type == 'artist'">
+                                            <a ng-if="data.param.site == 'TENCENT'" href="http://y.qq.com/#type=singer&id={{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'WANGYI'" href="http://music.163.com/#/artist/desc?id={{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'XIAMI'" href="http://www.xiami.com/artist/{{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'BAIDU'" href="http://music.baidu.com/artist/{{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'KARAKAL'" href="http://music.migu.cn/#/singer/{{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                        </div>
+                                        <div class="center" style="margin-top: 10px;" ng-if="type == 'song'">
+                                            <a ng-if="data.param.site == 'TENCENT'" href="http://y.qq.com/#type=song&id={{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'WANGYI'" href="http://music.163.com/#/song?id={{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'XIAMI'" href="http://www.xiami.com/song/{{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'BAIDU'" href="http://music.baidu.com/song/{{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'KARAKAL'" href="http://music.migu.cn/#/song/{{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                        </div>
+                                        <div class="center" style="margin-top: 10px;" ng-if="type == 'album'">
+                                            <a ng-if="data.param.site == 'TENCENT'" href="http://y.qq.com/#type=album&id={{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'WANGYI'" href="http://music.163.com/#/album?id={{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'XIAMI'" href="http://www.xiami.com/album/{{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'BAIDU'" href="http://music.baidu.com/album/{{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                            <a ng-if="data.param.site == 'KARAKAL'" href="http://music.migu.cn/#/album/{{data.param.id}}" target="_blank">{{data.data.name}} -- {{data.data.id}}</a>
+                                        </div>
+                                        <div class="center">
+                                            <!--<button has-permission='artist_separate' class="badge badge-important" ng-click="separateData('artist',data.param.site,data.param.id,data.data.name);">-->
+                                            <!--拆分-->
+                                            <!--</button>-->
+                                        </div>
+                                        </p>
+                                    </th>
+
+                                </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all" id="artist_tbody">
+                                <tr class="gradeX odd">
+                                    <td class="hidden-phone ">
+                                        合并关系选择
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}" style="text-align: center">
+                                        <input type="checkbox" ng-model="data.checked" ng-if="data.param.site == 'KARAKAL'" ng-disabled="true">
+                                        <input type="checkbox" ng-model="data.checked" ng-if="data.param.site != 'KARAKAL'">
+                                    </td>
+                                </tr>
+                                <tr class="gradeX odd">
+                                    <td class="hidden-phone " id="content-title" colspan="{{datas.length + 1}}" style="text-align: left;"><h5 style="margin: 0;"><span ng-if="type == 'artist'">艺人</span><span ng-if="type == 'song'">歌曲</span><span ng-if="type == 'album'">专辑</span>基本信息</h5></td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        中文名
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.name}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        外文名
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.foreignName}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        别名及昵称
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">
+                                        {{data.data.aliasName}}
+                                        <span ng-if="data.data.aliasName && data.data.nickname">、</span>
+                                        {{data.data.nickname}}
+                                    </td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        国籍
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.nationality}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        民族
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.ethnic}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        血型
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.bloodType}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        出生年月
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.birthday}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        星座
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.constellation}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        身高
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.height}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        体重
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.weight}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        出生地
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.birthplace}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        职业
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.profession}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        毕业院校
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.graduatedSchool}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        经纪公司
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.company}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'artist'">
+                                    <td class=" sorting_1">
+                                        艺人简介
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.desc}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'album'">
+                                    <td class=" sorting_1">
+                                        专辑名
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.name}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'album'">
+                                    <td class=" sorting_1">
+                                        歌曲数量
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.songNum}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'album'">
+                                    <td class=" sorting_1">
+                                        艺人名
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">
+                                        <span ng-repeat="artist in data.data.artists">
+                                            {{artist.name}}<i ng-if="data.data.artists.length > 1">;</i>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'album'">
+                                    <td class=" sorting_1">
+                                        发布时间
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.pubTime}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'album'">
+                                    <td class=" sorting_1">
+                                        语言
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.language}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'album'">
+                                    <td class=" sorting_1">
+                                        专辑类型
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.type}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'album'">
+                                    <td class=" sorting_1">
+                                        专辑简介
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.desc}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'song'">
+                                    <td class=" sorting_1">
+                                        歌曲名
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.name}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'song'">
+                                    <td class=" sorting_1">
+                                        所属艺人
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">
+                                        <span ng-repeat="artist in data.data.artists">
+                                            {{artist.name}}<i ng-if="data.data.artists.length > 1">;</i>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'song'">
+                                    <td class=" sorting_1">
+                                        所属专辑
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">
+                                        <span ng-repeat="album in data.data.albums">
+                                            {{album.name}}<i ng-if="data.data.albums.length > 1">;</i>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'song'">
+                                    <td class=" sorting_1">
+                                        歌曲时长
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.playTime}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'song'">
+                                    <td class=" sorting_1">
+                                        发行时间
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.pubTime}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'song'">
+                                    <td class=" sorting_1">
+                                        词作者
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.lyricist}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'song'">
+                                    <td class=" sorting_1">
+                                        曲作者
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.composer}}</td>
+                                </tr>
+                                <tr class="gradeX odd" ng-if="type == 'song'">
+                                    <td class=" sorting_1">
+                                        歌词
+                                    </td>
+                                    <td ng-repeat="data in datas" ng-class="{'hide':data.hide}">
+                                        <pre>{{data.data.lyrics}}</pre>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div id="page" class="dashboard">-->
+        <!--<div class="row-fluid" id="list_part">-->
+            <!--<div class="span12">-->
+                <!--&lt;!&ndash; BEGIN EXAMPLE TABLE PORTLET&ndash;&gt;-->
+                <!--<div class="widget ">-->
+                    <!--<div class="widget-title">-->
+                        <!--<h4><i class="icon list-icon"></i><span ng-if="type == 'artist'">艺人</span><span ng-if="type == 'song'">歌曲</span><span ng-if="type == 'album'">专辑</span>拆分列表</h4>-->
+                                <!--<span class="tools">-->
+                                <!--<a href="javascript:;" class="chevron-down"></a>-->
+                                <!--</span>-->
+                    <!--</div>-->
+                    <!--<div class="widget-body" id="widget-body">-->
+                        <!--<div id="sample_1_wrapper" class="dataTables_wrapper form-inline" role="grid">-->
+                            <!--<table class="table table-striped" id="separate_table">-->
+                                <!--<thead>-->
+                                <!--<tr role="row">-->
+                                    <!--<th style="width: 154px;border-left:none;" id="separateTitle" class="sorting"-->
+                                        <!--role="columnheader" rowspan="1" colspan="1" aria-label="">-->
+                                        <!--<div class="">-->
+                                            <!--<h3>对比<span ng-if="type == 'artist'">艺人</span><span ng-if="type == 'song'">歌曲</span><span ng-if="type == 'album'">专辑</span></h3>-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<input type="radio" ng-click="showSiteOnly(site)" ng-model="site" value="ALL">-->
+                                            <!--显示全部-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<input type="radio" ng-click="showSiteOnly(site)" ng-model="site" value="TENCENT">-->
+                                            <!--只显示腾讯-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<input type="radio" ng-click="showSiteOnly(site)" ng-model="site" value="WANGYI">-->
+                                            <!--只显示网易-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<input type="radio" ng-click="showSiteOnly(site)" ng-model="site" value="BAIDU">-->
+                                            <!--只显示百度-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<input type="radio" ng-click="showSiteOnly(site)" ng-model="site" value="XIAMI">-->
+                                            <!--只显示虾米-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<input type="radio" ng-click="showSiteOnly(site)" ng-model="site" value="KARAKAL">-->
+                                            <!--只显示曲库-->
+                                        <!--</div>-->
+                                        <!--<div class="form-group">-->
+                                            <!--<div class="btn-group" >-->
+                                                <!--<button class="btn btn-default btn-xs" data-ng-click="back();">返回</button>-->
+                                                <!--<button class="btn btn-default btn-xs" data-ng-click="submit(type,datas);">提交</button>-->
+                                                <!--<button class="btn btn-default btn-xs" data-ng-click="dialog();">抓取</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</th>-->
+
+                                    <!--<th class="artist_name_th" role="columnheader" rowspan="1" colspan="1" style="width: 154px;" ng-repeat="data in datas track by $index" ng-class="{'hide':data.hide}">-->
+                                        <!--<p id="artist_name_title">-->
+                                        <!--<a class="btn-close-separate" href="javascript:;" title="关闭"></a>-->
+                                        <!--<div class="center">-->
+                                            <!--&lt;!&ndash;<a href="javascript:;" class="icon-chevron-left" style="margin-right: 5px;"></a>&ndash;&gt;-->
+                                            <!--<span ng-if="data.param.site == 'TENCENT'">腾讯</span>-->
+                                            <!--<span ng-if="data.param.site == 'WANGYI'">网易</span>-->
+                                            <!--<span ng-if="data.param.site == 'XIAMI'">虾米</span>-->
+                                            <!--<span ng-if="data.param.site == 'BAIDU'">百度</span>-->
+                                            <!--<span ng-if="data.param.site == 'KARAKAL'">曲库</span>-->
+                                            <!--&lt;!&ndash;<a href="javascript:;" class="icon-chevron-right" style="margin-left: 5px"></a>&ndash;&gt;-->
+                                        <!--</div>-->
+                                        <!--<img src="{{data.data.imgs[0]}}">-->
+                                        <!--<div class="center" style="margin-top: 10px;" ng-if="type == 'artist'">-->
+                                            <!--<a ng-if="data.param.site == 'TENCENT'" href="http://y.qq.com/#type=singer&id={{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'WANGYI'" href="http://music.163.com/#/artist/desc?id={{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'XIAMI'" href="http://www.xiami.com/artist/{{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'BAIDU'" href="http://music.baidu.com/artist/{{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'KARAKAL'" href="http://music.migu.cn/#/singer/{{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                        <!--</div>-->
+                                        <!--<div class="center" style="margin-top: 10px;" ng-if="type == 'song'">-->
+                                            <!--<a ng-if="data.param.site == 'TENCENT'" href="http://y.qq.com/#type=song&id={{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'WANGYI'" href="http://music.163.com/#/song?id={{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'XIAMI'" href="http://www.xiami.com/song/{{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'BAIDU'" href="http://music.baidu.com/song/{{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'KARAKAL'" href="http://music.migu.cn/#/song/{{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                        <!--</div>-->
+                                        <!--<div class="center" style="margin-top: 10px;" ng-if="type == 'album'">-->
+                                            <!--<a ng-if="data.param.site == 'TENCENT'" href="http://y.qq.com/#type=album&id={{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'WANGYI'" href="http://music.163.com/#/album?id={{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'XIAMI'" href="http://www.xiami.com/album/{{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'BAIDU'" href="http://music.baidu.com/album/{{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                            <!--<a ng-if="data.param.site == 'KARAKAL'" href="http://music.migu.cn/#/album/{{data.param.id}}" target="_blank">{{data.data.name}} &#45;&#45; {{data.data.id}}</a>-->
+                                        <!--</div>-->
+                                        <!--<div class="center">-->
+                                            <!--&lt;!&ndash;<button has-permission='artist_separate' class="badge badge-important" ng-click="separateData('artist',data.param.site,data.param.id,data.data.name);">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;拆分&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                                        <!--</div>-->
+                                        <!--</p>-->
+                                    <!--</th>-->
+
+                                <!--</tr>-->
+                                <!--</thead>-->
+                                <!--<tbody role="alert" aria-live="polite" aria-relevant="all" id="artist_tbody">-->
+                                <!--<tr class="gradeX odd">-->
+                                    <!--<td class="hidden-phone ">-->
+                                        <!--合并关系选择-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}" style="text-align: center">-->
+                                        <!--<input type="checkbox" ng-model="data.checked" ng-if="data.param.site == 'KARAKAL'" ng-disabled="true">-->
+                                        <!--<input type="checkbox" ng-model="data.checked" ng-if="data.param.site != 'KARAKAL'">-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd">-->
+                                    <!--<td class="hidden-phone " id="content-title" colspan="{{datas.length + 1}}" style="text-align: left;"><h5 style="margin: 0;"><span ng-if="type == 'artist'">艺人</span><span ng-if="type == 'song'">歌曲</span><span ng-if="type == 'album'">专辑</span>基本信息</h5></td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--中文名-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.name}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--外文名-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.foreignName}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--别名及昵称-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.aliasName}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--国籍-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.nationality}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--民族-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.ethnic}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--血型-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.bloodType}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--出生年月-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.birthday}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--星座-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.constellation}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--身高-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.height}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--体重-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.weight}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--出生地-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.birthplace}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--职业-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.profession}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--毕业院校-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.graduatedSchool}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--经纪公司-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.company}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'artist'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--艺人简介-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.desc}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'album'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--专辑名-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.name}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'album'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--歌曲数量-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.songNum}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'album'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--艺人名-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">-->
+                                        <!--<span ng-repeat="artist in data.data.artists">-->
+                                            <!--{{artist.name}}<i ng-if="data.data.artists.length > 1">;</i>-->
+                                        <!--</span>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'album'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--发布时间-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.pubTime}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'album'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--语言-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.language}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'album'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--专辑类型-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.type}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'album'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--专辑简介-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.desc}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'song'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--歌曲名-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.name}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'song'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--所属艺人-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">-->
+                                        <!--<span ng-repeat="artist in data.data.artists">-->
+                                            <!--{{artist.name}}<i ng-if="data.data.artists.length > 1">;</i>-->
+                                        <!--</span>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'song'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--所属专辑-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">-->
+                                        <!--<span ng-repeat="album in data.data.albums">-->
+                                            <!--{{album.name}}<i ng-if="data.data.albums.length > 1">;</i>-->
+                                        <!--</span>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'song'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--歌曲时长-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.playTime}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'song'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--发行时间-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.pubTime}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'song'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--词作者-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.lyricist}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'song'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--曲作者-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">{{data.data.composer}}</td>-->
+                                <!--</tr>-->
+                                <!--<tr class="gradeX odd" ng-if="type == 'song'">-->
+                                    <!--<td class=" sorting_1">-->
+                                        <!--歌词-->
+                                    <!--</td>-->
+                                    <!--<td ng-repeat="data in datas" ng-class="{'hide':data.hide}">-->
+                                        <!--<pre>{{data.data.lyric}}</pre>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; END EXAMPLE TABLE PORTLET&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!-- END PAGE CONTENT-->
+</div>
+<!-- END PAGE CONTAINER-->

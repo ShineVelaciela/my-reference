@@ -1,0 +1,169 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="form-1" class="col-sm-1 control-label" >版权ID</label>
+        <div class="col-sm-2">
+            <input id="form-1" type="text" placeholder="请输入版权ID" class="form-control input-sm" ng-model="params.cid">
+        </div>
+        <label for="form-2" class="col-sm-1 control-label" >编目歌曲名</label>
+        <div class="col-sm-2">
+            <input id="form-2" type="text" placeholder="请输入编目歌曲名" class="form-control input-sm" ng-model="params.catalogSongName">
+        </div>
+        <label for="form-3" class="col-sm-1 control-label" >编目专辑名</label>
+        <div class="col-sm-2">
+            <input id="form-3" type="text" placeholder="请输入编目专辑名" class="form-control input-sm" ng-model="params.catalogAlbumName">
+        </div>
+        <label for="form-4" class="col-sm-1 control-label">编目艺人名</label>
+        <div class="col-sm-2">
+            <input id="form-4" type="text" placeholder="请输入编目艺人名" class="form-control input-sm" ng-model="params.catalogArtistName">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="form-5" class="col-sm-1 control-label" >歌曲ID</label>
+        <div class="col-sm-2">
+            <input id="form-5" type="text" placeholder="请输入歌曲ID" class="form-control input-sm" ng-model="params.songId">
+        </div>
+        <label class="col-sm-1 control-label" >创建时间起</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control input-sm" placeholder="创建时间起"
+                   uib-datepicker-popup ng-model="params.creatTimeStart" is-open="dateStatus.opened1"
+                   datepicker-options="dateOptions" current-text="今天" clear-text="清除" close-text="关闭" ng-click="open(1);"/>
+        </div>
+        <label class="col-sm-1 control-label" >创建时间止</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control input-sm" placeholder="创建时间止"
+                   uib-datepicker-popup ng-model="params.creatTimeEnd" is-open="dateStatus.opened2"
+                   datepicker-options="dateOptions" current-text="今天" clear-text="清除" close-text="关闭" ng-click="open(2);"/>
+        </div>
+        <label class="col-sm-1 control-label">过滤条件</label>
+        <div class="col-sm-2">
+            <select ng-model="params.filterCondition" class="form-control input-sm">
+                <option value="">请选择</option>
+                <option value="1">过滤华纳索尼环球的数据</option>
+                <option value="2">过滤非中文的华纳索尼环境的数据</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="form-9" class="col-sm-1 control-label" >项目名称</label>
+        <div class="col-sm-2">
+            <input id="form-9" type="text" placeholder="请输入项目名称" class="form-control input-sm" ng-model="params.projectName">
+        </div>
+        <label class="col-sm-1 control-label" >新歌/首发</label>
+        <div class="col-sm-2">
+            <input type="text" placeholder="请输入新歌/首发" class="form-control input-sm" ng-model="params.newOrFirst">
+        </div>
+        <label class="col-sm-1 control-label">优质度</label>
+        <div class="col-sm-2">
+            <input type="text" placeholder="请输入优质度" class="form-control input-sm" ng-model="params.degree">
+        </div>
+        <label class="col-sm-1 control-label" >标签</label>
+        <div class="col-sm-2" >
+            <select ng-model="params.errorTypeTag" class="form-control input-sm">
+                <option value="">请选择</option>
+                <option value="cp申报错误">cp申报错误</option>
+                <option value="音源错误">音源错误</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" ng-controller="uc_task_check_controller">
+        <div class="col-sm-4" >
+            <div class="btn-group">
+                <button class="btn btn-default btn-sm" ng-click="paramsSearchClick()">查询</button>
+                <button class="btn btn-default btn-sm" ng-click="reset();">重置</button>
+            </div>
+        </div>
+    </div>
+</form>
+<!--<div class="row-fluid" style="background-color: #fff;z-index:99;">-->
+    <!--<div class="detail" style="padding: 0 !important;">-->
+        <!--<div>-->
+            <!--<form class="form-inline">-->
+                <!--<div class="well" style="margin-top: 0;">-->
+                    <!--<table>-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                            <!--<td class="name">版权ID</td>-->
+                            <!--<td class="content">-->
+                                <!--<input class="form-control border1px" ng-model="params.cid">-->
+                            <!--</td>-->
+                            <!--<td class="name">歌曲名</td>-->
+                            <!--<td class="content">-->
+                                <!--<input class="form-control border1px" ng-model="params.catalogSongName">-->
+                            <!--</td>-->
+                            <!--<td class="name">专辑名</td>-->
+                            <!--<td class="content">-->
+                                <!--<input class="form-control border1px" ng-model="params.catalogAlbumName">-->
+                            <!--</td>-->
+                            <!--<td class="name">艺人名</td>-->
+                            <!--<td class="content">-->
+                                <!--<input class="form-control border1px" ng-model="params.catalogArtistName">-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="name">歌曲ID</td>-->
+                            <!--<td class="content">-->
+                                <!--<input class="form-control border1px" ng-model="params.songId">-->
+                            <!--</td>-->
+                            <!--<td class="name">创建时间起</td>-->
+                            <!--<td class="content">-->
+                                <!--<input type="text" class="form-control border1px" readonly="readonly"-->
+                                       <!--uib-datepicker-popup ng-model="params.creatTimeStart" is-open="dateStatus.opened1"-->
+                                       <!--datepicker-options="dateOptions" ng-required="true" current-text="今天" clear-text="清除" close-text="关闭"/>-->
+                                <!--<a class="icon-calendar" ng-click="open(1)"></a>-->
+                            <!--</td>-->
+                            <!--<td class="name">创建时间止</td>-->
+                            <!--<td class="content">-->
+                                <!--<input type="text" class="form-control border1px" readonly="readonly"-->
+                                       <!--uib-datepicker-popup ng-model="params.creatTimeEnd" is-open="dateStatus.opened2"-->
+                                       <!--datepicker-options="dateOptions" ng-required="true" current-text="今天" clear-text="清除" close-text="关闭"/>-->
+                                <!--<a class="icon-calendar" ng-click="open(2)"></a>-->
+                            <!--</td>-->
+                            <!--<td class="name">过滤条件</td>-->
+                            <!--<td class="content">-->
+                                <!--<select ng-model="params.filterCondition">-->
+                                    <!--<option value="1">过滤华纳索尼环球的数据</option>-->
+                                    <!--<option value="2">过滤非中文的华纳索尼环境的数据</option>-->
+                                <!--</select>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="name">项目名称</td>-->
+                            <!--<td class="content">-->
+                                <!--<input class="form-control border1px" ng-model="params.projectName">-->
+                            <!--</td>-->
+                            <!--<td class="name">新歌/首发</td>-->
+                            <!--<td class="content">-->
+                                <!--<input class="form-control border1px" ng-model="params.newOrFirst">-->
+                            <!--</td>-->
+                            <!--<td class="name">优质度</td>-->
+                            <!--<td class="content">-->
+                                <!--<input class="form-control border1px" ng-model="params.degree">-->
+                            <!--</td>-->
+                            <!--<td class="name">标签</td>-->
+                            <!--<td class="content">-->
+                                <!--<select ng-model="params.errorTypeTag">-->
+                                    <!--<option value="cp申报错误">cp申报错误</option>-->
+                                    <!--<option value="音源错误">音源错误</option>-->
+                                <!--</select>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                    <!--<div class="well" style="margin-top: 15px;">-->
+                        <!--<table>-->
+                            <!--<tbody>-->
+                            <!--<tr>-->
+                                <!--<td class="content" colspan="8">-->
+                                    <!--<a class="search-btn" ng-click="paramsSearchClick()">查询</a>-->
+                                    <!--&lt;!&ndash;<a class="search-btn" ng-click="openImport(pId,uId,p_type);">导入</a>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<a class="search-btn" ng-click="export();">导入</a>&ndash;&gt;-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

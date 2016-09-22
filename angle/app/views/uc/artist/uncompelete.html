@@ -1,0 +1,66 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="form-1" class="col-sm-1 control-label" >艺术家ID</label>
+        <div class="col-sm-2">
+            <input id="form-1" type="text" placeholder="请输入艺人ID" class="form-control input-sm" ng-model="params.artistIds">
+        </div>
+        <label for="form-2" class="col-sm-1 control-label" >艺人名称</label>
+        <div class="col-sm-2">
+            <input id="form-2" type="text" placeholder="请输入艺人名称" class="form-control input-sm" ng-model="params.artistName">
+        </div>
+        <label class="col-sm-1 control-label" >艺人状态</label>
+        <div class="col-sm-2">
+            <select ng-model="params.status" class="form-control input-sm">
+                <option value="">请选择</option>
+                <option value="1">抽取</option>
+                <option value="10">正常</option>
+                <option value="12">待审核</option>
+                <option value="111">审核未通过</option>
+                <option value="20">待删除</option>
+                <option value="30">禁用</option>
+                <option value="15">编辑中</option>
+                <option value="14">审核中</option>
+            </select>
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType != 'unassigned' && userRole == 'fzr' ">人员列表</label>
+        <div class="col-sm-2" ng-if="pageType != 'unassigned' && userRole == 'fzr' ">
+            <select ng-model="params.user" ng-options="cyr as cyr.uName for cyr in cyr_list" class="form-control input-sm">
+                <option value="">请选择人员</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" ng-controller="ModalCtrl">
+        <div class="col-sm-4" >
+            <div class="btn-group">
+                <button class="btn btn-default btn-sm" ng-click="paramsSearchClick($parent.pageType)">查询</button>
+                <button class="btn btn-default btn-sm" ng-click="openImport(pId,uId,p_type);" ng-if="pId != '9000' && userRole == 'fzr'">导入</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/ng-template" id="import.html">
+    <div class="modal-header">
+        <h3 class="modal-title">导入excel数据</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <form class="form-horizontal" >
+        <div class="form-group">
+            <label class="col-sm-3 control-label">下载模板</label>
+            <div class="col-sm-4">
+                <a href="http://temp.karakal.com.cn:18089/uc/resources/excel/moban.xls" target="_blank">下载模板</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">上传附件</label>
+            <div class="col-sm-4">
+                <input type="file" id="excelFile" name="excelFile" class="form-control input-sm" fileread="uploadme.src">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </form>
+</script>

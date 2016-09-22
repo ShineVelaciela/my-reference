@@ -1,0 +1,32 @@
+//
+   Created by kiracheng on 2016/6/7.
+h5.text-center.text-thin 抽查记录
+ul.nav
+   li
+      // START User status
+      a(href="javascript:;" ng-repeat="data in checkRecords").media-box.p.mt0
+         span.pull-right
+            span(data-ng-class="{0: 'circle-success', 1: 'circle-warning', 2: 'circle-danger'}[data.result]").circle.circle-lg
+         // Contact info
+         span.media-box-body
+            span.media-box-heading
+               strong {{data.user.name}} -
+                  span(data-ng-if="data.result == 0") 合格
+                  span(data-ng-if="data.result == 1") 可优化
+                  span(data-ng-if="data.result == 2") 不合格
+               br
+               small.text-muted {{data.ctime | date:'yyyy-MM-dd HH:mm'}}
+               br
+               small(ng-repeat="tag in data.tagIds track by $index").text-muted
+                  span(data-ng-if="tag == 1") ({{$index+1}})人员侧-人工错误
+                  span(data-ng-if="tag == 2") ({{$index+1}})人员侧-产品错误
+                  span(data-ng-if="tag == 3") ({{$index+1}})人员侧-产品错误
+                  span(data-ng-if="tag == 4") ({{$index+1}})产品侧
+                  span(data-ng-if="tag == 5") ({{$index+1}})运营侧
+               br
+               small.text-muted(title="{{data.opinion}}") {{data.opinion | cut:true:14:' ...'}}
+      // END User status
+   li
+      .p-lg.text-center
+         a.btn.btn-purple.btn-sm(href="javascript:;", title="See more contacts",data-ng-click="loadMoreCheck();")
+            strong(translate="offsidebar.chat.LOAD_MORE") Load more..

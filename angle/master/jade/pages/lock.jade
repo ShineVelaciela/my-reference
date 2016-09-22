@@ -1,0 +1,26 @@
+.abs-center.wd-xl
+  // START panel
+  .p
+    img.img-thumbnail.img-circle.center-block(ng-src="{{user.picture}}", alt="Avatar", width="60", height="60")
+  .panel.widget.b0
+    .panel-body
+      p.text-center 请输入密码解锁
+      form(role='form', name="lockForm")
+        .form-group.has-feedback
+          input#exampleInputPassword1.form-control(type='password', placeholder='请输入登陆密码', required='', name='lock_password', ng-model="lock.password")
+          span.fa.fa-lock.form-control-feedback.text-muted
+          span.text-danger(ng-show="lockForm.lock_password.$dirty && lockForm.lock_password.$error.required") 密码不能为空
+        .clearfix
+          .pull-left.mt-sm
+            a(ui-sref="page.recover").text-muted: small 忘记密码？
+          .pull-right
+            // Change this button type to submit to send the form data
+            button.btn.btn-sm.btn-primary(type='button', ng-click="app.lockpage = !app.lockpage;") 解锁
+  // END panel
+  .p-lg.text-center
+    span &copy; 
+    span(ng-bind="app.year") 
+    span  - 
+    span(ng-bind="app.name")
+    br
+    span(ng-bind="app.description")

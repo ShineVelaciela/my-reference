@@ -1,0 +1,18 @@
+//
+   Created by kiracheng on 2016/7/4.
+div.input-group
+    span.input-group-btn(dropdown="dropdown",auto-close="outsideClick")
+        button.btn.btn-default(dropdown-toggle="",type="button" )   标签
+            b.caret
+        div.dropdown-menu.animated.fadeInUp.panel-body(role="menu")
+            tabset
+                tab(heading="{{tag.name}}",ng-repeat="tag in tags_title track by $index")
+                    label
+                        h5(ng-if="tag.name != '铃声'")
+                            a(ng-repeat="t in tag.children",ng-click="selectSearchTag(t)",ng-if="t.tagLevel == 1 && (t.pId != 1000129663)") {{t.name}}
+                            a(ng-repeat="t in tag.children",ng-click="selectSearchTag(t);",ng-if="t.tagLevel != 1 && (t.id == 1000129663)") {{t.name}}
+                        h5(ng-if="tag.name == '铃声'")
+                            a(ng-click="selectSearchTag(tag)")  {{tag.name}}
+    input.form-control(type="text",placeholder="输入标签搜索",ng-model="filterTag",
+    uib-typeahead="tag as tag.name for tag in songFilterTagTree | filter:{name:$viewValue}",
+    typeahead-focus-first="false",typeahead-on-select="selectSearchTag($item)")

@@ -1,0 +1,74 @@
+<!--Created by hao.cheng on 2016/8/31.-->
+<div ng-if="check" ng-class="{'examineOp':app.checkStyle}" ng-mouseleave="app.checkStyle = !app.checkStyle" class="examine">
+   <div class="panel-body">
+      <form class="form-horizontal">
+         <div class="form-group">
+            <label class="col-sm-1 control-label">抽查操作</label>
+            <div class="col-sm-2">
+               <select ng-model="$parent.$parent.ckResult" ng-init="$parent.$parent.ckResult = '0'" class="form-control input-sm">
+                  <option value="0">合格</option>
+                  <option value="1">可优化</option>
+                  <option value="2">不合格</option>
+               </select>
+            </div>
+         </div>
+         <div class="form-group">
+            <label class="col-sm-1 control-label">抽查意见</label>
+            <div class="col-sm-8">
+               <textarea ng-model="$parent.$parent.ckSuggest" style="height: 100px;" placeholder="请输入抽查意见" class="form-control"></textarea>
+            </div>
+         </div>
+         <div class="form-group">
+            <label class="col-sm-1 control-label">错误分类</label>
+            <label class="col-sm-1 control-label">人员侧</label>
+            <div class="col-sm-6">
+               <div class="checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" ng-model="$parent.$parent.ckTagError.tag1" value="1" />
+                     <span class="fa fa-check"></span>
+                  </label>
+               </div>
+               <span>人工错误</span>
+               <div class="checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" ng-model="$parent.$parent.ckTagError.tag2" value="2" />
+                     <span class="fa fa-check"></span>
+                  </label>
+               </div>
+               <span>产品错误</span>
+               <div class="checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" ng-model="$parent.$parent.ckTagError.tag3" value="3" />
+                     <span class="fa fa-check"></span>
+                  </label>
+               </div>
+               <span>业务不熟</span>
+            </div>
+         </div>
+         <div class="form-group">
+            <label class="col-sm-1 control-label"></label>
+            <label class="col-sm-1 control-label">产品侧</label>
+            <div class="col-sm-6">
+               <div class="checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" ng-model="$parent.$parent.ckTagError.tag4" value="4" />
+                     <span class="fa fa-check"></span>
+                  </label>
+               </div>
+            </div>
+         </div>
+         <div class="form-group">
+            <label class="col-sm-1 control-label"></label>
+            <label class="col-sm-1 control-label">运营侧</label>
+            <div class="col-sm-6">
+               <div class="checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" ng-model="$parent.$parent.ckTagError.tag5" value="5" />
+                     <span class="fa fa-check"></span>
+                  </label>
+               </div>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

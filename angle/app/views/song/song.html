@@ -1,0 +1,354 @@
+<style>
+    /*.ng-isolate-scope{*/
+        /*background: #fff;*/
+    /*}*/
+    .nav{
+        margin-bottom: 0;
+    }
+    .tab-content{
+        padding-top: 5px;
+    }
+    .tab-content .tab-pane h5{
+        margin: 0 0 0 10px;
+    }
+    .search-condition{
+        background-color: rgb(255, 255, 255);
+    }
+    .widget-body-search{
+        padding: 10px;
+        background-color: rgb(255, 255, 255) !important;
+    }
+    .search-condition .name{
+        padding: 5px;
+    }
+    .search-condition .content{
+        padding: 5px 0px;
+    }
+    .search-condition .content input{
+        width: 200px;
+    }
+    .search-condition .content select{
+        width: 214px;
+        height: 30px;
+        /*border: 1px solid #000000;*/
+    }
+    .pointer{
+        cursor: pointer !important;
+    }
+</style>
+<div class="container-fluid">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>所有歌曲展示
+            </h3>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+    <!-- END PAGE HEADER-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default" id="panelDemo1">
+                <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" >条件查询<paneltool tool-collapse="tool-collapse"></paneltool></div>
+                <div collapse="panelDemo1" class="panel-wrapper">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="param-11" class="col-sm-1 control-label" >版权ID</label>
+                                <div class="col-sm-2">
+                                    <input id="param-11" type="text" placeholder="请输入版权ID" class="form-control input-sm" ng-model="form.copyrightId">
+                                </div>
+                                <label for="param-name" class="col-sm-1 control-label" >歌曲ID</label>
+                                <div class="col-sm-2">
+                                    <input id="param-name" type="text" placeholder="请输入歌曲ID" class="form-control input-sm" ng-model="form.songIds" valid-number>
+                                </div>
+                                <label for="param-artist" class="col-sm-1 control-label" >歌曲名称</label>
+                                <div class="col-sm-2">
+                                    <input id="param-artist" class="form-control input-sm" ng-model="form.songKeyword" type="text" placeholder="请输入歌曲名称">
+                                </div>
+                                <label for="param-3" class="col-sm-1 control-label" >歌手名称</label>
+                                <div class="col-sm-2">
+                                    <input id="param-3" type="text" placeholder="请输入歌手名称" class="form-control input-sm" ng-model="form.artistKeyword" style="width: 60%;float: left;"autocomplete="off"
+                                           typeahead-focus-first="false"
+                                           uib-typeahead="data.artistName as data.allstr for data in getArtistInputSearch($viewValue)"
+                                           typeahead-on-select="addAccurateArtist($item)">
+                                    <label class="col-sm-1 control-label" >
+                                        <span class='label label-default tag' ng-show="form.artistId">{{form.accurateArtist}}&nbsp;<em class="fa fa-remove" ng-click="removeAccurateSearch();"></em></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="param-4" class="col-sm-1 control-label" >专辑名称</label>
+                                <div class="col-sm-2">
+                                    <input id="param-4" type="text" placeholder="请输入专辑名称" class="form-control input-sm" ng-model="form.albumKeyword">
+                                </div>
+                                <label class="col-sm-1 control-label" >状态</label>
+                                <div class="col-sm-2">
+                                    <select ng-model="form.status" class="form-control input-sm">
+                                        <option value="">全部</option>
+                                        <!--<option value="-1">未关联曲库</option>-->
+                                        <option value="10">正常</option>
+                                        <option value="12">待审核</option>
+                                        <option value="111">审核未通过</option>
+                                        <option value="30">禁用</option>
+                                        <option value="14">审核中</option>
+                                    </select>
+                                </div>
+                                <label for="param-6" class="col-sm-1 control-label" >词作者</label>
+                                <div class="col-sm-2">
+                                    <input id="param-6" type="text" placeholder="请输入词作者" class="form-control input-sm" ng-model="form.lyricPerson">
+                                </div>
+                                <label for="param-7" class="col-sm-1 control-label" >曲作者</label>
+                                <div class="col-sm-2">
+                                    <input id="param-7" type="text" placeholder="请输入曲作者" class="form-control input-sm" ng-model="form.composePerson">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="param-8" class="col-sm-1 control-label" >指挥者</label>
+                                <div class="col-sm-2">
+                                    <input id="param-8" type="text" placeholder="请输入指挥者" class="form-control input-sm" ng-model="form.conductor">
+                                </div>
+                                <label for="param-9" class="col-sm-1 control-label" >演奏者</label>
+                                <div class="col-sm-2">
+                                    <input id="param-9" type="text" placeholder="请输入演奏者" class="form-control input-sm" ng-model="form.player">
+                                </div>
+                                <label for="param-10" class="col-sm-1 control-label" >最后编辑</label>
+                                <div class="col-sm-2" ng-controller="taskCtrl">
+                                    <input id="param-10" class="form-control input-sm" placeholder="请输入最后编辑" ng-model="form.lastEditSearch" type="text"
+                                           uib-typeahead="user.name as user.allname for user in users | filter:{allname:$viewValue}" typeahead-on-select="selectLastEdit($item)" autocomplete="off">
+                                </div>
+                                <label for="param-12" class="col-sm-1 control-label" >项目名称</label>
+                                <div class="col-sm-2">
+                                    <input id="param-12" type="text" placeholder="请输入项目名称" class="form-control input-sm" ng-model="form.projectName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label" >抽查状态</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control input-sm" ng-model="form.ckResult">
+                                        <option value="" selected>请选择</option>
+                                        <option value="1">可优化</option>
+                                        <option value="2">不合格</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 control-label" >人工评分</label>
+                                <div class="col-sm-1">
+                                    <input type="text" placeholder="起始" class="form-control input-sm" ng-model="form.mscoreMin" decimal>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="text" placeholder="截止" class="form-control input-sm" ng-model="form.mscoreMax" decimal>
+                                </div>
+                                <label class="col-sm-1 control-label" >热度评分</label>
+                                <div class="col-sm-1">
+                                    <input type="text" placeholder="起始" class="form-control input-sm" ng-model="form.hotScoreMin" decimal>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="text" placeholder="截止" class="form-control input-sm" ng-model="form.hotScoreMax" decimal>
+                                </div>
+                                <label class="col-sm-1 control-label" >已打标签</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control input-sm" ng-model="form.istag">
+                                        <option value="" selected=>请选择</option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <span class="input-group-btn" dropdown="dropdown"  auto-close="outsideClick">
+                                            <button dropdown-toggle=""  type="button" class="btn btn-default" >标签<b class="caret"></b></button>
+                                            <div role="menu" class="dropdown-menu animated fadeInUp panel-body">
+                                                <tabset>
+                                                    <tab heading="{{tag.name}}" ng-repeat="tag in tags_title">
+                                                        <label><h5 ng-if="tag.name != '铃声'">
+                                                            <a ng-repeat="t in tag.children" ng-click="songSelectSearchTag(t)" ng-if="t.tagLevel == 1 && (t.pId != 1000129663)">{{t.name}}</a>
+                                                            <a ng-repeat="t in tag.children" ng-click="songSelectSearchTag(t);" ng-if="t.tagLevel != 1 && (t.id == 1000129663)">{{t.name}}</a>
+                                                        </h5>
+                                                        <h5 ng-if="tag.name == '铃声'">
+                                                            <a ng-click="songSelectSearchTag(tag)">{{tag.name}}</a>
+                                                        </h5>
+                                                        </label>
+                                                    </tab>
+                                                </tabset>
+                                            </div>
+                                        </span>
+                                    <!--<span class="input-group-btn" uib-dropdown dropdown-append-to-body auto-close="outsideClick">-->
+                                        <!--<button uib-dropdown-toggle class="btn btn-default">标签<b class="caret"></b></button>-->
+                                        <!--<div role="menu" uib-dropdown-menu aria-labelledby="btn-append-to-to-body"  class="panel-body dropdown-menu animated fadeInUp col-lg-8">-->
+                                            <!--<tabset>-->
+                                                <!--<tab heading="{{tag.name}}" ng-repeat="tag in tags_title">-->
+                                                    <!--<label><h5>-->
+                                                        <!--<a ng-repeat="t in tag.children" ng-click="songSelectSearchTag(t)">{{t.name}}</a>-->
+                                                    <!--</h5></label>-->
+                                                <!--</tab>-->
+                                            <!--</tabset>-->
+                                        <!--</div>-->
+                                    <!--</span>-->
+                                        <input type="text" placeholder="输入标签搜索" class="form-control" ng-model="filterTag" uib-typeahead="tag as tag.name for tag in songFilterTagTree | filter:{name:$viewValue}"
+                                               typeahead-focus-first="false" typeahead-on-select="songSelectSearchTag($item)">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+
+                                </div>
+                                <label class="col-sm-8 control-label" style="text-align: left;">
+                                    <span class='label label-default tag' ng-repeat="tag in form.searchTag">
+                                        <i>{{tag.name}}</i>&nbsp;<em class="fa fa-remove" ng-click="songTagRemove(tag)"></em>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <div class="btn-group" >
+                                        <button class="btn btn-default btn-sm" data-ng-click="submit()">查询</button>
+                                        <button class="btn btn-default btn-sm" data-ng-click="reset()">重置</button>
+                                        <!--<button class="btn btn-default btn-sm" data-ng-click="addToCheckTask(datas)">添加到抽查</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BEGIN PAGE CONTENT-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default" id="panelDemo2">
+                <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo2}">歌曲列表 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+                <div collapse="panelDemo2" class="panel-wrapper">
+                    <div class="panel-body">
+                        <div class="btn-group"  ng-controller="ModalCtrl">
+                            <button type="button" class="btn btn-pill-left btn-default disabled btn-sm" >导入</button>
+                            <button type="button" class="btn btn-default disabled btn-sm" >导出</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="new('song');">新建</button>
+                            <button type="button" class="btn btn-default btn-sm" bacth-update-btn>批量修改</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="assignToTask('song', datas);">指派</button>
+                            <button type="button" class="btn btn-pill-right btn-default btn-sm" merge-button >合并</button>
+                        </div>
+                        <div class="btn-group" dropdown="dropdown" auto-close="outsideClick">
+                            <button type="button" class="btn btn-pill-left btn-default btn-sm" ng-click="showAllHtmlElem()">全选</button>
+                            <button dropdown-toggle=""  type="button" class="btn btn-pill-right btn-default btn-sm" >已选<b class="caret"></b></button>
+                            <ul role="menu" class="dropdown-menu animated swing panel-body">
+                                <li class="chooseth" ng-repeat="html in song_html" style="" ng-if="$index != 1">
+                                    <input ng-model="html.checked" checked type="checkbox" class="checkboxes" ng-click="storageTableShow();">
+                                    {{html.name}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div ng-include="'app/views/modals/modal-assigntotask.html'"></div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th style="width: 24px; padding-right: 0px;" >
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-click="checkAll(datas)">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th style="width: 40px;">
+                                        序号
+                                    </th>
+                                    <th ng-class="{'hide':!song_html[0].checked}" style="width: 40px;">
+                                        {{song_html[0].name}}
+                                    </th>
+                                    <!--<th ng-class="{'hide':!song_html[1].checked}" style="width: 75px;">-->
+                                        <!--{{song_html[1].name}}-->
+                                    <!--</th>-->
+                                    <th ng-class="{'hide':!song_html[2].checked}" style="width: 60px;">
+                                        {{song_html[2].name}}
+                                    </th>
+                                    <th ng-class="{'hide':!song_html[3].checked}" style="width: 140px;">
+                                        {{song_html[3].name}}
+                                    </th>
+                                    <th ng-class="{'hide':!song_html[4].checked}" style="width: 140px;">
+                                        {{song_html[4].name}}
+                                    </th>
+                                    <th ng-class="{'hide':!song_html[5].checked}" style="width: 140px;">
+                                        {{song_html[5].name}}
+                                    </th>
+                                    <th ng-class="{'hide':!song_html[6].checked}" style="width: 50px;">
+                                        {{song_html[6].name}}
+                                    </th>
+                                    <th ng-class="{'hide':!song_html[7].checked}" style="width: 60px;">
+                                        {{song_html[7].name}}
+                                    </th>
+                                    <th style="width: 100px;">
+                                        操作
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                <tbody >
+                                <tr ng-repeat="data in datas track by $index" class="gradeX odd">
+                                    <td >
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="data.isCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<input type="checkbox" class="checkboxes" ng-click="checkOne(data, songs)"  ng-model="data.checked">-->
+                                    </td>
+                                    <td>
+                                        {{$index + 1}}
+                                    </td>
+                                    <td ng-class="{'hide':!song_html[0].checked}">
+                                        <ng-include src="'app/views/partials/data-status-tpl.html'"></ng-include>
+                                    </td>
+                                    <!--<td ng-class="{'hide':!song_html[1].checked}">-->
+                                        <!--{{data.cids.copyrightId}}-->
+                                    <!--</td>-->
+                                    <td ng-class="{'hide':!song_html[2].checked}">
+                                        {{data.songId}}
+                                    </td>
+                                    <td ng-class="{'hide':!song_html[3].checked}">
+                                        <play-icon></play-icon>
+                                        <td-song></td-song>
+                                        <td-song-search></td-song-search>
+                                    </td>
+                                    <td ng-class="{'hide':!song_html[4].checked}">
+                                        <td-albums></td-albums>
+                                    </td>
+                                    <td ng-class="{'hide':!song_html[5].checked}">
+                                        <td-artists></td-artists>
+                                    </td>
+                                    <td ng-class="{'hide':!song_html[6].checked}">
+                                        {{data.playTime}}
+                                    </td>
+                                    <td ng-class="{'hide':!song_html[7].checked}">
+                                        {{data.language}}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" ng-click="editJump(data)" ng-if="(data.status == '10' || data.status == '11' || data.status == '12' || data.status == '111') && data.mstat != 1 && !data.lockUser"
+                                           ng-right-click="rightClick(data);">编辑</a>
+                                        <a ng-click="editJump(data);" ng-right-click="rightClick(data);" ng-if="data.lockUser && (user.id == data.lockUser.uid)">{{data.lockUser.name}}</a>
+                                        <span ng-if="data.lockUser && (user.id != data.lockUser.uid)">{{data.lockUser.name}}</span>
+                                        <!--<a href="javascript:;" ng-click="extractedMaterial(data.songId, 'song')" title="重新抽取素材" >抽取</a>-->
+                                        <a title="拆分" ng-click="separate('song',data.songId);" target="_blank" ng-right-click="separate('song',data.songId);">拆分</a>
+                                        <a title="打标签" ng-click="tagging(data.songId, '_self');" ng-right-click="tagging(data.songId, '_blank');" ng-if="!data.tagLockUser">打标签</a>
+                                        <a ng-click="tagging(data.songId, '_self');" ng-right-click="tagging(data.songId, '_blank');" ng-if="data.tagLockUser && (user.id == data.tagLockUser.uid)">{{data.tagLockUser.name}}</a>
+                                        <span ng-if="data.tagLockUser && (user.id != data.tagLockUser.uid)">{{data.tagLockUser.name}}</span>
+                                        <operate-data></operate-data>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <ng-include src="'app/views/partials/pagination.html'"></ng-include>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</div>

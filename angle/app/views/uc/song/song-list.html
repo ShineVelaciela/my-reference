@@ -1,0 +1,66 @@
+<!--Created by YuChunzhuo-Dev on 2016/8/22.-->
+<div class="repsonsive">
+   <table class="table table-striped">
+      <thead>
+         <tr>
+            <th style="width: 50px">
+               <check-all-btn></check-all-btn>
+            </th>
+            <th style="width: 40px;">序号</th>
+            <th style="width: 40px;">状态</th>
+            <th style="width: 100px;">歌曲ID</th>
+            <th style="width: 120px;">歌曲名</th>
+            <th style="width: 120px;">专辑名</th>
+            <th style="width: 120px;">艺人名</th>
+            <th style="width: 60px;">时长</th>
+            <th style="width: 60px;" ng-if="module == 3">语言</th>
+            <th style="width: 100px;" ng-if="module == 0">创建时间</th>
+            <th style="width: 100px;" ng-if="module == 1 || module == '-1,1,2'">工单状态</th>
+            <th style="width: 80px;" ng-if="module != 0 &amp;&amp; module != '-1,1,2' &amp;&amp; userRole == 'fzr'">用户</th>
+            <th style="width: 120px;" ng-if="module == '-1,1,2'">操作</th>
+            <th style="width: 100px;" ng-if="module != 0 ">分配时间</th>
+            <th style="width: 100px;" ng-if="module == 3">完成时间</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr ng-repeat="data in datas track by $index" class="gradeX odd">
+            <td>
+               <div class="checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" ng-model="data.isCheck" />
+                     <span class="fa fa-check"></span>
+                  </label>
+               </div>
+            </td>
+            <td>{{$index+1}}</td>
+            <td>
+               <ng-include src="'app/views/partials/data-status-tpl.html'"></ng-include>
+            </td>
+            <td>{{data.songId}}</td>
+            <td>
+               <play-icon></play-icon>
+               <td-song></td-song>
+            </td>
+            <td>
+               <td-albums></td-albums>
+            </td>
+            <td>
+               <td-artists></td-artists>
+            </td>
+            <td>{{data.playTime}}</td>
+            <td ng-if="module == 3">{{data.lang}}</td>
+            <td ng-if="module == 0">{{data.createTime | date : 'yyyy-MM-dd'}}</td>
+            <td ng-if="module == 1 || module == '-1,1,2'">
+               <ng-include src="'app/views/partials/table/td-status-task.html'"></ng-include>
+            </td>
+            <td ng-if="module != 0 &amp;&amp; module != '-1,1,2' &amp;&amp; userRole == 'fzr'">{{data.edit.name}}</td>
+            <td ng-if="module == '-1,1,2'">
+               <ng-include src="'app/views/partials/table/td-edit.html'"></ng-include>
+            </td>
+            <td ng-if="module != 0 ">{{data.distributionTime | date : 'yyyy-MM-dd'}}</td>
+            <td ng-if="module == 3">{{data.completeTime | date : 'yyyy-MM-dd'}}</td>
+         </tr>
+      </tbody>
+   </table>
+   <ng-include src="'app/views/partials/pagination.html'"></ng-include>
+</div>

@@ -1,0 +1,18 @@
+<!--Created by kiracheng on 2016/7/4.-->
+<div class="input-group">
+   <span dropdown="dropdown" auto-close="outsideClick" class="input-group-btn">
+      <button dropdown-toggle="" type="button" class="btn btn-default"> 标签<b class="caret"></b></button>
+      <div role="menu" class="dropdown-menu animated fadeInUp panel-body">
+         <tabset>
+            <tab heading="{{tag.name}}" ng-repeat="tag in tags_title track by $index">
+               <label>
+                  <h5 ng-if="tag.name != '铃声'"><a ng-repeat="t in tag.children" ng-click="selectSearchTag(t)" ng-if="t.tagLevel == 1 &amp;&amp; (t.pId != 1000129663)">{{t.name}}</a><a ng-repeat="t in tag.children" ng-click="selectSearchTag(t);" ng-if="t.tagLevel != 1 &amp;&amp; (t.id == 1000129663)">{{t.name}}</a></h5>
+                  <h5
+                     ng-if="tag.name == '铃声'"><a ng-click="selectSearchTag(tag)"> {{tag.name}}</a></h5>
+               </label>
+            </tab>
+         </tabset>
+      </div>
+   </span>
+   <input type="text" placeholder="输入标签搜索" ng-model="filterTag" uib-typeahead="tag as tag.name for tag in songFilterTagTree | filter:{name:$viewValue}" typeahead-focus-first="false" typeahead-on-select="selectSearchTag($item)" class="form-control" />
+</div>

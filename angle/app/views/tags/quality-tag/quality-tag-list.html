@@ -1,0 +1,90 @@
+<!--Created by YuChunzhuo on 2016/8/26.
+-->
+<style>
+   tr.gradeX.odd.font-center {
+      height: 70px;
+   }
+   
+   tr.gradeX.odd.font-center td {
+      text-align: center;
+   }
+</style>
+<div class="repsonsive">
+   <div style="float: right;margin-right: 50px;" class="btn-group">
+      <button ng-click="changeTagsStatus(datas, 1)" class="btn btn-default btn-sm">通过</button>
+      <button ng-click="changeTagsStatus(datas, -1)" class="btn btn-default btn-sm">禁用</button>
+   </div>
+   <table class="table table-striped">
+      <thead>
+         <tr>
+            <th style="width: 25px">
+               <check-all-btn></check-all-btn>
+            </th>
+            <th style="width: 25px;">序号</th>
+            <th style="width: 50px;">分类</th>
+            <th style="width: 50px;">歌曲ID</th>
+            <th style="width: 120px;">歌曲名</th>
+            <th style="width: 120px;">艺人名</th>
+            <th style="width: 40px;">热度评分</th>
+            <th style="width: 40px;">标签</th>
+            <th style="width: 33px;">权重</th>
+            <th style="width: 25px;">状态</th>
+            <!--th(style="width: 35px;") 最新值-->
+            <!--th(style="width: 35px;") 最热值-->
+            <!--th(style="width: 35px;") 综合值-->
+            <th style="width: 70px;">操作</th>
+            <th style="width: 40px;">用户</th>
+            <th style="width: 93px;">操作时间</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr ng-if="datas.length == 0" class="gradeX odd font-center">
+            <td colspan="16">当前条件没有数据</td>
+         </tr>
+         <tr ng-repeat="data in datas track by $index" ng-init="data.isCheck = false" class="gradeX odd">
+            <td>
+               <div class="checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" ng-model="data.isCheck" />
+                     <span class="fa fa-check"></span>
+                  </label>
+               </div>
+            </td>
+            <td>{{$index+1}}</td>
+            <td ng-switch="data.copyrightCategory">
+               <span ng-switch-when="1">正式未过期</span>
+               <span ng-switch-when="2">正式已过期</span>
+               <span ng-switch-when="3">互联网引入</span>
+               <span ng-switch-when="4">未引入</span>
+            </td>
+            <td>{{data.songId}}</td>
+            <td>
+               <play-icon></play-icon>
+               <td-song></td-song>
+               <td-song-search></td-song-search>
+            </td>
+            <td>
+               <td-artists></td-artists>
+            </td>
+            <td>{{data.hotScore}}</td>
+            <td>{{data.tagName}}</td>
+            <td>{{data.weight}}</td>
+            <td ng-switch="data.tagStatus">
+               <span ng-switch-when="0">默认</span>
+               <span ng-switch-when="1">通过</span>
+               <span ng-switch-when="-1">禁用</span>
+            </td>
+            <!--td {{data.publistTime | date: 'yyyy-MM-dd'}}-->
+            <!--td {{data.hotScore}}-->
+            <!--td 综合值-->
+            <td><a ng-if="data.tagStatus != 1" ng-click="changeTagStatus(data)">通过</a>
+               <span></span><a ng-if="data.tagStatus != -1" ng-click="changeTagStatus(data)">禁用</a>
+               <span></span><a ng-if="orderType == 1 || orderType == 2" ng-click="qualityChangeOrder(data, orderType)" ng-controller="ModalCtrl">排序</a></td>
+            <td>{{data.editUser.name}}</td>
+            <td>{{data.utime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+         </tr>
+      </tbody>
+   </table>
+   <ng-include src="'app/views/partials/pagination.html'"></ng-include>
+</div>
+<div ng-include="'app/views/modals/modal-order.html'"></div>

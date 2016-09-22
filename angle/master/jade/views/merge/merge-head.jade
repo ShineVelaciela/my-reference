@@ -1,0 +1,40 @@
+//
+   Created by kiracheng on 2016/7/14.
+div.row-fluid
+    h3.page-title  媒资库
+        span.divider /
+        span(ng-if="form.type == 'artist'") 艺人合并
+        span(ng-if="form.type == 'album'") 专辑合并
+        span(ng-if="form.type == 'song'") 歌曲合并
+div
+    div.row
+        div.col-lg-12
+            div.panel.panel-default(id="paneDemo1")
+                div.panel-heading(ng-class="{'panel-heading-collapsed':paneDemo1}") 条件查询
+                    paneltool(tool-collapse="tool-collapse")
+                div.panel-wrapper(collapse="paneDemo1")
+                    div.panel-body
+                        form.form-horizontal
+                            div.form-group
+                                label.col-sm-1.control-label 类型
+                                div.col-sm-2
+                                    select.form-control.input-sm(ng-model="form.type",ng-init="form.type = 'artist'",ng-change="changeMergeType(form.type);")
+                                        option(value="artist") 艺人
+                                        option(value="album") 专辑
+                                        option(value="song") 歌曲
+                                label.col-sm-1.control-label 门户ID
+                                div.col-sm-2
+                                    input.form-control.input-sm(type="text",placeholder="请输入门户ID",ng-model="form.ids")
+                            div.form-group
+                                div.col-sm-4
+                                    div.btn-group
+                                        button.btn.btn-default.btn-sm(ng-click="submit();") 确认添加
+                                        button.btn.btn-default.btn-sm(ng-click="reset();") 重置
+    div.row
+        div.col-lg-12
+            div.panel.panel-default(id="paneDemo2")
+                div.panel-heading(ng-class="{'panel-heading-collapsed':paneDemo2}") 合并数据列表
+                    paneltool(tool-collapse="tool-collapse")
+                div.panel-wrapper(collapse="paneDemo2")
+                    div.panel-body
+                        div.table-responsive(ui-view="data-list")

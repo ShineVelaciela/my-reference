@@ -1,0 +1,3 @@
+<!--Created by hao.cheng on 2016/8/23.--><a ng-click="edit(data, '_self');" ng-right-click="edit(data, '_blank');" ng-if="data.status != 30 &amp;&amp; !data.lockUser">编辑&nbsp;</a><a ng-click="edit(data, '_self');" ng-right-click="edit(data, '_blank');" ng-if="data.status != 30 &amp;&amp; data.lockUser &amp;&amp; (user.id == data.lockUser.uid)">{{data.lockUser.name}}</a>
+<span
+   ng-if="data.lockUser &amp;&amp; (user.id != data.lockUser.uid)">{{data.lockUser.name}}</span>

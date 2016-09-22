@@ -1,0 +1,491 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <link href="../../jplayer/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../../dialog/sweet-alert.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/style.css">
+    <script type="text/javascript" src="../../js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="../../jplayer/jquery.jplayer.min.js"></script>
+    <script type="text/javascript" src="../../jplayer/jplayer.playlist.min.js"></script>
+    <script src="../../js/h5utils.js"></script>
+    <script src="../../js/lrc-min.js"></script>
+    <script src="../../js/constants.js"></script>
+    <script src="../../dialog/sweet-alert.min.js"></script>
+    <style>
+        #body {
+            background: #f7f7f7 url("../../img/body-bg.png");
+        }
+
+        .jp-audio {
+            width: 720px;
+        }
+
+        ul, ol, dl {
+            list-style: none;
+        }
+
+        .music_box {
+            margin: 50px auto;
+            width: 422px;
+        }
+
+        .content {
+            width: 302px;
+            height: 400px;
+            overflow: hidden;
+            padding: 10px;
+            background: #ccc;
+            border: 1px solid #009be3;
+            border-left: none;
+            overflow-y: auto;
+        }
+
+        #lrc_list {
+            margin: 10px auto;
+            background: #ccc;
+        }
+
+        #lrc_list li {
+            font: normal 14px/2.1 'microsoft yahei';
+            text-align: center;
+        }
+
+        #lrc_list .ui-lrc-current{
+            color: red;
+            font-weight: bold;
+        }
+        #lrc_list li.hover {
+            color: red;
+            font-weight: bold;
+        }
+        .jp-toggles{
+            line-height: 17px;
+            width: 185px !important;
+        }
+        .jp-toggles a{
+            color: #009be3;
+            font-size: 12px;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+        textarea{
+            overflow: hidden;
+            background: #ccc;
+            border: none;
+            font-size: 13px;
+            font-family: Verdana, Arial, sans-serif;
+            line-height: 18px;
+        }
+        .jp-playlist li:hover{
+            box-shadow: 0 0 5px;
+            transition: all 0.2s ease 0s;
+            z-index: 11;
+            border: none;
+        }
+        .jp-playlist-current{
+            background-color: #CBE8F6;
+        }
+    </style>
+    <script type="text/javascript">
+        var flag;
+        var lrc_map = {};
+        //<![CDATA[
+        $(document).ready(function () {
+//      setCookie('audioWindow','audioWindow');
+//      document.cookie = 'audioWindow' + '=' + 'audioWindow';
+            myPlaylist = new jPlayerPlaylist({
+                jPlayer: "#jquery_jplayer_1",
+                cssSelectorAncestor: "#jp_container_1"
+            }, [], {
+                swfPath: "${pageContext.request.contextPath}/resources/jplayer",
+                supplied: "oga, mp3",
+                wmode: "window",
+                useStateClassSkin: true,
+                autoBlur: false,
+                smoothPlayBar: true,
+                keyEnabled: true,
+                playlistOptions: {
+                    enableRemoveControls: true
+                },
+                timeupdate: function (event) {
+                    if (event.jPlayer.status.currentTime == 0) {
+                        time = "";
+                    } else {
+                        time = event.jPlayer.status.currentTime;
+                    }
+                },
+                play: function (event) {
+                    //点击开始方法调用lrc。start歌词方法 返回时间time
+//                    console.log(myPlaylist.playlist[myPlaylist.current]);
+                    var artist = myPlaylist.playlist[myPlaylist.current].artist;
+                    var songId = artist.substring(artist.lastIndexOf('&nbsp;') + 6,artist.lastIndexOf('<a href'));
+//                    console.log('songId:'+songId);
+                    var lrcNum = myPlaylist.current;
+                    console.log(lrcNum);
+                    $.ajax({
+                        type: 'get',
+                        url: http_url + '/song/lrc/'+songId+'.json',
+                        dataType: 'json',
+                        data: {},
+                        success: function (res) {
+                            if(res.data.length < 1){
+                                $('#lrc_list').html('<li>暂无歌词...</li>');
+                                return;
+                            }
+                            lrc_map.lrcId = res.data[0].id;
+//                            console.log('onclick:'+$('.'+songId).attr('onclick'));
+                            $('.delete_'+songId).attr('onclick','deleteLrc('+res.data[0].id+')')
+//                            console.log(res.data[0].path);
+                            $.ajax({
+                                type: 'get',
+                                url: http_url + '/slrc/' + res.data[0].path,
+                                dataType: 'text',
+                                data: {},
+                                success: function (results) {
+                                    //解决txt文本的歌词无法显示的问题
+                                    var regx1 = "\\[\\d{2}:\\d{2}.\\d{2}\\]";   //匹配[00:00.00]
+                                    var regx2 = "\\[\\d{2}:\\d{2}\\]";          //匹配[00:00]
+                                    if(results.match(regx1) == null || results.match(regx2 == null)){
+                                        $('#lrc_list').html('<textarea autoHeight="true">'+results+'</textarea>');
+                                        // textarea高度自适应
+                                        $.fn.autoHeight = function(){
+                                            function autoHeight(elem){
+                                                elem.style.height = 'auto';
+                                                elem.style.height = elem.scrollHeight + 'px';
+                                                elem.style.scrollTop = elem.scrollHeight + 'px'; //防抖动
+                                            }
+
+                                            this.each(function(){
+                                                autoHeight(this);
+                                                $(this).on('keydown', function(){
+                                                    autoHeight(this);
+                                                });
+                                            });
+                                        }
+                                        $('textarea[autoHeight]').autoHeight(this);
+                                    }else{
+                                        $.lrc.start(results, function () {
+                                            return time;
+                                        });
+                                    }
+//                                    $.lrc.start(results, function () {
+//                                        return time;
+//                                    });
+                                },
+                                error: function (results) {
+
+                                }
+                            })
+                        }
+                    })
+                },
+                ended: function (event) {
+                    $("#lrc_list").removeAttr("style").html("<li>歌曲播放完毕！</li>");
+                }
+            });
+
+            $('#player_up').click(function () {
+                if ($('.jp-playlist').css('display') == 'none') {
+                    $('.jp-playlist').show();
+                    $('#player_up').removeClass('icon-chevron-up');
+                    $('#player_up').addClass('icon-chevron-down');
+                } else {
+                    $('.jp-playlist').hide();
+                    $('#player_up').removeClass('icon-chevron-down');
+                    $('#player_up').addClass('icon-chevron-up');
+                }
+            });
+            $('#player_close').click(function () {
+                $('#jp_container_1').addClass('hide');
+            });
+            //监听获取本地存储歌曲信息
+            addEvent(window, 'storage', function (event) {
+                console.log(event.key);
+                if (event.key == 'audioSong') {
+                    console.log('audioSong:'+event.newValue);
+                    var value = event.newValue;
+                    var copyId = value.substring(0,value.lastIndexOf(','));
+                    var songId = value.substring(value.lastIndexOf(',') + 1);
+                    getSong(copyId,songId);
+                }else if(event.key == 'batchSong'){
+                    console.log('batchSong:'+event.newValue);
+                    var str = event.newValue;
+                    var strs= new Array(); //定义一数组
+                    strs = str.split(',');
+                    var songId = '';
+                    var copyId = '';
+                    for(var i = 0; i < strs.length; i++){
+                        songId = strs[i].substring(0,strs[i].lastIndexOf('-'));
+                        copyId = strs[i].substring(strs[i].lastIndexOf('-')+1);
+                        getSong(copyId,songId);
+                    }
+                }
+                flag = 1;
+            });
+            if (flag != 1) {
+                //首先获取本地缓存的数据
+                var value = localStorage.getItem('audioSong');
+                if(value != null){
+                    var copyId = value.substring(0,value.lastIndexOf(','));
+                    var songId = value.substring(value.lastIndexOf(',') + 1);
+                    getSong(copyId,songId);
+                }
+                var str = localStorage.getItem('batchSong');
+                if(str != null){
+                    var strs= new Array(); //定义一数组
+                    strs = str.split(',');
+                    for(var i = 0; i < strs.length; i++){
+                        songId = strs[i].substring(0,strs[i].lastIndexOf('-'));
+                        copyId = strs[i].substring(strs[i].lastIndexOf('-')+1);
+                        getSong(copyId,songId);
+                    }
+                }
+            }
+        });
+        //]]>
+        //获取歌曲并添加歌曲
+        function getSong(copyId,songId) {
+            var lrcId = '';
+            var tp = '';
+            $.ajax({
+                type: 'get',
+                url: http_url + '/song/lrc/'+songId+'.json',
+                dataType: 'jsonp',
+                data: {},
+                success: function (res) {
+                    if(res.data.length < 1){
+                    }else{
+                        lrcId = res.data[0].id;
+                        console.log(lrcId);
+                    }
+                }
+            })
+            $.ajax({
+                url: 'http://218.200.230.40:18089/catalog/productioncatalog!getCopyrightPlayList.action',
+                data: 'copyrightFormBean.copyrightId=' + copyId,
+                dataType: 'jsonp',
+                type: 'get',
+                success: function (res) {
+                    if (res['result'] != undefined || res.length < 1) {
+//                        alert('暂无试听地址');
+                    } else {
+                        var type = ['全曲', '随身听', '振铃', '彩铃'];
+                        //优先选取全曲，然后随身听以此类推
+                        choose:
+                                for (var i = 0; i < type.length; i++) {
+                                    for (var j = 0; j < res.length; j++) {
+                                        if (res[j].title.indexOf(type[i]) != -1) {
+                                            $.ajax({
+                                                type: 'get',
+                                                url: http_url + '/song/lrc/'+songId+'.json',
+                                                dataType: 'jsonp',
+                                                data: {},
+                                                success: function (data) {
+                                                    if(data.data.length > 0){
+                                                        tp = data.data[0].tp;
+                                                    }
+                                                    var songList = {};
+                                                    songList.title = res[j].title;
+//                                            songList.artist = res[j].artist + '-<span style="color: #009be3;">'+songId + '&nbsp;</span>';
+                                                    songList.artist = res[j].artist + songId + '<a href="javascript:;" class="delete_'+songId+'" style="color: #009be3;margin-left: 10px;" onclick="deleteLrc('+lrcId+')">删除歌词</a><a style="color: #009be3;margin-left: 10px;" href="javascript:;" onclick="toTxt('+lrcId+','+songId+')">歌词转TXT</a><span class="'+songId+'">('+tp+')</span><input name="excel_check" type="checkbox" value="'+songId+'" style="margin-left: 10px;">';
+                                                    songList.mp3 = res[j].mp3;
+                                                    myPlaylist.add(songList);
+                                                    myPlaylist.play(-1);
+                                                }
+                                            })
+                                            break choose;
+                                        }
+                                    }
+                                }
+                    }
+                }
+            })
+        }
+
+    </script>
+    <style>
+        .overlay-dialog--animate {
+            animation: 300ms cubic-bezier(0.8, 0.02, 0.45, 0.91) 0s normal forwards 1 running scale-fade;
+            transform-origin: center bottom 0;
+        }
+    </style>
+</head>
+<body id="body">
+<div style="width:1052px;margin: auto;margin-top: 80px">
+    <div style="float: left;">
+        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+        <div id="jp_container_1" class="jp-audio overlay-dialog--animate" role="application" aria-label="media player "
+             style="margin: auto;z-index: 9999;max-height: 420px;overflow-y: auto;overflow-x: hidden;">
+            <div class="jp-type-playlist">
+                <div class="jp-gui jp-interface" style="position: fixed;width:720px;  border-bottom: 1px solid #ccc;">
+                    <a href="javascript:;"><i class="icon-remove-circle"
+                                              style="position:absolute;font-size: 20px;left: 3px"
+                                              id="player_close"></i></a>
+                    <a href="javascript:;"><i class="icon-chevron-down" style="position: absolute;right: 5px;"
+                                              id="player_up"></i></a>
+
+                    <div class="jp-controls">
+                        <button class="jp-previous" role="button" tabindex="0">previous</button>
+                        <button class="jp-play" role="button" tabindex="0">play</button>
+                        <button class="jp-next" role="button" tabindex="0">next</button>
+                        <button class="jp-stop" role="button" tabindex="0">stop</button>
+                    </div>
+                    <div class="jp-progress">
+                        <div class="jp-seek-bar">
+                            <div class="jp-play-bar"></div>
+                        </div>
+                    </div>
+                    <div class="jp-volume-controls">
+                        <button class="jp-mute" role="button" tabindex="0">mute</button>
+                        <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+                        <div class="jp-volume-bar">
+                            <div class="jp-volume-bar-value"></div>
+                        </div>
+                    </div>
+                    <div class="jp-time-holder">
+                        <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                        <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                    </div>
+                    <div class="jp-toggles">
+                        <button class="jp-repeat" role="button" tabindex="0">repeat</button>
+                        <button class="jp-shuffle" role="button" tabindex="0">shuffle</button>
+                        <a href="javascript:;" onclick="clearAll();">清空</a>
+                        <a href="javascript:;" onclick="downExcel();">导出</a>
+
+                        <a href="javascript:;" ><input type="checkbox" onclick="checkAll(this);">全选</a>
+                    </div>
+                </div>
+                <div class="jp-playlist" style="height: 419px;">
+                    <ul style="margin-top: 80px;">
+                        <li>&nbsp;</li>
+                    </ul>
+                </div>
+                <div class="jp-no-solution">
+                    <span>Update Required</span>
+                    To play the media you will need to either update your browser to a recent version or update your <a
+                        href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <ul id="lrc_list">
+            <li>暂无歌词...</li>
+        </ul>
+    </div>
+</div>
+<script>
+    function clearAll(){
+        myPlaylist.remove();
+        localStorage.removeItem('audioSong');
+        localStorage.removeItem('batchSong');
+    }
+    //删除歌词
+    function deleteLrc(lrcId){
+        $.ajax({
+            type: 'get',
+            url: http_url + '/song/ulrc/' +lrcId+'/-1.json',
+            dataType: 'jsonp',
+            data: {},
+            success: function (res) {
+                if(res.status == 1){
+//                    swal("删除成功", '', "success");
+                    alert('删除成功');
+                }else{
+                    alert('删除失败');
+//                    swal('删除失败','','error');
+                }
+//                console.log(res);
+            }
+        })
+    }
+    //歌词转txt
+    function toTxt(lrcId,songId){
+        if(lrcId == null || lrcId == undefined || lrcId == ''){
+            alert('暂无歌词');
+            return;
+        }
+        $.ajax({
+            type: 'get',
+            url: http_url + '/song/lrc/'+songId+'.json?tp=txt',
+            dataType: 'jsonp',
+            data: {},
+            success: function (res) {
+                if(res.data.length > 0){
+                    if(res.data[0].id == lrcId){
+                        alert('该歌词已是TXT');
+                    }else{
+                        //将lrc替换成txt地址
+                        $.ajax({
+                            type: 'get',
+                            url: http_url + '/song/ulrc/' +lrcId+'/-1.json',
+                            dataType: 'jsonp',
+                            data: {},
+                            success: function (res) {
+                            }
+                        })
+                    }
+                }else{
+                    //将lrc转成txt
+                    $.ajax({
+                        type: 'get',
+                        url: http_url + '/song/clrc/' +lrcId+'.json',
+                        dataType: 'jsonp',
+                        data: {},
+                        success: function (res) {
+                            if(res.status == 1){
+                                console.log($('.'+songId).text());
+                                $('.'+songId).text('(txt)')
+                                $('#lrc_list').css('margin-top','0');
+                                alert('转换成功');
+                            }else{
+                                alert('转换失败');
+                            }
+                        }
+                    })
+                }
+
+            }
+        })
+    }
+    //导出excel表格
+    function downExcel(){
+        var ids = "";
+        var tps = "";
+        $("input[name='excel_check']:checked").each(function () {
+            ids += $(this).val() + ",";
+            tps +=$(this).siblings('span').text() + ",";
+        })
+        if (ids == "" || $("input[name='excel_check']:checked").length < 1) {
+            alert("请选择要导出的数据");
+            return;
+        }
+        console.log(tps);
+        ids = ids.substring(0, ids.length - 1);
+        tps = tps.substring(0, tps.length - 1);
+        window.location.href = "/mls/song/downExcel?ids=" + ids + "&tps=" + tps;
+    }
+    //全选
+    function checkAll(obj){
+        console.log($(obj).is(':checked'));
+        var cs=$("input[type='checkbox']");
+        cs.checked = false;
+        if($(obj).is(':checked')){  //为true全选
+            $(obj).checked = true;
+            for(var i=0;i<cs.size();i++){
+                cs[i].checked = false;
+            }
+            for(var i=0;i<cs.size();i++){
+                cs[i].checked = true;
+            }
+        }else{//为false全取消
+            $(obj).checked = false;
+            for(var i=0;i<cs.size();i++){
+                cs[i].checked = false;
+            }
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<!--Created by hao.cheng on 2016/8/8.-->
+<div class="btn-group">
+   <button type="button" ng-click="taskSwitch(0,form.projectId);" ng-class="module == 0 ? 'active' : ''" ng-if="userRole == 'fzr'" class="btn btn-default btn-sm">未分配</button>
+   <button type="button" ng-click="taskSwitch(1,form.projectId);" ng-class="module == 1 ? 'active' : ''" ng-if="userRole == 'fzr'" class="btn btn-default btn-sm">已分配</button>
+   <button type="button" ng-click="taskSwitch('-1,1,2',form.projectId);" ng-class="module == '-1,1,2' ? 'active' : ''" class="btn btn-default btn-sm">未完成</button>
+   <button type="button" ng-click="taskSwitch(3,form.projectId);" ng-class="module == 3 ? 'active' : ''" class="btn btn-default btn-sm">已完成</button>
+</div>

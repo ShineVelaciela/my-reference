@@ -1,0 +1,133 @@
+<style>
+    #page {
+        margin-top: 20px;
+    }
+    .highcharts-container{
+        /*margin: auto;*/
+        float: left;
+    }
+    #artist_chart{
+        /*百分比对齐*/
+        box-sizing: border-box;
+    }
+    .column-container{
+        background-color: #FFFFFF;
+        margin: auto;
+        width: 99%;
+    }
+    .mar-top-20{
+        margin-top: 20px;
+    }
+    .column{
+        float: left;
+        /*padding-right: 10px;*/
+        padding-left: 5px;
+    }
+    .one-half{
+        /*width: 50%;*/
+        width: 10%;
+    }
+    .boxed-group{
+        position: relative;
+        /*border-radius: 3px;*/
+        margin-bottom: 30px;
+    }
+    .boxed-group>h3{
+        background-color: #f5f5f5;
+        margin: 0;
+        /*border-radius: 3px 3px 0 0;*/
+        /*border: 1px solid #d8d8d8;*/
+        border-bottom: 0;
+        padding: 9px 10px 10px;
+        font-size: 14px;
+        line-height: 17px;
+        display: block;
+    }
+    .boxed-group .boxed-group-inner {
+        padding: 0;
+        background: #fff;
+        /*border: 1px solid #d8d8d8;*/
+        /*border-bottom-left-radius: 3px;*/
+        /*border-bottom-right-radius: 3px;*/
+        color: #666;
+        font-size: 13px;
+        margin: 0;
+    }
+    .boxed-group-inner li{
+        overflow: auto;
+        /*background: #f5f5f5;*/
+    }
+    .mini-repo-list {
+        list-style: none;
+    }
+    .song{
+        float: left;
+        width: 100%;
+        padding: 5px 0;
+        margin-top: 10px;
+    }
+    .song:hover{
+        border-radius:3px;
+        background-color:#f9f9f9;
+    }
+    .song .image{
+        position: relative;
+        z-index: 3;
+        margin: 0 10px 0 20px;
+        float: left;
+        width: 55px;
+        height: 55px;
+        font-size: 0;
+    }
+    .song strong a{
+        font-size: 14px;
+        color: #333;
+    }
+    .song a{
+        line-height: 24px;
+        color: #999;
+    }
+    .info p{
+        text-align: center;
+    }
+    .image img {
+        height: 100%;
+        max-width: 100%;
+        width: 100%;
+        vertical-align: middle;
+        border: 0;
+    }
+</style>
+<div ng-controller="artist_chart" id="artist_chart">
+    <highchart config="artistChart"></highchart>
+    <div class="column-container">
+        <div class="mar-top-20">
+            <h4>{{tag}}-代表艺人</h4>
+            <div class="column one-half" ng-repeat="data in tag_datas">
+                <div class="boxed-group">
+                    <h3>{{data.tagName}}</h3>
+                    <ul class="boxed-group-inner mini-repo-list">
+                        <li ng-repeat="artist in data.artists">
+                            <div class="song" >
+                                <div class="image">
+                                    <a href="/mls/resources/pages/top/index.html#/artistInfo?artistId={{data.artistId}}" target="_blank"><img src="{{artist.imgUrl}}?100x100"></a>
+                                </span>
+                                    <i></i>
+                                    <b title="播放"></b>
+                                </div>
+                                <div class="info">
+                                    <!--<p style="width:150px;overflow:hidden;"><strong><a href="javascript:;" title="song.songName">{{artist.artistName | cut:true:20:' ...'}}</a></strong></p>-->
+                                        <!--<a href="/artist/119672" target="_blank" title="The Voice of China"></a>-->
+                                        <!--<a  style="width:100px;overflow:hidden">-->
+                                    <span style="width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display: inline-block;text-align: center;">
+                                    <a title="{{artist.artistName}}&nbsp;&nbsp;{{artist.score}}分" href="/mls/resources/pages/top/index.html#/artistInfo?artistId={{data.artistId}}" target="_blank">{{artist.artistName}}&nbsp;&nbsp;{{artist.score}}分</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

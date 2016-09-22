@@ -1,0 +1,19 @@
+/*!
+ *
+ * Angle - Bootstrap Admin App + AngularJS
+ * 自定义界面样式less
+ * Author: @hao.cheng
+ */
+.custom-divider-default {
+  border-bottom: 2px solid #cfdbe2 !important;
+}
+.custom-border-top {
+  border-top: 1px solid #cfdbe2 !important;
+}
+.custom-lockpage {
+  z-index: 999999;
+  height: 100%;
+  overflow: hidden;
+  background: #eaeaea;
+  position: relative;
+}

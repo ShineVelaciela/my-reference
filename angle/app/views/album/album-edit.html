@@ -1,0 +1,922 @@
+<style>
+    label{
+        display: inline-block;
+        /*width: 15%;*/
+        width: 100px !important;
+        text-align: right;
+    }
+    input[type="text"]{
+        margin-bottom: 0px;
+        /*margin-left: 20px;*/
+    }
+    ul.dropdown-menu.sp{
+        width: 61%;
+    }
+    ul.dropdown-menu li.sp{
+        float: left;
+    }
+    input[readonly] {
+        cursor: auto;
+        background-color: white;
+    }
+    table.member{
+        width: 92%;
+        display: inline-block;
+        margin-left: 20px;
+    }
+    table.member th,table.member td{
+        border: 1px solid #ccc;
+        width: 10%;
+        text-align: left;
+    }
+    .W_btn_tag{
+        padding: 0 3px 0 5px;
+    }
+
+    input[type="number"] {
+        margin-bottom: 3px;
+        /*margin-left: 20px;*/
+    }
+    select option{
+        width: 100px !important;
+    }
+    button.sp{
+        margin-left: 20px !important;
+        background: #5EAFE3;
+    }
+    button.sp:hover{
+        background: #578DAF;
+    }
+    .btn-group.open .btn-primary.dropdown-toggle{
+        background: #578DAF;
+    }
+    input.sp{
+        margin-left: 0;
+    }
+    textarea.sp{
+        margin-left: 20px;
+    }
+    input[type="radio"]{
+        margin-left: 20px;
+    }
+    button.add{
+        margin-left: 125px !important;
+        background: #5EAFE3;
+    }
+    button.add:hover{
+        background: #578DAF;
+    }
+    .divider-top{
+        border-top: 2px solid #5EAFE3;
+        padding-bottom: 10px;
+    }
+    input.sm{
+        width: 100px;
+    }
+    a.add{
+        text-decoration: none;
+    }
+    .thumbnail {
+        margin: auto;
+        margin-bottom: 10px;
+    }
+    .item .details.imgs{
+        height: 80px;
+        bottom: 88px;
+    }
+    .desc{
+        text-align: center;
+    }
+    .ng-gallery{
+        width: 190px;
+    }
+    ng-gallery{
+        display: block;
+    }
+    label{
+        font-weight: normal;
+    }
+    .full-width{
+        width: 100%;
+    }
+</style>
+<div style="background: #fff;overflow: auto;"  class="layout-fixed" ui-view="preview-page" artistInfo>
+    <div class="wrapper">
+        <div class="top-nav">
+            <!--<a type="button" class="btn btn-default" ng-click="goBack('album',data.albumId);">返回</a>-->
+            <!--<a type="button" class="btn" ui-sref="artistEdit.preview" target="_blank">预览</a>-->
+            <a type="button" class="btn btn-default" ng-click="submit(tagExt)">提交</a>
+            <!--<a style="padding: 20px;display: inline-block;background: #9CCDE6;color: #fff;font-size: 15px;font-weight: bold;" ng-click="submit()" href="javascript:;">提交</a>-->
+            <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                <a type="button" class="btn btn-default" uib-dropdown-toggle >
+                    变更模板<em class="caret"></em>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                    <li role="menuitem" ng-click="changeTemplate(1);" ><a href="javascript:;">其他专辑</a></li>
+                    <li role="menuitem" ng-click="changeTemplate(2);" ><a href="javascript:;">古典专辑</a></li>
+                    <li role="menuitem" ng-click="changeTemplate(0);" ><a href="javascript:;">个性化专辑</a></li>
+                </ul>
+            </div>
+            <material-operation></material-operation>
+            <!--<a style="padding: 20px;display: inline-block;background: #9CCDE6;color: #fff;font-size: 15px;font-weight: bold;">变更模板</a>-->
+        </div>
+        <aside class="offsidebar material" ng-include="'app/views/partials/record-list.html'">
+
+        </aside>
+        <div style="margin-top: 55px;" ng-controller="GotoAnchor">
+            <div style="width: 13%;height: auto;float: left;position: fixed;" class="panel-body">
+                <ng-include src="'app/views/song/status.html'"></ng-include>
+                <h5>目录
+                    (
+                    模板:
+                    <span ng-if="data.type == 0">个性化专辑</span>
+                    <span ng-if="data.type == 1">其他专辑</span>
+                    <span ng-if="data.type == 2">古典专辑</span>
+                    )
+                </h5>
+                <div class="accordion-group" ng-repeat="catalog in catalogs track by $index">
+                    <p>
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapse_{{$index+1}}" ng-if="catalog.list != undefined">
+                            <i class="icon-chevron-right"></i>
+                            {{catalog.name}}
+                        </a>
+                        <a class="accordion-toggle collapsed" ng-click="gotoAnchor(catalog.id)" ng-if="catalog.list == undefined">
+                            <i class="icon-chevron-right"></i>
+                            {{catalog.name}}
+                        </a>
+                    </div>
+                    <div id="collapse_{{$index+1}}" class="accordion-body in collapse"  ng-if="catalog.list != undefined">
+                        <div style="text-align: right;">
+                            <ul class="unstyled">
+                                <li  ui-sref-active="active"  ng-repeat="cat in catalog.list"><a>{{cat.name}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    </p>
+                </div>
+            </div>
+            <div class="material-content">
+                <div>
+
+                    <!--<h2>{{data.artistName}}</h2>-->
+                    <h4 class="material" id="catalog-1" >概述</h4>
+                    <div class="divider-top"></div>
+                    <!--<div class="divider-top"></div>-->
+                    <div style="overflow: hidden;" >
+                        <div class="desc mb-10 ">
+                            <div class="img-div hide"  ng-repeat="img in data.imgs track by $index" ng-if="data.imgs != undefined" ng-class="{showImg:img.selected}">
+                                <div class="thumbnail">
+                                    <div class="item" >
+                                        <a class="fancybox-button"  href="{{img.url}}" data-lightbox="image-1" data-title="{{img.sizeN}}图: 宽{{img.width}}*高{{img.height}} 大小:{{img.size}}kb 类型:{{img.type}} <a onclick='watchSourceImg();' href='javascript:;' style='margin-left:80px;'>查看原图</a>">
+                                            <div class="zoom"  >
+                                                <img src="{{img.showUrl}}?w=150&h=150"  alt="Photo">
+                                                <div class="zoom-icon" ></div>
+                                            </div>
+                                        </a>
+                                        <div class="details imgs" ng-if="data.imgUrl != undefined" >
+                                            <div><a href="javascript:;" ng-click="deleteImg();" class="icon"><em class="fa fa-remove"></em></a></div>
+                                            <span>{{img.sizeN}}图: 宽{{img.width}}*高{{img.height}}</span>
+                                            <span>大小:{{img.size}}kb </span>
+                                            <span>类型:{{img.type}} </span>
+                                            <div>
+                                                <a href="javascript:;" class="icon" ng-click="selectImgPre(img,data.imgs);"><em class="fa fa-chevron-circle-left"></em></a>
+                                                <a href="javascript:;" class="icon" ng-click="selectImgNext(img,data.imgs);"><em class="fa fa-chevron-circle-right"></em></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="thumbnail" ng-if="data.imgs == undefined">
+                                <div class="item" >
+                                    <a class="fancybox-button" href="{{data.imgUrl}}" data-lightbox="image-1">
+                                        <div class="zoom"  >
+                                            <img src="{{data.imgUrl}}" ng-if="data.imgUrl != undefined"  alt="Photo">
+                                            <img src="app/img/default.png" ng-if="data.imgUrl == undefined" alt="Photo">
+                                            <div class="zoom-icon" ></div>
+                                        </div>
+                                        <div class="details" >
+                                            <a href="javascript:;" ng-click="deleteImg();" class="icon"><em class="fa fa-remove"></em></a>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--<ng-gallery images="images" ng-if="data.imgUrl != undefined"></ng-gallery>-->
+                            <span class="" ng-if="data.imgs == undefined">非图片服务器资源,不支持显示图片信息</span>
+                            <!--<div style="width: 201px;margin: auto;" ng-controller='FileUploadController as form' nv-file-drop='' uploader='form.uploader' filters='queueLimit, customFilter'>-->
+                                <!--<input type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" multiple=""/>-->
+                                <!--<table ng-if="form.uploader.queue.length" class="table">-->
+                                    <!--<tbody >-->
+                                    <!--<tr ng-repeat="item in form.uploader.queue">-->
+                                        <!--<td nowrap="" ng-init="item.upload()">-->
+                                            <!--<button type="button" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess" class="btn btn-info btn-xs">-->
+                                                <!--<span class="icon-cloud-upload mr"></span> Upload</button>-->
+                                            <!--<button type="button" ng-click="item.cancel()" ng-disabled="!item.isUploading" class="btn btn-warning btn-xs">-->
+                                                <!--<span class="icon-close mr"></span> Cancel</button>-->
+                                            <!--<button type="button" ng-click="item.remove()" class="btn btn-danger btn-xs">-->
+                                                <!--<span class="icon-trash mr"></span> Remove</button>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</tbody>-->
+                                <!--</table>-->
+                                <!--<input type = "file" id="file" name="file" class="form-control input-sm" onchange="angular.element(this).scope().uploadImg()"/>-->
+                                <!--<input type="button" ng-click = "uploadImg(data.albumId)" class="btn pull-right" value="上传">-->
+                                <!--<button ng-click = "uploadImg(data.artistId)" style="font-size: 11px;">上传</button>-->
+                            <!--</div>-->
+                            <div style="width: 201px;margin: auto;">
+                                <input type = "file" id="file" name="file" class="form-control input-sm" onchange="angular.element(this).scope().uploadImg()"/>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="material" id="catalog-2">基础信息</h4>
+                    <div class="divider-top"></div>
+                    <div>
+                        <table class="info">
+                            <tbody>
+                            <!--个性化-->
+                            <tr ng-if="data.type == 0" >
+                                <td class="name"><i class="text-danger">*</i>专辑名称:</td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入专辑名称" class="form-control input-sm" ng-model="data.albumName">
+                                    </div>
+                                </td>
+                                <td class="name">艺人:<a href="javascript:;" class="add" ng-click="new('artist');">【新增】</a></td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入艺人名" class="form-control input-sm" ng-model="artist"
+                                               typeahead-focus-first="false"
+                                               typeahead-on-select="addRelationData($item, data.artists)"
+                                               uib-typeahead="artist.artistName as artist.allstr for artist in getSearchResult($viewValue,'artist')"
+                                                >
+                                    </div>
+                                    <!--<input placeholder="请输入歌手名" type="text" ng-model="artist" class="sm"-->
+                                    <!--typeahead-focus-first="false"-->
+                                    <!--typeahead-on-select="addRelationData($item, data.artists)"-->
+                                    <!--uib-typeahead="artist as artist.allstr for artist in getSearchResult($viewValue,'artist')"-->
+                                    <!-->
+                                <span ng-repeat="artist in data.artists track by $index">
+                                    <i><a ui-sref="artistInfo({artistId: artist.artistId})" target="_blank">{{artist.artistName}}</a></i>&nbsp;&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeRelationData(artist,data.artists)"></i>
+                                </span>
+                                    <!--<a class="add disabled" >【新增】</a>-->
+                                </td>
+                            </tr>
+                            <!--个性化-->
+                            <tr ng-if="data.type == 0" >
+                                <td class="name">曲目数量:</td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入曲目数量" class="form-control input-sm" ng-model="data.num" valid-number>
+                                    </div>
+                                <td class="name"></td>
+                                <td class="value">
+                                </td>
+                            </tr>
+                            <!--公用-->
+                            <tr ng-if="data.type != 0" >
+                                <td class="name"><i class="text-danger">*</i>专辑名称:</td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入专辑名称" class="form-control input-sm" ng-model="data.albumName">
+                                    </div>
+                                    <!--<input placeholder="请输入专辑名称"  type="text" value="{{data.albumName}}" ng-model="data.albumName"></td>-->
+                                <td class="name">曲目数量:</td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入曲目数量" class="form-control input-sm" ng-model="data.num" valid-number>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--公用-->
+                            <tr ng-if="data.type != 0" >
+                                <td class="name">专辑别名:</td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入专辑别名" class="form-control input-sm" ng-model="data.albumAliasName">
+                                    </div>
+                                </td>
+                                <td class="name">专辑翻译名:</td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入专辑翻译名" class="form-control input-sm" ng-model="data.translationName">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--公用-->
+                            <tr ng-if="data.type != 0" >
+                                <td class="name"><i class="text-danger">*</i>艺人:<a href="javascript:;" class="add" ng-click="new('artist');">【新增】</a></td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入艺人名" class="form-control input-sm" ng-model="artist"
+                                               typeahead-focus-first="false"
+                                               typeahead-on-select="addRelationData($item, data.artists)"
+                                               uib-typeahead="artist.artistName as artist.allstr for artist in getSearchResult($viewValue,'artist')"
+                                                >
+                                    </div>
+                                <span ng-repeat="artist in data.artists track by $index">
+                                    <i><a ui-sref="artistInfo({artistId: artist.artistId})" target="_blank">{{artist.artistName}}</a></i>&nbsp;<em class="fa fa-remove" style="cursor:pointer;" ng-click="removeRelationData(artist,data.artists)"></em>
+                                </span>
+
+                                    <!--<a class="add disabled" >【新增】</a>-->
+                                </td>
+                                <td class="name">专辑类型:</td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <select ng-model="data.category" class="form-control input-sm">
+                                            <option value="">请选择专辑类型</option>
+                                            <option value="精选集">精选集</option>
+                                            <option value="影视原声带">影视原声带</option>
+                                            <option value="EP">EP</option>
+                                            <option value="概念专辑">概念专辑</option>
+                                            <option value="录音室专辑">录音室专辑</option>
+                                            <option value="Live专辑">Live专辑</option>
+                                            <option value="单曲发行">单曲发行</option>
+                                            <option value="数字专辑">数字专辑</option>
+                                            <option value="合集">合集</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--公用-->
+                            <tr ng-if="data.type != 0" >
+                                <td class="name">发行公司:</td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <!--<input type="text" placeholder="请输入发行公司" class="form-control input-sm" ng-model="data.company"-->
+                                               <!--typeahead-focus-first="false"-->
+                                               <!--uib-typeahead="dictionary.name as dictionary.name for dictionary in getDictionary($viewValue, 'brokeragefirm')"-->
+                                                <!--&gt;-->
+                                        <input type="text" placeholder="请输入发行公司" class="form-control input-sm" ng-model="data.company">
+                                    </div>
+                                </td>
+                                <td class="name">发行日期:</td>
+                                <td class="value">
+                                    <div class="col-sm-8" ng-controller="DatepickerDemoCtrl as dpick">
+                                        <input type="text" placeholder="请输入发行日期" class="form-control input-sm" ng-model="data.publishTime" data-ng-click="dpick.open($event)"
+                                               current-text="今天" clear-text="清除" close-text="关闭" uib-datepicker-popup is-open="dpick.opened" datepicker-options="dpick.dateOptions"
+                                                >
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--公用-->
+                            <tr ng-if="data.type != 0" >
+                                <td class="name">版权公司:</td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <!--<input type="text" placeholder="请输入版权公司" class="form-control input-sm" ng-model="data.copyrightCompany"-->
+                                               <!--typeahead-focus-first="false"-->
+                                               <!--uib-typeahead="dictionary.name as dictionary.name for dictionary in getDictionary($viewValue, 'brokeragefirm')"-->
+                                                <!--&gt;-->
+                                        <input type="text" placeholder="请输入版权公司" class="form-control input-sm" ng-model="data.copyrightCompany">
+                                    </div>
+                                </td>
+                                <td class="name">制作人:</td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入制作人" class="form-control input-sm" ng-model="data.maker">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--公用-->
+                            <tr ng-if="data.type != 0" >
+                                <td class="name">出品人:</td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入制作人" class="form-control input-sm" ng-model="data.producer">
+                                    </div>
+                                </td>
+                                <td class="name">专辑监制:</td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入专辑监制人" class="form-control input-sm" ng-model="data.supervisor">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--古典专辑-->
+                            <tr ng-if="data.type == 2" >
+                                <td class="name">作曲者:<a href="javascript:;" class="add" ng-click="new('artist');">【新增】</a></td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入作曲者" class="form-control input-sm" ng-model="composer"
+                                               typeahead-focus-first="false"
+                                               typeahead-on-select="addRelationData($item, data.composers)"
+                                               uib-typeahead="composer.artistName as composer.allstr for composer in getSearchResult($viewValue,'artist')"
+                                                >
+                                    </div>
+                                <span ng-repeat="artist in data.composers track by $index">
+                                    <i><a ui-sref="artistInfo({artistId: artist.artistId})" target="_blank">{{artist.artistName}}</a></i>&nbsp;<em class="fa fa-remove"  ng-click="removeRelationData(artist,data.composers)"></em>
+                                </span>
+                                    <!--<a class="add disabled" >【新增】</a>-->
+                                </td>
+                                <td class="name">演奏者: <a href="javascript:;" class="add" ng-click="new('artist');">【新增】</a></td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入演奏者" class="form-control input-sm" ng-model="performer"
+                                               typeahead-focus-first="false"
+                                               typeahead-on-select="addRelationData($item, data.performers)"
+                                               uib-typeahead="performer.artistName as performer.allstr for performer in getSearchResult($viewValue,'artist')"
+                                                >
+                                    </div>
+                                <span ng-repeat="artist in data.performers track by $index">
+                                    <i><a  ui-sref="artistInfo({artistId: artist.artistId})" target="_blank">{{artist.artistName}}</a></i>&nbsp;<em class="fa fa-remove" ng-click="removeRelationData(artist,data.performers)"></em>
+                                </span>
+                                    <!--<a class="add disabled" >【新增】</a>-->
+                                </td>
+                            </tr>
+                            <!--古典专辑-->
+                            <tr ng-if="data.type == 2" >
+                                <td class="name">指挥者:<a href="javascript:;" class="add" ng-click="new('artist');">【新增】</a></td>
+                                <td class="value border-rg1">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入指挥者" class="form-control input-sm" ng-model="cantor"
+                                               typeahead-focus-first="false"
+                                               typeahead-on-select="addRelationData($item, data.cantors)"
+                                               uib-typeahead="cantor.artistName as cantor.allstr for cantor in getSearchResult($viewValue,'artist')"
+                                                >
+                                    </div>
+                                <span ng-repeat="artist in data.cantors track by $index">
+                                    <i><a ui-sref="artistInfo({artistId: artist.artistId})" target="_blank">{{artist.artistName}}</a></i>&nbsp;<em class="fa fa-remove" ng-click="removeRelationData(artist,data.cantors)"></em>
+                                </span>
+                                    <!--<a class="add disabled" >【新增】</a>-->
+                                </td>
+                                <td class="name">版本名称:</td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入版本名称" class="form-control input-sm" ng-model="data.versionName">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--古典专辑-->
+                            <tr ng-if="data.type == 2" >
+                                <td class="name">评分:</td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" id="score" value="{{data.manualScore}}" ui-mask="5.9" ng-model="data.manualScore" ng-change="scoreChange(data,'manualScore');"
+                                               class="form-control input-sm"
+                                        >
+                                    </div>
+                                </td>
+                                <td class="name"></td>
+                                <td class="value"></td>
+                            </tr>
+                            <!--其他专辑-->
+                            <tr ng-if="data.type == 1" >
+                                <td class="name">版本名称:</td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" placeholder="请输入版本名称" class="form-control input-sm" ng-model="data.versionName">
+                                    </div>
+                                </td>
+                                <td class="name">评分:</td>
+                                <td class="value">
+                                    <div class="col-sm-8">
+                                        <input type="text" id="score" value="{{data.manualScore}}" ui-mask="5.9" ng-model="data.manualScore" ng-change="scoreChange(data,'manualScore');"
+                                               class="form-control input-sm"
+                                                >
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-3">标签</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div class="">
+                            <table class="info">
+                                <tbody>
+                                <tr style="height: 0;visibility: hidden;">
+                                    <td class="name"></td>
+                                    <td class="value"></td>
+                                    <td class="name"></td>
+                                    <td class="value"></td>
+                                </tr>
+                                <tr>
+                                    <td class="name">主风格:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                                <li role="menuitem" class="sp" ng-repeat="t in mainStylesList.tagList  track by $index" ng-click="tagging(t,1);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text"  placeholder="请输入主风格" ng-model="search1.$" uib-dropdown-toggle class="form-control input-sm">
+                                        <!--<input type="text" class="sp"  placeholder="请输入主风格" ng-model="search1.$" uib-dropdown-toggle />-->
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                            <li role="menuitem" class="sp" ng-repeat="t in mainStylesList.tagList | filter:search1" ng-click="tagging(t,1);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 1">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<em class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></em></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name">次风格:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                                <li role="menuitem" class="sp" ng-repeat="t in secondaryStyleList.tagList  track by $index" ng-click="tagging(t,2);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text" class="form-control input-sm" placeholder="请输入次风格" ng-model="search2.$" uib-dropdown-toggle />
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                            <li role="menuitem" class="sp" ng-repeat="t in secondaryStyleList.tagList | filter:search2" ng-click="tagging(t,2);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 2">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></i></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name">子风格:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;" ng-click="getCStyle('1','sonStyleList');">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body" style="max-height: 400px;overflow-y: auto;">
+                                                <div ng-repeat="t in sonStyleList  track by $index" >
+                                                    <div style="overflow: hidden"><p><b>{{t.tagName}}</b></p>
+                                                        <li role="menuitem" class="sp"  ng-repeat="tg in t.tagList  track by $index" ng-click="tagging(tg,3);">
+                                                            <a href="javascript:;">{{tg.tagName}}</a>
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text" class="form-control input-sm" placeholder="请输入子风格" ng-model="search3.$" uib-dropdown-toggle ng-click="getCStyle('1','sonStyleList');" />
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body" style="max-height: 400px;overflow-y: auto;">
+                                            <div ng-repeat="t in sonStyleList  track by $index" >
+                                                <div style="overflow: hidden"><p><b>{{t.tagName}}</b></p>
+                                                    <li role="menuitem" class="sp"  ng-repeat="tg in t.tagList  track by $index" ng-click="tagging(tg,3);">
+                                                        <a href="javascript:;">{{tg.tagName}}</a>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 3">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></i></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name">其他子风格:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;" ng-click="getCStyle('1,2','otherSonStyleList');">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body" style="max-height: 400px;overflow-y: auto;">
+                                                <div ng-repeat="t in otherSonStyleList  track by $index" >
+                                                    <div style="overflow: hidden"><p><b>{{t.tagName}}</b></p>
+                                                        <li role="menuitem" class="sp"  ng-repeat="tg in t.tagList  track by $index" ng-click="tagging(tg,4);">
+                                                            <a href="javascript:;">{{tg.tagName}}</a>
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text" class="form-control input-sm" placeholder="请输入其他子风格" ng-model="search4.$" uib-dropdown-toggle ng-click="getCStyle('1,2','otherSonStyleList');" />
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                            <div ng-repeat="t in otherSonStyleList  track by $index" >
+                                                <div style="overflow: hidden"><p><b>{{t.tagName}}</b></p>
+                                                    <li role="menuitem" class="sp"  ng-repeat="tg in t.tagList  track by $index" ng-click="tagging(tg,4);">
+                                                        <a href="javascript:;">{{tg.tagName}}</a>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 4">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></i></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name">语言:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                                <li role="menuitem" class="sp" ng-class="{ 'full-width': $index == t.selectedIndex }" ng-repeat="t in languageList.tagList  track by $index" ng-click="tagging(t,15);" ng-if="t.tagLevel == 1" ng-right-click="taggingShow(t, $index);">
+                                                    <a href="javascript:;" ng-class="{'relative': t.tagName == '中国方言'}">{{t.tagName}}<i ng-if="t.tagName == '中国方言'" style="top: -5px;position: absolute;">+</i></a>
+                                                    <ul style="list-style: none;" ng-if="t.tagName == '中国方言' && t.selectedIndex">
+                                                        <li class="sp" ng-repeat="t2 in languageList.tagList" ng-if="t2.tagLevel == 2 && t2.parentId == '1002939075'" ng-click="tagging(t2,15, t);"><a href="javascript:;">{{t2.tagName}}</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text"class="form-control input-sm" placeholder="请输入语言" ng-model="search5.$" uib-dropdown-toggle />
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                            <li role="menuitem" class="sp" ng-repeat="t in languageList.tagList | filter:search5" ng-click="tagging(t,15);">
+                                                <a href="javascript:;">{{t.tagName}}</a>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 15">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></i></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name">情感:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                                <li role="menuitem" class="sp" ng-repeat="t in emotionList.tagList  track by $index" ng-click="tagging(t,16);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text" class="form-control input-sm" placeholder="请输入情感" ng-model="search6.$" uib-dropdown-toggle />
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                            <li role="menuitem" class="sp" ng-repeat="t in emotionList.tagList | filter:search6" ng-click="tagging(t,16);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 16">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></i></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name">场景:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                                <li role="menuitem" class="sp" ng-repeat="t in sceneList.tagList  track by $index" ng-click="tagging(t,17);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text" class="form-control input-sm" placeholder="请输入场景" ng-model="search7.$" uib-dropdown-toggle />
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                            <li role="menuitem" class="sp" ng-repeat="t in sceneList.tagList | filter:search7" ng-click="tagging(t,17);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 17">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></i></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name">主题:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                                <li role="menuitem" class="sp" ng-repeat="t in subjectList.tagList  track by $index" ng-click="tagging(t,18);" ng-class="{ 'full-width': t.tagId == t.selectedIndex }" ng-if="t.tagLevel == 1" ng-right-click="taggingShow(t, $event);">
+                                                    <a href="javascript:;" ng-class="{'relative': t.isParent == true}">{{t.tagName}}<i ng-if="t.isParent" style="top: -5px;position: absolute;">+</i></a>
+                                                    <ul style="list-style: none;" ng-if="t.isParent && (t.selectedIndex == t.tagId)">
+                                                        <li class="sp" ng-repeat="t2 in t.children track by $index" ng-class="{ 'full-width': t2.tagId == t2.selectedIndex }"  ng-if="t2.tagLevel == 2" ng-click="tagging(t2,18, t);" ng-right-click="taggingShow(t2, $event);">
+                                                            <a href="javascript:;" ng-class="{'relative': t2.isParent == true}">{{t2.tagName}}<i ng-if="t2.isParent" style="top: -5px;position: absolute;">+</i></a>
+
+                                                            <ul style="list-style: none;" ng-if="t2.isParent && (t2.selectedIndex == t2.tagId)">
+                                                                <li class="sp" ng-repeat="t3 in t2.children" ng-if="t3.tagLevel == 3" ng-click="tagging(t3,18, t2, t);">
+                                                                    <a href="javascript:;" ng-class="{'relative': t3.isParent == true}">{{t3.tagName}}<i ng-if="t3.isParent" style="top: -5px;position: absolute;">+</i></a>
+                                                                </li>
+                                                            </ul>
+
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text" class="form-control input-sm" placeholder="请输入场景" ng-model="search10.$" uib-dropdown-toggle />
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                            <li role="menuitem" class="sp" ng-repeat="t in subjectList.tagList | filter:search10" ng-click="tagging(t,18);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 18">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></i></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name">人声:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                                <li role="menuitem" class="sp" ng-repeat="t in timbreList.tagList  track by $index" ng-click="tagging(t,13);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text" class="form-control input-sm" placeholder="请输入人声" ng-model="search8.$" uib-dropdown-toggle />
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                            <li role="menuitem" class="sp" ng-repeat="t in timbreList.tagList  | filter:search8" ng-click="tagging(t,13);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 13">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></i></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name">乐器:</td>
+                                    <td class="value" colspan="3">
+                                        <div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                            <button type="button" class="btn btn-primary sp btn-sm" uib-dropdown-toggle style="border-bottom-right-radius: 0;border-top-right-radius: 0;">
+                                                请选择<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                                <li role="menuitem" class="sp" ng-repeat="t in skilledInMusicList.tagList  track by $index" ng-click="tagging(t,10);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                            </ul>
+                                        </div><div class="btn-group" uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+                                        <input type="text" class="form-control input-sm" placeholder="请输入乐器" ng-model="search9.$" uib-dropdown-toggle />
+                                        <ul class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                                            <li role="menuitem" class="sp" ng-repeat="t in skilledInMusicList.tagList  | filter:search9" ng-click="tagging(t,10);"><a href="javascript:;">{{t.tagName}}</a></li>
+                                        </ul>
+                                    </div>
+                                        <span action-type="check" title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags" ng-if="tag.type == 10">
+                                        <span class="W_arrow_bor W_arrow_bor_l">
+                                            <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                        </span>
+                                        <i >{{tag.tagName}}</i>&nbsp;<i class="fa fa-remove" style="cursor:pointer;" ng-click="removeTagging(tag);"></i></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="name" >自定义标签:</td>
+                                    <td class="value " colspan="3">
+                                        <form class="form-horizontal">
+                                            <div class="">
+                                                <div class="col-sm-2">
+                                                    <input placeholder="请输入自定义标签名称" type="text" ng-model="$parent.$parent.tagExt.tags" value="{{tagExt.tags}}" class="form-control input-sm">
+                                                </div>
+                                                <label class="col-sm-1 control-label" >新歌时间</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" placeholder="请输入热歌时间" my-date class="form-control input-sm" ng-model="$parent.$parent.tagExt.isnew" data-ng-click="dpick1 = !dpick1"
+                                                           current-text="今天" clear-text="清除" close-text="关闭" uib-datepicker-popup is-open="dpick1" datepicker-options="dateOptions">
+                                                    <!--<input data-inputmask="'mask': '9999-19-39'" masked="" type="text" ng-model="$parent.$parent.tagExt.isnew" class="form-control input-sm" >-->
+                                                </div>
+                                                <label class="col-sm-1 control-label" >热歌时间</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" placeholder="请输入发行日期" my-date class="form-control input-sm" ng-model="$parent.$parent.tagExt.ishot" data-ng-click="dpick2 = !dpick2"
+                                                           current-text="今天" clear-text="清除" close-text="关闭" uib-datepicker-popup is-open="dpick2" datepicker-options="dateOptions">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <!--<td class="name">新歌时间:</td>-->
+                                    <!--<td class="value border-rg1">-->
+                                        <!--<div class="col-sm-8">-->
+                                            <!--<input ui-mask="{{birth}}" type="text" ng-model="$parent.tagExt.isnew" class="form-control input-sm" ng-change="fixDateNew($parent.tagExt.isnew,'tagExt','isnew');">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td class="name">热歌时间:</td>-->
+                                    <!--<td class="value">-->
+                                        <!--<div class="col-sm-8">-->
+                                            <!--<input ui-mask="{{birth}}" type="text" ng-model="$parent.tagExt.ishot" class="form-control input-sm" ng-change="fixDateNew($parent.tagExt.ishot,'tagExt','ishot');">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                </tr>
+                                <tr>
+                                    <td class="name">已打标签:</td>
+                                    <td class="value" colspan="3">
+                                        <span title="{{tag.tagName}}" class="W_btn_b W_btn_tag" style="margin-left: 20px !important;" ng-repeat="tag in artistTags | orderBy : 'sort'">
+                                            <span class="W_arrow_bor W_arrow_bor_l">
+                                                <i class="S_line3"></i><em class="S_bg2_br"></em>
+                                            </span>
+                                            <i id="{{tag.tagId}}">{{tag.tagName}}</i>
+                                        </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-4">创作背景</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div>
+                            <div>
+                                <textarea class="form-control" msd-elastic  placeholder="请输入创作背景"  ng-model="data.creatingBackground" ng-trim="false">{{data.creatingBackground}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-5">获奖情况</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div>
+                            <div>
+                                <textarea class="form-control"  msd-elastic  placeholder="请输入获奖情况" ng-model="data.prize" ng-trim="false">{{data.prize}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-6">专辑介绍</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div>
+                            <!--<textarea elastic  placeholder="请输入荣誉记录" ng-model="data.honors">{{data.honors}}</textarea>-->
+                            <div>
+                                <textarea class="form-control"  msd-elastic  placeholder="请输入专辑介绍" ng-model="data.description" ng-trim="false">{{data.description}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-7">专辑评价</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div>
+                            <!--<textarea elastic  placeholder="请输入荣誉记录" ng-model="data.honors">{{data.honors}}</textarea>-->
+                            <div>
+                                <textarea class="form-control"  msd-elastic  placeholder="请输入专辑评价"ng-model="data.evaluate" ng-trim="false">{{data.evaluate}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div >
+                        <h4 class="material" id="catalog-8">曲目列表</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <!--<tr>-->
+                                <!--<th><input placeholder="请输入歌曲名"></th>-->
+                                <!--<th><input placeholder="请输入艺人名"></th>-->
+                                <!--<th></th>-->
+                                <!--</tr>-->
+                                <tr>
+                                    <th>音轨号</th>
+                                    <th>状态</th>
+                                    <th>歌曲ID</th>
+                                    <th>歌曲名</th>
+                                    <th>艺人名</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="data in subDatas track by $index" class="odd gradeX ">
+                                    <td><span type="text" >{{data.trackNumber}}</span></td>
+                                    <td>
+                                        <span class="label label-default" title="未关联曲库状态" ng-if="data.status == -1">未关联</span>
+                                        <span class="label label-default" title="初始状态" ng-if="data.status == 0">初</span>
+                                        <span class="label label-default" title="抽取状态" ng-if="data.status == 1">抽</span>
+                                        <span class="label label-default" title="正常状态" ng-if="data.status == 10">正常</span>
+                                        <span class="label label-default" title="待审核状态" ng-if="data.status == 12">待审核</span>
+                                        <span class="label label-default" title="审核中状态" ng-if="data.status == 14">审核中</span>
+                                        <span class="label label-default" title="编辑中状态" ng-if="data.status == 15">编辑中</span>
+                                        <span class="label label-default" title="待删除状态" ng-if="data.status == 20">待删除</span>
+                                        <span class="label label-default" title="禁用状态" ng-if="data.status == 30">禁用</span>
+                                        <span class="label label-default" title="未通过状态" ng-if="data.status == 111">未通过</span>
+                                        <span class="label label-default" title="素材锁定状态" ng-if="data.mstat == 4">锁</span>
+                                    </td>
+                                    <td><span type="text" >{{data.songId}}</span></td>
+                                    <td><span type="text" ><a ui-sref="songInfo({songId:data.songId})" target="_blank">{{data.songName}}</a></span></td>
+                                    <td>
+                                    <span ng-if="data.artists.length == 1">
+                                        <a ng-repeat="artist in data.artists" ui-sref="artistInfo({artistId:artist.artistId})"  target="_blank">{{artist.artistName}}</a>
+                                    </span>
+                                    <span ng-if="data.artists.length > 1">
+                                        <a ng-repeat="artist in data.artists" ui-sref="artistInfo({artistId:artist.artistId})"  target="_blank">{{artist.artistName}};</a>
+                                    </span>
+                                    </td>
+                                    <td><play-icon></play-icon></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--<button class="btn btn-primary add" style="margin-left: 20px !important;" ng-click="addHonors('honorsJson');">+</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

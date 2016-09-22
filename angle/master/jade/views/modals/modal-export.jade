@@ -1,0 +1,42 @@
+//
+   Created by hao.cheng on 2016/7/25.
+script( type="text/ng-template",id="exportTpl.html")
+    div.modal-header
+        button.close(type="button",ng-click="cancel();") ×
+        h4.modal-title(id="myModalLabel") 导出
+    div.modal-body
+        form.form-horizontal
+            div.form-group
+                div.radio.c-radio.c-radio-nofont(style="float: left;margin-left: 15px;")
+                    label
+                        input(type="radio",value="1",ng-model="export.type")
+                        span
+                label.control-label 按选中导出
+            div.form-group
+                div.radio.c-radio.c-radio-nofont(style="float: left;margin-left: 15px;")
+                    label
+                        input(type="radio",value="2",ng-model="export.type")
+                        span
+                label.control-label 按序号导出
+                label.control-label.col-sm-1 起
+                div.col-sm-2
+                    input.form-control.input-sm(type="text",ng-model="export.startNo")
+                label.control-label.col-sm-1 止
+                div.col-sm-2
+                    input.form-control.input-sm(type="text",ng-model="export.endNo")
+            div.form-group
+                div.radio.c-radio.c-radio-nofont(style="float: left;margin-left: 15px;")
+                    label
+                        input(type="radio",value="3",ng-model="export.type")
+                        span
+                label.control-label 按页数导出
+                label.control-label.col-sm-1 起
+                div.col-sm-2
+                    input.form-control.input-sm(type="text",ng-model="export.pageStart")
+                label.control-label.col-sm-1 止
+                div.col-sm-2
+                    input.form-control.input-sm(type="text",ng-model="export.pageEnd")
+    div.modal-footer
+        button.btn.btn-primary(type="button",ng-click="export();") 确认
+        button.btn.btn-warning(type="button",ng-click="cancel();") 取消
+

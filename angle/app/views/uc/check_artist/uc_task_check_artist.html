@@ -1,0 +1,343 @@
+<style>
+    .detail table tbody tr{
+        height: 35px;
+    }
+    .detail table tbody tr td.name{
+        width: 6%;
+    }
+    .detail table tbody tr td.content{
+        width: 17%;
+    }
+    .detail table tbody tr td select{
+        border-radius: 0;
+        height: 22px;
+        width: 81%;
+    }
+    .detail table tbody tr td input{
+        width: 80%;
+    }
+    .dropdown-menu table{
+        margin-left: 0;
+    }
+    .dropdown-menu .btn{
+        padding: 0;
+    }
+    .dropdown-menu table thead tr{
+        height: 20px;
+    }
+    .dropdown-menu table tbody tr{
+        height: 20px;
+    }
+    #body div #page #list_part div #widget-body div ul li ul li{
+        float: none;
+        height: 26px;
+        margin: 0 0 0 0;
+        border: none;
+        width: 250px;
+        text-align: left;
+    }
+    .row-fluid .onlyOne {
+        border: 1px solid #5faee3;
+        border-radius: 25px 25px 25px 25px;
+    }
+    div form div table tbody tr td input {
+        margin-bottom: 5px;
+        margin-top: 5px;
+        width: 125px;
+    }
+    div form div table tbody tr td input[readonly] {
+        cursor: auto;
+        background-color: white;
+    }
+    /*div form div table tbody tr td a {*/
+        /*font-size: 20px;*/
+        /*margin: 5px;*/
+    /*}*/
+    .uc-task-count {
+        height: 33px;
+        border-bottom: 2px solid #c20c0c;
+    }
+    .uc-task-count .sub{
+        margin: 9px 0 0 20px;
+        float: left;
+    }
+    [class^="icon-"], [class*=" icon-"]{
+        vertical-align: middle;
+    }
+    a {
+        cursor: pointer;
+    }
+    ul.ul-groups li.border-right{
+        border-right: 1px solid #5faee3;
+    }
+    .pointer{
+        cursor: pointer !important;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>项目管理
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default" id="panelDemo1">
+                <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" >
+                    艺人抽查流程
+                    <paneltool tool-collapse="tool-collapse"></paneltool>
+                </div>
+                <div collapse="panelDemo1" class="panel-wrapper">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-pill-left btn-default btn-sm" ng-if="userRole == 'fzr'" ng-class="pageType == 'unassigned' ? 'active':''" ui-sref="app.uc_task_check_artist.unassigned({pId:pId,taskStatusList:'',taskStatus:0,uid:'',pageNo:''})" ui-sref-opts="{reload: false, inherit: false}" >未分配</button>
+                                        <button type="button" class="btn btn-default btn-sm " ng-if="userRole == 'fzr'" ng-class="pageType == 'assigned' ? 'active':''" ui-sref="app.uc_task_check_artist.assigned({pId:pId,taskStatusList:'-1,1,2',taskStatus:'',uid:'',pageNo:''})" ui-sref-opts="{reload: false, inherit: false}">已分配</button>
+                                        <button type="button" class="btn btn-default btn-sm " ng-class="pageType == 'uncompelete' ? 'active':''" ui-sref="app.uc_task_check_artist.uncompelete({pId:pId,taskStatusList:'-1,1,2',taskStatus:'',uid:uid,pageNo:''})" ui-sref-opts="{reload: false, inherit: false}">未完成</button>
+                                        <button type="button" ng-if="userRole == 'fzr'" class="btn btn-pill-right btn-default btn-sm" ng-class="pageType == 'compelete' ? 'active':''"  ui-sref="app.uc_task_check_artist.compelete({pId:pId,taskStatusList:'',taskStatus:3,uid:'',pageNo:''})" ui-sref-opts="{reload: false, inherit: false}">已完成</button>
+                                        <button type="button" ng-if="userRole == 'cyr'" class="btn btn-pill-right btn-default btn-sm" ng-class="pageType == 'compelete' ? 'active':''"  ui-sref="app.uc_task_check_artist.compelete({pId:pId,taskStatusList:'',taskStatus:3,uid:uid,pageNo:''})" ui-sref-opts="{reload: false, inherit: false}">已完成</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" ng-if="pageType == 'unassigned' || pageType == 'assigned'">
+                                    <select class="form-control input-sm" ng-options="cyr.uid as cyr.uName for cyr in cyr_list" ng-model="$parent.selectedUser">
+                                        <option value="">全部</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2" ng-if="pageType == 'unassigned' || pageType == 'assigned'" ng-show=" authoritySetting.size > 1">
+                                    <select class="form-control input-sm" ng-options="setting as setting.name for setting in authoritySetting" ng-model="params.task_auth_setting"></select>
+                                </div>
+                                <div class="col-sm-2" ng-if="pageType == 'unassigned' || pageType == 'assigned'">
+                                    <button class="btn btn-default btn-sm" ng-if="distribution == 1 && selectedUser != undefined" ng-click="distributionTask(selectedUser)" >确定分配</button>
+                                    <button class="btn btn-default btn-sm" ng-if="distribution == 1 && selectedUser == undefined">确定分配</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div ui-view="condition"></div>
+                        <!--<div ui-view="content">-->
+                        <!--</div>-->
+                        <div class="uc-task-count">
+                        <span class="sub">
+                            当前一共{{params.totalItems}}条任务
+                        </span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 24px;">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-click="checkAll(allIsCheck, datas)">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th>序号</th>
+                                    <th>状态</th>
+                                    <th>艺人ID</th>
+                                    <th>艺人名</th>
+                                    <th ng-if="pageType != 'compelete'">艺人评分</th>
+                                    <th ng-if="pageType != 'compelete'">地域</th>
+                                    <th ng-if="pageType != 'compelete'">最后编辑者</th>
+                                    <th ng-if="pageType != 'compelete'">最后审核者</th>
+                                    <th>分发时间</th>
+                                    <th ng-if="pageType == 'assigned' || pageType == 'uncompelete'">分配时间</th>
+                                    <th ng-if="pageType == 'assigned'">分配用户</th>
+                                    <th ng-if="pageType == 'compelete'">抽查者</th>
+                                    <th ng-if="pageType == 'compelete'">抽查结论</th>
+                                    <th ng-if="pageType == 'compelete'">错误分类</th>
+                                    <th ng-if="pageType == 'compelete'">完成时间</th>
+                                    <th ng-if="pageType == 'uncompelete'">操作</th>
+                                </thead>
+
+                                <tbody role="alert" >
+                                <tr class="gradeX odd" ng-repeat="data in datas track by $index">
+                                    <td>
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-click="chk(data, datas)" ng-model="data.isCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>{{$index + 1}}</td>
+                                    <td>
+                                        <ng-include src="'app/views/partials/data-status-tpl.html'"></ng-include>
+                                    </td>
+                                    <td>{{data.artistId}}</td>
+                                    <td>
+                                        <td-artist></td-artist>
+                                    </td>
+                                    <td ng-if="pageType != 'compelete'">{{data.score}}</td>
+                                    <td ng-if="pageType != 'compelete'">{{data.area}}</td>
+                                    <td ng-if="pageType != 'compelete'">{{data.editUserName}}</td>
+                                    <td ng-if="pageType != 'compelete'">{{data.auditUserName}}</td>
+                                    <td>{{data.sendTime | date: 'yyyy/MM/dd'}}</td>
+                                    <td ng-if="pageType == 'assigned' || pageType == 'uncompelete'">{{data.distributionTime | date: 'yyyy/MM/dd'}}</td>
+                                    <td ng-if="pageType == 'assigned'">{{data.ckUser.userName}}</td>
+                                    <td ng-if="pageType == 'compelete'">{{data.ckUser.userName}}</td>
+                                    <td ng-if="pageType == 'compelete'">
+                                        <span ng-if="data.ckResult == 0">合格</span>
+                                        <span ng-if="data.ckResult == 1">可优化</span>
+                                        <span ng-if="data.ckResult == 2">不合格</span>
+                                    </td>
+                                    <td ng-if="pageType == 'compelete'">
+                                    <span ng-repeat="flag in data.ckErrorTagIds">
+                                        <span ng-if="flag == 1">人员侧-人工错误</span>
+                                        <span ng-if="flag == 2">人员侧-产品错误</span>
+                                        <span ng-if="flag == 3">人员侧-业务不熟</span>
+                                        <span ng-if="flag == 4">产品侧</span>
+                                        <span ng-if="flag == 5">运营侧</span>
+                                    </span>
+                                    </td>
+                                    <td ng-if="pageType == 'compelete'">{{data.completeTime | date: 'yyyy/MM/dd'}}</td>
+                                    <td ng-if="pageType == 'uncompelete'"><a ui-sref="artistCheck({artistId:data.artistId,taskId:data.taskId})" ng-right-click="jumpToCheck(data);">抽查</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="row-fluid paginate">
+                                <ng-include src="'app/views/partials/pagination.html'"></ng-include>
+                                <!--<div class="dataTables_length" style="margin-top: 5px;">-->
+                                    <!--<uib-pagination total-items="params.totalItems" items-per-page="params.itemsPerPage" ng-change="choosePage(pageType);" ng-model="params.currentPage" max-size="params.maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后" rotate="false" style="margin-top: 0px;margin-bottom: 0px;width: 550px;"></uib-pagination>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="row-fluid" id="search_part">-->
+        <!--<div class="span12">-->
+            <!--&lt;!&ndash; BEGIN EXTRAS PORTLET&ndash;&gt;-->
+            <!--<div class="widget">-->
+                <!--<div class="widget-title">-->
+                    <!--<h4><i class="icon search-icon"></i>-->
+                        <!--艺人抽查流程-->
+                    <!--</h4>-->
+                   <!--<span class="tools">-->
+                   <!--<a href="javascript:;" class="chevron-down" onclick="hideBody(this);"></a>-->
+                   <!--</span>-->
+                <!--</div>-->
+                <!--<div class="widget-body">-->
+                    <!--<div class="row-fluid" style="background-color: #fff;z-index:99;">-->
+
+                        <!--<ul class="ul-groups" style="float: left !important;margin-right: 50px;">-->
+                            <!--&lt;!&ndash;<span ><li class="li-first " ui-sref-active='active' ng-click="openImport(pId,uId,p_type);">导入</li></span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<span ><li ui-sref-active='active' ng-click="export();">导出</li></span>&ndash;&gt;-->
+                            <!--<li ng-if="userRole == 'fzr'" ng-class="pageType == 'unassigned' ? 'active':''" ui-sref="app.uc_task_check_artist.unassigned({pId:pId,taskStatusList:'',taskStatus:0,uid:'',pageNo:''})" ui-sref-opts="{reload: false, inherit: false}">未分配</li>-->
+                            <!--<li ng-if="userRole == 'fzr'" ng-class="pageType == 'assigned' ? 'active':''" ui-sref="app.uc_task_check_artist.assigned({pId:pId,taskStatusList:'-1,1,2',taskStatus:'',uid:'',pageNo:''})" ui-sref-opts="{reload: false, inherit: false}">已分配</li>-->
+                            <!--<li ng-class="pageType == 'uncompelete' ? 'active':''" ui-sref="app.uc_task_check_artist.uncompelete({pId:pId,taskStatusList:'-1,1,2',taskStatus:'',uid:uid,pageNo:''})" ui-sref-opts="{reload: false, inherit: false}">未完成</li>-->
+                            <!--<li ng-if="userRole == 'fzr'" class="border-right" ng-class="pageType == 'compelete' ? 'active':''"  ui-sref="app.uc_task_check_artist.compelete({pId:pId,taskStatusList:'',taskStatus:3,uid:'',pageNo:''})" ui-sref-opts="{reload: false, inherit: false}">已完成</li>-->
+                            <!--<li ng-if="userRole == 'cyr'" class="border-right" ng-class="pageType == 'compelete' ? 'active':''"  ui-sref="app.uc_task_check_artist.compelete({pId:pId,taskStatusList:'',taskStatus:3,uid:uid,pageNo:''})" ui-sref-opts="{reload: false, inherit: false}">已完成</li>-->
+                        <!--</ul>-->
+
+                        <!--<span ng-if="pageType == 'unassigned' || pageType == 'assigned'">-->
+                            <!--<select ng-options="cyr.uid as cyr.uName for cyr in cyr_list" ng-model="$parent.selectedUser" style="margin-top: 10px;">-->
+                                <!--<option value="">全部</option>-->
+                            <!--</select>-->
+                            <!--<select ng-options="setting as setting.name for setting in authoritySetting" ng-model="params.task_auth_setting" style="margin-top: 10px;width: 160px;"></select>-->
+                        <!--</span>-->
+                        <!--<span ng-if="pageType == 'unassigned' || pageType == 'assigned'">-->
+                        <!--&lt;!&ndash;<span ng-if="user.name != undefined ">&ndash;&gt;-->
+                            <!--<span class='badge badge-warning' style="cursor: pointer;" ng-if="distribution == 1">-->
+                                <!--<i ng-click="distributionTask(selectedUser)" ng-if="selectedUser != undefined">确定分配</i>-->
+                                <!--<i ng-if="selectedUser == undefined" style="color: #C4CAD0;">确定分配</i>-->
+                            <!--</span>-->
+                        <!--</span>-->
+                        <!--&lt;!&ndash;{{selected | json}}&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--<div ui-view="condition">-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div ui-view="content">&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<div class="uc-task-count">-->
+                        <!--<span class="sub">-->
+                            <!--当前一共{{params.totalItems}}条任务-->
+                        <!--</span>-->
+                    <!--</div>-->
+                    <!--<table class="table">-->
+                        <!--<thead>-->
+                        <!--<tr role="row">-->
+                            <!--<th style="width: 24px;">-->
+                                <!--<div class="checkbox c-checkbox">-->
+                                    <!--<label>-->
+                                        <!--<input type="checkbox" ng-click="checkAll(allIsCheck, datas)">-->
+                                        <!--<span class="fa fa-check"></span>-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</th>-->
+                            <!--<th>序号</th>-->
+                            <!--<th>艺人ID</th>-->
+                            <!--<th>艺人名</th>-->
+                            <!--<th ng-if="pageType != 'compelete'">艺人评分</th>-->
+                            <!--<th ng-if="pageType != 'compelete'">地域</th>-->
+                            <!--<th ng-if="pageType != 'compelete'">最后编辑者</th>-->
+                            <!--<th ng-if="pageType != 'compelete'">最后审核者</th>-->
+                            <!--<th>分发时间</th>-->
+                            <!--<th ng-if="pageType == 'assigned' || pageType == 'uncompelete'">分配时间</th>-->
+                            <!--<th ng-if="pageType == 'assigned'">分配用户</th>-->
+                            <!--<th ng-if="pageType == 'compelete'">抽查者</th>-->
+                            <!--<th ng-if="pageType == 'compelete'">抽查结论</th>-->
+                            <!--<th ng-if="pageType == 'compelete'">错误分类</th>-->
+                            <!--<th ng-if="pageType == 'compelete'">完成时间</th>-->
+                            <!--<th ng-if="pageType == 'uncompelete'">操作</th>-->
+                        <!--</thead>-->
+
+                        <!--<tbody role="alert" >-->
+                        <!--<tr class="gradeX odd" ng-repeat="data in datas track by $index">-->
+                            <!--<td>-->
+                                <!--<div class="checkbox c-checkbox">-->
+                                    <!--<label>-->
+                                        <!--<input type="checkbox" ng-model="data.isCheck">-->
+                                        <!--<span class="fa fa-check"></span>-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td>{{$index + 1}}</td>-->
+                            <!--<td>{{data.artistId}}</td>-->
+                            <!--<td>-->
+                                <!--<a ng-click="showMaterialInfo('artist', data)">{{data.artistName}}</a>-->
+                            <!--</td>-->
+                            <!--<td ng-if="pageType != 'compelete'">{{data.score}}</td>-->
+                            <!--<td ng-if="pageType != 'compelete'">{{data.area}}</td>-->
+                            <!--<td ng-if="pageType != 'compelete'">{{data.editUserName}}</td>-->
+                            <!--<td ng-if="pageType != 'compelete'">{{data.auditUserName}}</td>-->
+                            <!--<td>{{data.sendTime | date: 'yyyy/MM/dd'}}</td>-->
+                            <!--<td ng-if="pageType == 'assigned' || pageType == 'uncompelete'">{{data.distributionTime | date: 'yyyy/MM/dd'}}</td>-->
+                            <!--<td ng-if="pageType == 'assigned'">{{data.ckUser.userName}}</td>-->
+                            <!--<td ng-if="pageType == 'compelete'">{{data.ckUser.userName}}</td>-->
+                            <!--<td ng-if="pageType == 'compelete'">-->
+                                <!--<span ng-if="data.ckResult == 0">合格</span>-->
+                                <!--<span ng-if="data.ckResult == 1">可优化</span>-->
+                                <!--<span ng-if="data.ckResult == 2">不合格</span>-->
+                            <!--</td>-->
+                            <!--<td ng-if="pageType == 'compelete'">-->
+                                <!--<span ng-repeat="flag in data.ckErrorTagIds">-->
+                                    <!--<span ng-if="flag == 1">人员侧-人工错误</span>-->
+                                    <!--<span ng-if="flag == 2">人员侧-产品错误</span>-->
+                                    <!--<span ng-if="flag == 3">人员侧-业务不熟</span>-->
+                                    <!--<span ng-if="flag == 4">产品侧</span>-->
+                                    <!--<span ng-if="flag == 5">运营侧</span>-->
+                                <!--</span>-->
+                            <!--</td>-->
+                            <!--<td ng-if="pageType == 'compelete'">{{data.completeTime | date: 'yyyy/MM/dd'}}</td>-->
+                            <!--<td ng-if="pageType == 'uncompelete'"><a ng-click="jumpToCheck(data)">抽查</a></td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                    <!--<div class="row-fluid paginate">-->
+                        <!--<div class="dataTables_length" style="margin-top: 5px;">-->
+                            <!--<uib-pagination total-items="params.totalItems" items-per-page="params.itemsPerPage" ng-change="choosePage();" ng-model="params.currentPage" max-size="params.maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后" rotate="false" style="margin-top: 0px;margin-bottom: 0px;width: 550px;"></uib-pagination>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; END EXTRAS PORTLET&ndash;&gt;-->
+        <!--</div>-->
+    <!--</div>-->
+</div>

@@ -1,0 +1,63 @@
+h3 Panels
+  small Panels can contain almost any kind of element inside
+
+.container-fluid(ng-controller="ArtistAllController as artist")
+  .row
+    .col-lg-12
+      // START panel
+      #artistSearch.panel.panel-info
+        .panel-heading(ng-class="{'panel-heading-collapsed':artistSearch}")
+          | 条件查询
+          paneltool(tool-collapse)
+        .panel-wrapper(collapse="artistSearch")
+          .panel-body
+            form.form-inline(role='form')
+              .form-group
+                label.control-label 艺人标签：
+                input#input-email.form-control.input-sm(type='email', placeholder='请选择艺人标签')
+              .form-group
+                label.control-label 艺人ID：
+                input#input-email.form-control.input-sm(type='email', placeholder='Type your email')
+              .form-group
+                label.control-label 所有名称：
+                input#input-password.form-control.input-sm(type='password', placeholder='Type your password')
+              button.btn.btn-default(type='submit') Sign in
+      // END panel
+  .row
+    .col-lg-12
+      // START panel
+      #panelDemo21.panel.panel-info
+        .panel-heading(ng-class="{'panel-heading-collapsed':panelDemo21}")
+          | 艺人列表
+          paneltool(tool-collapse)
+        .panel-wrapper(collapse="panelDemo21")
+          .panel-body
+            button.btn.btn-pill-left.btn-info(type='button') 导入
+            button.btn.btn-pill-right.btn-info(type='button') 导出
+
+            .table-responsive
+              table.table.table-hover
+                thead
+                  tr
+                    th #
+                    th First Name
+                    th Last Name
+                    th Username
+                tbody
+                  tr
+                    td 1
+                    td Mark
+                    td Otto
+                    td @mdo
+                  tr
+                    td 2
+                    td Jacob
+                    td Thornton
+                    td @fat
+                  tr
+                    td 3
+                    td Larry
+                    td the Bird
+                    td @twitter
+
+          // END panel

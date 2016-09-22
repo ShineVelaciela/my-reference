@@ -1,0 +1,12 @@
+<!--Created by YuChunzhuo on 2016/8/26.
+-->
+<label class="col-sm-1 control-label">操作时间起</label>
+<div ng-controller="DatepickerDemoCtrl as dpick" class="col-sm-2">
+   <input type="text" placeholder="请输入操作时间起" ng-model="form.startTime" my-date="" data-ng-click="dpick.open($event)" current-text="今天" clear-text="清除" close-text="关闭" uib-datepicker-popup="" is-open="dpick.opened" datepicker-options="dpick.dateOptions" class="form-control input-sm"
+   />
+</div>
+<label class="col-sm-1 control-label">操作时间止</label>
+<div ng-controller="DatepickerDemoCtrl as dpick" class="col-sm-2">
+   <input type="text" placeholder="请输入操作时间止" ng-model="form.endTime" my-date="" data-ng-click="dpick.open($event)" current-text="今天" clear-text="清除" close-text="关闭" uib-datepicker-popup="" is-open="dpick.opened" datepicker-options="dpick.dateOptions" class="form-control input-sm"
+   />
+</div>

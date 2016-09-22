@@ -1,0 +1,67 @@
+<!--Created by YuChunzhuo-Dev on 2016/8/9.-->
+<style>
+   input.ng-invalid.ng-dirty {
+      border: 1px solid red;
+   }
+   
+   .error {
+      color: red;
+      margin-top: 5px;
+   }
+</style>
+<div class="container-fluid">
+   <div class="row-fluid">
+      <div class="span12">
+         <h3 class="page-title">媒资库/用户中心/系统常量配置</h3>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="panelDemo1" class="panel panel-info">
+            <div ng-class="{'panel-heading-collapsed':panelDemo1}" class="panel-heading">配置详情
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="panelDemo1" class="panel-wrapper">
+               <div class="panel-body">
+                  <form name="form" ng-submit="submit(data)" class="form-horizontal">
+                     <!--span {{form.config}}-->
+                     <div class="form-group">
+                        <label class="col-lg-1 control-label">常量名称</label>
+                        <div class="col-lg-4">
+                           <input ng-model="data.config" name="config" ng-required="true" ng-readonly="readonly" class="form-control input-sm" />
+                        </div>
+                        <div ng-class="{error: form.config.$dirty &amp;&amp; form.config.$invalid}" ng-show="form.config.$dirty &amp;&amp; form.config.$invalid" class="span">常量名称不能为空</div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-lg-1 control-label">常量值</label>
+                        <div class="col-lg-4">
+                           <input ng-model="data.value" name="value" ng-required="true" ng-readonly="readonly" class="form-control input-sm" />
+                        </div>
+                        <div ng-class="{error: form.value.$dirty &amp;&amp; form.value.$invalid}" ng-show="form.value.$dirty &amp;&amp; form.value.$invalid" class="span">常量值不能为空</div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-lg-1 control-label">常量描述</label>
+                        <div class="col-lg-4">
+                           <input ng-model="data.description" name="description" ng-readonly="readonly" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-lg-1 control-label">常量备注</label>
+                        <div class="col-lg-4">
+                           <input ng-model="data.memo" name="memo" ng-readonly="readonly" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-lg-1 control-label"></label>
+                        <div class="col-lg-4">
+                           <button type="submit" ng-disabled="form.$invalid" ng-if="!readonly" class="btn btn-primary btn-sm">确认提交</button>
+                           <button type="button" ui-sref="app.constant.list" class="btn btn-warning btn-sm">返回</button>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

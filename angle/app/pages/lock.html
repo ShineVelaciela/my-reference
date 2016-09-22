@@ -1,0 +1,38 @@
+<div class="abs-center wd-xl">
+   <!-- START panel-->
+   <div class="p">
+      <img ng-src="{{user.picture}}" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle center-block" />
+   </div>
+   <div class="panel widget b0">
+      <div class="panel-body">
+         <p class="text-center">请输入密码解锁</p>
+         <form role="form" name="lockForm">
+            <div class="form-group has-feedback">
+               <input id="exampleInputPassword1" type="password" placeholder="请输入登陆密码" required="" name="lock_password" ng-model="lock.password" class="form-control" />
+               <span class="fa fa-lock form-control-feedback text-muted"></span>
+               <span ng-show="lockForm.lock_password.$dirty &amp;&amp; lockForm.lock_password.$error.required" class="text-danger">密码不能为空</span>
+            </div>
+            <div class="clearfix">
+               <div class="pull-left mt-sm">
+                  <a ui-sref="page.recover" class="text-muted">
+                     <small>忘记密码？</small>
+                  </a>
+               </div>
+               <div class="pull-right">
+                  <!-- Change this button type to submit to send the form data-->
+                  <button type="button" ng-click="app.lockpage = !app.lockpage;" class="btn btn-sm btn-primary">解锁</button>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+   <!-- END panel-->
+   <div class="p-lg text-center">
+      <span>&copy; </span>
+      <span ng-bind="app.year"> </span>
+      <span> - </span>
+      <span ng-bind="app.name"></span>
+      <br/>
+      <span ng-bind="app.description"></span>
+   </div>
+</div>

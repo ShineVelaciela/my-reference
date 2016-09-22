@@ -1,0 +1,17 @@
+<!--Created by kiracheng on 2016/6/7.-->
+<nav ng-if="!pre">
+   <tabset justified="true">
+      <tab>
+         <tab-heading>编辑</tab-heading>
+         <div ng-include="'app/views/partials/edit-record.html'"></div>
+      </tab>
+      <tab>
+         <tab-heading>抽查</tab-heading>
+         <div ng-include="'app/views/partials/check-record.html'"></div>
+      </tab>
+      <tab>
+         <tab-heading>审核</tab-heading>
+         <div ng-include="'app/views/partials/examine-record.html'"></div>
+      </tab>
+   </tabset>
+</nav>

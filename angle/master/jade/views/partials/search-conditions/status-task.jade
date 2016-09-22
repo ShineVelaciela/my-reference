@@ -1,0 +1,9 @@
+//
+   Created by hao.cheng on 2016/8/22.
+label.col-sm-1.control-label 工单状态
+div.col-sm-2
+    select.form-control.input-sm(ng-model="form.taskStatus")
+        option(value="") 全部
+        option(value="1") 待办
+        option(value="2") 待审核
+        option(value="-1") 审核未通过

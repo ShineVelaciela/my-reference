@@ -1,0 +1,9 @@
+//
+   Created by YuChunzhuo on 2016/8/26.
+
+label.col-sm-1.control-label 操作时间起
+div.col-sm-2(ng-controller="DatepickerDemoCtrl as dpick")
+    input.form-control.input-sm(type="text" placeholder="请输入操作时间起" ng-model="form.startTime" my-date="" data-ng-click="dpick.open($event)" current-text="今天" clear-text="清除" close-text="关闭" uib-datepicker-popup="" is-open="dpick.opened" datepicker-options="dpick.dateOptions")
+label.col-sm-1.control-label 操作时间止
+div.col-sm-2(ng-controller="DatepickerDemoCtrl as dpick")
+    input.form-control.input-sm(type="text" placeholder="请输入操作时间止" ng-model="form.endTime" my-date="" data-ng-click="dpick.open($event)" current-text="今天" clear-text="清除" close-text="关闭" uib-datepicker-popup="" is-open="dpick.opened" datepicker-options="dpick.dateOptions")

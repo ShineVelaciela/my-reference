@@ -1,0 +1,110 @@
+{
+  "dashboard": {
+    "WELCOME": "欢迎： {{appName}}"
+  },
+  "topbar": {
+    "messages": {
+      "UNREAD": "未读信息",
+      "MORE": "更多信息"
+    },
+    "search": {
+      "PLACEHOLDER": "键入和回车……"
+    },
+    "notification": {
+      "MORE": "更多的通知"
+    }
+  },
+  "offsidebar": {
+    "setting": {
+      "SETTINGS": "设置",
+      "THEMES": "主题",
+      "layout": {
+        "FIXED": "固定",
+        "COLLAPSED": "折叠"
+      }
+    },
+    "chat": {
+      "CONNECTIONS": "连接",
+      "SEARCH": "搜索联系人",
+      "ONLINE": "上线",
+      "OFFLINE": "下线",
+      "LOAD_MORE": "加载更多",
+      "TASK_COMPLETION": "任务完成",
+      "QUOTA": "上传配额"
+    }
+  },
+  "sidebar": {
+    "WELCOME": "欢迎",
+    "heading": {
+      "HEADER": "主导航",
+      "COMPONENTS": "零组件",
+      "MORE": "更多"
+    },
+    "nav": {
+      "DASHBOARD": "控制面板",
+      "WIDGETS": "部件",
+      "WIDGETS": "部件",
+      "DOCUMENTATION": "参考资料",
+      "element": {
+        "ELEMENTS": "元素",
+        "BUTTON": "按钮",
+        "COLOR": "颜色",
+        "NOTIFICATION": "通知",
+        "INTERACTION": "互动",
+        "SPINNER": "微调控制",
+        "ANIMATION": "动画",
+        "DROPDOWN": "下拉列表",
+        "PANEL": "面板",
+        "PORTLET": "信息组件",
+        "GRID": "表格",
+        "GRID_MASONRY": "Grid Masonry",
+        "TYPO": "Typography",
+        "FONT_ICON": "Font Icons",
+        "WEATHER_ICON": "Weather Icons"
+      },
+      "form": {
+        "FORM": "表单",
+        "STANDARD": "标准",
+        "EXTENDED": "扩展",
+        "VALIDATION": "验证",
+        "WIZARD": "向导",
+        "UPLOAD": "上传"
+      },
+      "chart": {
+        "CHART": "图表",
+        "FLOT": "浮动",
+        "RADIAL": "星形"
+      },
+      "table": {
+        "TABLE": "表格",
+        "STANDARD": "标准",
+        "EXTENDED": "扩展",
+        "DATATABLE": "数据表"
+      },
+      "map": {
+        "MAP": "地图",
+        "GOOGLE": "Google 地图",
+        "VECTOR": "Vector 地图"
+      },
+      "extra": {
+        "EXTRA": "扩展",
+        "MAILBOX": "邮箱",
+        "TIMELINE": "时间轴",
+        "CALENDAR": "日历",
+        "INVOICE": "票据",
+        "SEARCH": "搜索",
+        "TODO": "任务列表",
+        "PROFILE": "人物简介"
+      },
+      "pages": {
+        "PAGES": "页面",
+        "LOGIN": "登陆",
+        "REGISTER": "注册",
+        "RECOVER": "重新设置密码",
+        "PROFILE": "人物简介",
+        "LOCK": "锁定",
+        "STARTER": "Starter Template"
+      }
+    }
+  }
+}

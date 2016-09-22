@@ -1,0 +1,554 @@
+<style>
+    /*歌曲单独样式*/
+    .thumbnail {
+        margin: auto;
+        margin-bottom: 10px;
+    }
+    table thead th{
+        /*width: 15%;*/
+        text-align: left;
+    }
+    table.item-c-whole{
+        border: 0 !important;
+    }
+    .item .details{
+        height: 60px;
+        bottom: 70px;
+    }
+    .item .details span{
+        display: inline-block;
+    }
+    .table tbody+tbody {
+        border-top: 0;
+    }
+    .ng-gallery{
+        width: 190px;
+    }
+    ng-gallery{
+        display: block;
+    }
+</style>
+<div style="background: #fff;overflow: auto" class="layout-fixed" ng-controller="GotoAnchor">
+    <div class="wrapper">
+        <div class="top-nav">
+            <play-button></play-button>
+            <!--<a type="button" class="btn btn-default" ng-click="goBack();" ng-if="!pre">返回</a>-->
+            <a type="button" class="btn btn-default" ng-if="!examine && !check && !pre" href="" ng-click="edit('song',data.songId)">编辑</a>
+            <a type="button" class="btn btn-default" ng-if="examine && !pre" ng-click="examineConfirm(examineResult,examineSuggest)" href="">提交</a>
+            <a type="button" class="btn btn-default" ng-if="check && !pre" ng-click="checkMaterial(ckResult, ckSuggest, ckTagError)" href="">提交</a>
+            <a type="button" class="btn btn-default" ng-if="examine && !pre" ng-mouseenter="app.examineStyle = !app.examineStyle">审核</a>
+            <a type="button" class="btn btn-default" ng-if="check && !pre" ng-mouseenter="app.checkStyle = !app.checkStyle">抽查</a>
+            <material-operation></material-operation>
+        </div>
+        <aside class="offsidebar material" ng-include="'app/views/partials/record-list.html'"></aside>
+        <div style="margin-top: 55px;">
+            <div style="width: 15%;height: auto;float: left;position: fixed;" class="panel-body">
+                <ng-include src="'app/views/song/status.html'"></ng-include>
+                <h5>目录
+                    (
+                    模板:
+                    <span ng-if="data.type == 1">其他歌曲</span>
+                    <span ng-if="data.type == 2">古典歌曲</span>
+                    <span ng-if="data.type == 0">个性化歌曲</span>
+                    )
+                </h5>
+                <div ng-hide="(!examine && (catalog.name == '编目记录'))" class="accordion-group" ng-repeat="catalog in catalogs track by $index">
+                    <p>
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapse_{{$index+1}}" ng-if="catalog.list != undefined">
+                                <i class="icon-chevron-right"></i>
+                                {{catalog.name}}
+                            </a>
+                            <a class="accordion-toggle collapsed" ng-click="gotoAnchor(catalog.id)" ng-if="catalog.list == undefined">
+                                <i class="icon-chevron-right"></i>
+                                {{catalog.name}}
+                            </a>
+                        </div>
+                        <div id="collapse_{{$index+1}}" class="accordion-body in collapse"  ng-if="catalog.list != undefined">
+                            <div style="text-align: right;">
+                                <ul class="unstyled">
+                                    <li  ui-sref-active="active"  ng-repeat="cat in catalog.list"><a>{{cat.name}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </p>
+                </div>
+            </div>
+            <div class="material-content">
+                <!-- 抽查-->
+                <ng-include src="'app/views/partials/material/tpl-check.html'"></ng-include>
+                <!-- 审核-->
+                <ng-include src="'app/views/partials/material/tpl-examine.html'"></ng-include>
+                <div >
+                    <div ng-if="data.type != 0 && (examine || check)">
+                        <h4 class="material" id="catalog-10">编目记录</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div class="item-c-whole border-lf0">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>版权</th>
+                                    <th>有效期</th>
+                                    <th>产品歌曲名</th>
+                                    <th>产品歌手名</th>
+                                    <th>产品专辑名</th>
+                                </tr>
+                                </thead>
+                                <tbody >
+                                    <tr class="odd gradeX " ng-repeat="catalog in catalog_list">
+                                        <td>{{catalog.copyrightId}}</td>
+                                        <td>{{catalog.coprTerm | date : 'yyyy-MM-dd'}}</td>
+                                        <td>{{catalog.copyrightName}}</td>
+                                        <td>{{catalog.singerName}}</td>
+                                        <td>{{catalog.albumName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--<h3 class="name">{{data.artistName}}</h3>-->
+                    <h4 class="material" id="catalog-1" >图片</h4>
+                    <div class="divider-top"></div>
+                    <div class="desc mb-10 ">
+                        <div class="center">
+                            <!--{{data.imgs}}-->
+                            <!--{{data.imgUrl}}-->
+                            <div class="img-div hide"  ng-repeat="img in data.imgs track by $index" ng-if="data.imgs != undefined" ng-class="{showImg:img.selected}">
+                                <div class="thumbnail">
+                                    <div class="item" >
+                                        <a class="fancybox-button"  href="{{img.url}}" data-lightbox="image-1" data-title="{{img.sizeN}}图: 宽{{img.width}}*高{{img.height}} 大小:{{img.size}}kb 类型:{{img.type}} <a onclick='watchSourceImg();' href='javascript:;' style='margin-left:80px;'>查看原图</a>">
+                                            <div class="zoom"  >
+                                                <img src="{{img.showUrl}}?w=150&h=150"  alt="Photo">
+                                                <!--<img src="/mls/resources/img/artist_default.png" ng-if="data.imgUrl == undefined" alt="Photo">-->
+                                                <div class="zoom-icon" ></div>
+                                            </div>
+                                        </a>
+                                        <div class="details" ng-if="data.imgUrl != undefined" >
+                                            <span>{{img.sizeN}}图: 宽{{img.width}}*高{{img.height}}</span>
+                                            <span>大小:{{img.size}}kb </span>
+                                            <span>类型:{{img.type}} </span>
+                                            <div>
+                                                <a href="javascript:;" class="icon" ng-click="selectImgPre(img,data.imgs);"><em class="fa fa-chevron-circle-left"></em></a>
+                                                <a href="javascript:;" class="icon" ng-click="selectImgNext(img,data.imgs);"><em class="fa fa-chevron-circle-right"></em></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="thumbnail" ng-if="data.imgs == undefined">
+                                <div class="item" >
+                                    <a class="fancybox-button" href="{{data.imgUrl}}" data-lightbox="image-1" data-title="">
+                                        <div class="zoom"  >
+                                            <img src="{{data.imgUrl}}" ng-if="data.imgUrl != undefined"  alt="Photo">
+                                            <img src="app/img/default.png" ng-if="data.imgUrl == undefined" alt="Photo">
+                                            <div class="zoom-icon" ></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--<ng-gallery images="images" ng-if="data.imgUrl != undefined"></ng-gallery>-->
+                            <span class="" ng-if="data.imgs == undefined">非图片服务器资源,不支持显示图片信息</span>
+                        </div>
+                    </div>
+                    <h4 class="material" id="catalog-2">基础信息</h4>
+                    <div class="divider-top"></div>
+                    <table class="info">
+                        <tbody>
+                        <!--公用-->
+                        <tr >
+                            <td class="name">歌曲名:</td>
+                            <td class="value border-rg1">{{data.songName}}</td>
+                            <td class="name">专辑:</td>
+                            <td class="value"><span class="tx" ng-repeat="album in data.albums"><a ui-sref="albumInfo({albumId:album.albumId, returnBtn: returnBtn})">{{album.albumName}}(<a ui-sref="albumInfo({albumId:album.albumId, returnBtn: returnBtn})">{{album.albumId}}</a>)</a></span></td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">歌曲别名:</td>
+                            <td class="value border-rg1"><span  title="{{data.songAliasName}}">{{data.songAliasName}}</span></td>
+                            <td class="name">所属影视:</td>
+                            <td class="value">
+                                <ul class="list-unstyled">
+                                    <li ng-repeat="movie in data.movies track by $index">
+                                        <span ng-if="movie.movieType">{{movie.movieType}}</span>
+                                        <span ng-if="movie.name" title="{{movie.name}}">{{movie.name}}</span>
+                                        <span ng-if="movie.type">{{movie.type}}</span>
+                                    </li>
+                                </ul>
+                                <!--<span  title="{{data.movies}}">{{data.movies | cut:true:30:' ...'}}</span>-->
+                            </td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">歌曲翻译名:</td>
+                            <td class="value border-rg1"><span title="{{data.translationName}}">{{data.translationName}}</span></td>
+                            <td class="name">歌曲描述:</td>
+                            <td class="value"><span title="{{data.description}}">{{data.description }}</span></td>
+                        </tr>
+                        <!--公用-->
+                        <tr >
+                            <td class="name">歌手:</td>
+                            <td class="value border-rg1"><span class="tx" ng-repeat="artist in data.artists"><a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}(<a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistId}}</a>)</a></span></td>
+                            <td class="name">语言:</td>
+                            <td class="value">
+                            <span class="tx label label-default tag" ng-repeat="tag in relTags[15]" >
+                                {{tag.tagName}}
+                            </span>
+                            </td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">词作者:</td>
+                            <td class="value border-rg1"><span class="tx" ng-repeat="artist in data.lyricsers"><a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}</a></span></td>
+                            <td class="name">音轨号:</td>
+                            <td class="value">{{data.trackNumber}}</td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">曲作者:</td>
+                            <td class="value border-rg1"><span class="tx" ng-repeat="artist in data.composers"><a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}</a></span></td>
+                            <td class="name">时长:</td>
+                            <td class="value">{{data.playTime}}</td>
+                        </tr>
+                        <!--公用-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">演奏者:</td>
+                            <td class="value border-rg1"><span class="tx" ng-repeat="artist in data.performers"><a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}</a></span></td>
+                            <td class="name">BPM:</td>
+                            <td class="value">{{data.bpm}}</td>
+                        </tr>
+                        <!--其他歌曲-->
+                        <tr ng-if="data.type == 1" >
+                            <td class="name">编曲:</td>
+                            <td class="value border-rg1">{{data.arranger}}</td>
+                            <td class="name">流派:</td>
+                            <td class="value"></td>
+                        </tr>
+                        <!--其他歌曲-->
+                        <tr ng-if="data.type == 1" >
+                            <td class="name">制作人:</td>
+                            <td class="value border-rg1">{{data.maker}}</td>
+                            <td class="name">乐器:</td>
+                            <td class="value"></td>
+                        </tr>
+                        <!--其他歌曲-->
+                        <tr ng-if="data.type == 1" >
+                            <td class="name">版本名称:</td>
+                            <td class="value border-rg1">{{data.versionName}}</td>
+                            <td class="name">版本信息:</td>
+                            <td class="value"><span title="{{data.versionInfo}}">{{data.versionInfo}}</span></td>
+                        </tr>
+                        <!--其他歌曲-->
+                        <tr ng-if="data.type == 1" >
+                            <td class="name">首张收录专辑:</td>
+                            <td class="value border-rg1">{{data.firstAlbum.albumName}}</td>
+                            <td class="name">首次发行时间:</td>
+                            <td class="value">{{data.publishTime}}</td>
+                        </tr>
+                        <!--其他歌曲-->
+                        <tr ng-if="data.type == 1" >
+                            <td class="name">版权公司:</td>
+                            <td class="value border-rg1">{{data.copyrightCompany}}</td>
+                            <td class="name">发行公司:</td>
+                            <td class="value">{{data.publishCompany}}</td>
+                        </tr>
+                        <!--古典歌曲-->
+                        <tr ng-if="data.type == 2" >
+                            <td class="name">指挥者:</td>
+                            <td class="value border-rg1"><span class="tx" ng-repeat="artist in data.cantors"><a ui-sref="artistInfo({artistId:artist.artistId, returnBtn: returnBtn})">{{artist.artistName}}</a></span></td>
+                            <td class="name">流派:</td>
+                            <td class="value">TODO</td>
+                        </tr>
+                        <!--古典歌曲-->
+                        <tr ng-if="data.type == 2" >
+                            <td class="name">合唱团:</td>
+                            <td class="value border-rg1">{{data.chorus}}</td>
+                            <td class="name">乐器:</td>
+                            <td class="value">TODO</td>
+                        </tr>
+                        <!--古典歌曲-->
+                        <tr ng-if="data.type == 2" >
+                            <td class="name">合奏乐团:</td>
+                            <td class="value border-rg1">{{data.tuttiband}}</td>
+                            <td class="name">管弦乐队:</td>
+                            <td class="value">{{data.orchestra}}</td>
+                        </tr>
+                        <!--公用-->
+                        <tr>
+                            <td class="name">预编目ID:</td>
+                            <td class="value border-rg1">{{preCatalogId}}</td>
+                            <td class="name">查看词曲作者:</td>
+                            <td class="value"  ng-controller="ModalController as mod">
+                                <ng-include src="'app/views/song/lyricsersandcomposer.html'"></ng-include>
+                                <a ng-click="mod.open('sm','catalog', data.songId)">点击查看</a>
+                            </td>
+                        </tr>
+                        <!--其他歌曲-->
+                        <tr ng-if="data.type != 0" >
+                            <td class="name">歌曲评分:</td>
+                            <td class="value" colspan="3">
+                                <span id="precision-demo" style="cursor: pointer;"></span>
+                                <input id="precision-hint" style="width: 25px;border: 0;" readonly class="hint" value="{{data.manualScore}}" ng-model="data.manualScore"/>
+                            </td>
+                        </tr>
+                        <!--公用-->
+                        <tr >
+                            <td class="name">歌词:</td>
+                            <td class="value" colspan="3">
+                                <pre>{{data.lyric}}</pre>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div >
+                        <h4 class="material" class="material" id="catalog-3">标签</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div>
+                            <table class="info">
+                                <tbody>
+                                <tr >
+                                    <td class="name">自定义标签:</td>
+                                    <td class="value">{{tagExt.tags}}</td>
+                                    <td class="name">新歌时间:</td>
+                                    <td class="value">{{tagExt.isnew}}</td>
+                                    <td class="name">热歌时间:</td>
+                                    <td class="value">{{tagExt.ishot}}</td>
+                                </tr>
+                                <tr >
+                                    <td class="name">曲库标签:</td>
+                                    <td class="value" colspan="5">
+                                    <span class="tx label label-default tag" ng-repeat="tag in artistTags | orderBy : 'sort'">
+                                        {{tag.tagName}}
+                                    </span>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td class="name">腾讯标签:</td>
+                                    <td class="value" colspan="5">
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-4">歌曲介绍</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div class="item-c-whole border-lf0">
+                            <pre>{{data.introduction}}</pre>
+                        </div>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-5">创作背景</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div class="item-c-whole border-lf0">
+                            <pre>{{data.creatingBackground}}</pre>
+                        </div>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-6">获奖记录</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div class="item-c-whole border-lf0">
+                            <pre>{{data.prize}}</pre>
+                        </div>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-7">歌曲评价</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div class="item-c-whole border-lf0">
+                            <pre>{{data.evaluate}}</pre>
+                        </div>
+                    </div>
+                    <div ng-if="data.type != 0">
+                        <h4 class="material" id="catalog-8">歌曲故事</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div class="item-c-whole border-lf0">
+                            <pre>{{data.story}}</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="material" id="catalog-9">版权信息表</h4>
+                        <div class="divider-top"></div>
+                        <!--通用-->
+                        <div class="item-c-whole border-lf0">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>版权</th>
+                                    <th>产品ID</th>
+                                    <th>产品类型</th>
+                                    <th>有效期</th>
+                                    <th>产品歌曲名</th>
+                                    <th>产品歌手名</th>
+                                    <th>产品专辑名</th>
+                                    <th>版权状态</th>
+                                </tr>
+                                </thead>
+                                <tbody ng-repeat="copyright in catalog_list" >
+                                <tr ng-if="copyright.colorringId != undefined && copyright.colorringId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.colorringId}}</td>
+                                    <td>彩铃</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.colorringAction == 2 || copyright.colorringAction == 5">隐藏</span>
+                                        <span ng-if="copyright.colorringAction != 2 && copyright.colorringAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="copyright.callringId != undefined && copyright.callringId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.callringId}}</td>
+                                    <td>振铃</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.callringAction == 1 || copyright.callringAction == 5">隐藏</span>
+                                        <span ng-if="copyright.callringAction != 1 && copyright.callringAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="copyright.fullmusicId != undefined && copyright.fullmusicId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.fullmusicId}}</td>
+                                    <td>全曲</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.fullmusicAction == 1 || copyright.fullmusicAction == 5">隐藏</span>
+                                        <span ng-if="copyright.fullmusicAction != 1 && copyright.fullmusicAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="copyright.walkmanId != undefined && copyright.walkmanId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.walkmanId}}</td>
+                                    <td>随身听</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.walkmanAction == 1 || copyright.walkmanAction == 5">隐藏</span>
+                                        <span ng-if="copyright.walkmanAction != 1 && copyright.walkmanAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="copyright.losslessId != undefined && copyright.losslessId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.losslessId}}</td>
+                                    <td>无损</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.losslessAction == 1 || copyright.losslessAction == 5">隐藏</span>
+                                        <span ng-if="copyright.losslessAction != 1 && copyright.losslessAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="copyright.channelMvId != undefined && copyright.channelMvId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.channelMvId}}</td>
+                                    <td>独家频道MV</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.channelMvAction == 1 || copyright.channelMvAction == 5">隐藏</span>
+                                        <span ng-if="copyright.channelMvAction != 1 && copyright.channelMvAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="copyright.tideMvId != undefined && copyright.tideMvId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.tideMvId}}</td>
+                                    <td>潮流频道MV</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.tideMvAction == 1 || copyright.tideMvAction == 5">隐藏</span>
+                                        <span ng-if="copyright.tideMvAction != 1 && copyright.tideMvAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="copyright.digitalAlbumId != undefined && copyright.digitalAlbumId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.digitalAlbumId}}</td>
+                                    <td>数字专辑</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.digitalAlbumAction == 1 || copyright.digitalAlbumAction == 5">隐藏</span>
+                                        <span ng-if="copyright.digitalAlbumAction != 1 && copyright.digitalAlbumAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="copyright.miguvideoId != undefined && copyright.miguvideoId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.miguvideoId}}</td>
+                                    <td>咪咕爱唱（视频伴唱）</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.miguvideoAction == 1 || copyright.miguvideoAction == 5">隐藏</span>
+                                        <span ng-if="copyright.miguvideoAction != 1 && copyright.miguvideoAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="copyright.miguaudioId != undefined && copyright.miguaudioId" class="odd gradeX ">
+                                    <td>{{copyright.copyrightId}}</td>
+                                    <td>{{copyright.miguaudioId}}</td>
+                                    <td>咪咕爱唱（音频伴唱）</td>
+                                    <td>{{copyright.coprTerm | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{copyright.copyrightName}}</td>
+                                    <td>{{copyright.singerName}}</td>
+                                    <td>{{copyright.albumName}}</td>
+                                    <td>
+                                        <span ng-if="copyright.miguaudioAction == 1 || copyright.miguaudioAction == 5">隐藏</span>
+                                        <span ng-if="copyright.miguaudioAction != 1 && copyright.miguaudioAction != 5">商用</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="content-record">-->
+                <!--<h5>审核记录</h5>-->
+                <!--<div ng-repeat="auditData in auditDatas">-->
+                    <!--{{auditData.optTime | date:'yyyy-MM-dd'}}审核结果：-->
+                    <!--{{auditData.userName}}-->
+                    <!--<span ng-if="auditData.auditResut == 1">通过</span>-->
+                    <!--<span ng-if="auditData.auditResut == 0">不通过</span>-->
+                    <!--<span ng-if="auditData.auditResut == -1">A不通过</span>-->
+                    <!--<span ng-if="auditData.auditResut == -2">B不通过</span>-->
+                    <!--审核意见：{{auditData.opinion}}-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="content-record" style="top: 60%;">-->
+                <!--<h5>操作记录</h5>-->
+                <!--<div ng-repeat="op in opDatas">-->
+                    <!--{{op.optTime | date:'yyyy-MM-dd HH:mm:ss'}}- -->
+                    <!--{{op.user.name}}对该数据<span ng-if="op.optType == 1">编辑</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+
+</div>

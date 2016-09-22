@@ -1,0 +1,23 @@
+<table class="table table-striped">
+    <thead>
+    <tr role="row">
+        <th>版权ID</th>
+        <th>歌曲名称</th>
+        <th>歌手名称</th>
+        <th>标签</th>
+    </thead>
+    <tbody role="alert" >
+    <tr class="gradeX odd" ng-repeat="data in datas" ng-controller="ModalCtrl">
+        <td>{{data.cid}}{{tip}}</td>
+        <td>{{data.songName}}</td>
+        <td>{{data.artistName}}</td>
+        <td><span style="width: 337px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display: inline-block" title="{{data.htags}}">{{data.htags}}</span></td>
+    </tr>
+    <tr ng-if="datas.length < 1">
+        <td colspan="4">暂无数据</td>
+    </tr>
+    </tbody>
+</table>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>
+<!--<span class="page-detail">总共{{totalPage}}页,共{{totalRecord}}条记录,每页显示{{maxResult}}条记录</span>-->
+<!--<uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>-->

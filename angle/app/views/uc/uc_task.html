@@ -1,0 +1,105 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                <i class="icon-home"></i>&nbsp;&nbsp;媒资库<span class="divider">/</span>用户中心
+            </h3>
+        </div>
+    </div>
+    <div class="row-fluid" id="search_part">
+        <div class="span12">
+            <!-- BEGIN EXTRAS PORTLET-->
+            <div class="widget">
+                <div class="widget-title">
+                    <h4><i class="icon search-icon"></i>任务分配</h4>
+                   <span class="tools">
+                   <a href="javascript:;" class="chevron-down" onclick="hideBody(this);"></a>
+                   </span>
+                </div>
+                <div class="widget-body" ng-controller="taskCtrl">
+                    <div class="row-fluid" style="background-color: #fff;z-index:99;">
+                        <!--<input type="text" class="span3" style="margin-top: 15px;position: relative;" ng-model="selected" uib-typeahead="u as u.name for u in users | filter:$viewValue | limitTo:15" typeahead-on-select="selectUser($item)">-->
+                        <!--<i class="icon-search" style="position: relative; left: -25px; top: 3px;"></i>-->
+                        <span ng-if="show == true">
+                            <select ng-options="cyr as cyr.uName for cyr in cyr_list" ng-change="selectCyr(cyr)" ng-model="cyr" style="margin-left: 40px;margin-top: 10px;"></select>
+                            <span ng-if="user.name != undefined ">
+                                <span class='badge badge-warning'>
+                                <i>{{user.name}}</i>&nbsp;&nbsp;
+                                <i class='icon-remove' style='cursor:pointer;' ng-click="removeUser();"></i>
+                                </span>&nbsp;&nbsp;
+                                <span class='badge badge-warning' style="cursor: pointer;" ng-click="distributionTask(user.id);">
+                                <i>分配</i>
+                                </span>
+                            </span>
+                        </span>
+
+                        <ul class="ul-groups" style="float: right !important;margin-right: 50px;" ng-controller="ModalCtrl">
+                            <span ><li class="li-first " ui-sref-active='active' ng-click="openImport(pro,uId);">导入</li></span>
+                            <span ><li ui-sref-active='active' ng-click="export();">导出</li></span>
+                            <span ><li ui-sref-active='active' ui-sref="uc_atask({pId:pro,status:0})">未分配</li></span>
+                            <span ><li ui-sref-active='active' ui-sref="uc_atask({pId:pro,status:1})">已分配</li></span>
+                            <span ><li ui-sref-active='active' ui-sref="uc_atask({pId:pro,status:2})">未完成</li></span>
+                            <span ><li class="li-last"  ui-sref-active='active' ui-sref="uc_atask({pId:pro,status:3})">已完成</li></span>
+                            <script type="text/ng-template" id="import.html">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">导入excel数据</h3>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <form class="form-horizontal" >
+                                    <div class="control-group">
+                                        <label class="control-label">上传附件</label>
+                                        <div class="controls">
+                                            <input type="file" id="excelFile" name="excelFile" class="default" fileread="uploadme.src">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <span style="color: red;">{{error}}</span>
+                                        <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+                                        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+                                    </div>
+                                </form>
+                            </script>
+                        </ul>
+                        <!--{{selected | json}}-->
+                    </div>
+                    <table class="table table-striped table-bordered dataTable" id="song_table"
+                           aria-describedby="sample_1_info">
+                        <thead>
+                        <tr role="row">
+                            <th style="width: 24px;" class="sorting_disabled">
+                                <div class="checker" id="uniform-undefined"><span ng-class="{true: 'checked', false: ''}[allIsCheck]"><input type="checkbox"
+                                                                                                                                             class="group-checkable"
+                                                                                                                                             ng-model="all"
+                                                                                                                                             data-set=".checkboxes"
+                                                                                                                                             ng-click='checkAll(all, datas)'
+                                                                                                                                             style="opacity: 0;margin-top:0;"></span>
+                                </div>
+                            </th>
+                            <th class="hidden-phone sorting" style="width: 130px;border-left: 0;">数据类型</th>
+                            <th class="sorting" style="width: 107px;">数据ID</th>
+                            <th class="hidden-phone sorting" style="width: 123px;">数据名</th>
+                            <th class="hidden-phone sorting" style="width: 123px;">任务所属人</th>
+                        </thead>
+
+                        <tbody role="alert" >
+                        <tr class="gradeX odd" ng-repeat="data in datas track by $index">
+                            <td class="sorting_1">
+                                <div class="checker">
+                                    <span ng-class="{true: 'checked', false: ''}[data.isCheck]"><input type="checkbox" name="check_box" class="checkboxes" style="opacity: 0;" ng-true-value="true"
+                                                                                                       ng-click="chk(data, data.isCheck)"></span>
+                                </div>
+                            </td>
+                            <td class="hidden-phone" >{{data.type}}</td>
+                            <td >{{data.id}}</td>
+                            <td class="hidden-phone">{{data.name}}</td>
+                            <td class="hidden-phone">{{data.uName}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END EXTRAS PORTLET-->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,718 @@
+<style>
+    .sm-container{
+        padding: 5px 30px 40px 39px;
+    }
+    .sm-songtb{
+        margin-top: 0;
+    }
+    .songtb-title{
+        border-bottom: 2px solid #527AA2;
+    }
+    .songtb-title h3{
+        font-size: 16px;
+    }
+    label{
+        color: #333;
+    }
+    .detail table tbody tr td.name{
+        text-align: left;
+        width: 7%;
+    }
+    .detail table tbody tr td.content{
+        width: 13%;
+    }
+    .detail table{
+        width: 75%;
+        margin-left: 5px;
+    }
+    a.search-btn{
+        height: 100%;
+        padding: 5px;
+        background: #34495E;
+        color: #fff;
+        text-decoration: inherit;
+    }
+    a.search-btn:hover{
+        background: #677482;
+    }
+    a.search-btn:active{
+        background: #324252;
+    }
+    .page-detail{
+        margin-top: 0;
+    }
+    .pagination{
+        margin-top: 0;
+    }
+    .table{
+        margin-bottom: 10px;
+    }
+    input[type="radio"]{
+        margin: 0;
+    }
+    pre:hover{
+        background-color: #CBE8F6;
+    }
+    tr.gradeX.odd:hover>td>pre{
+        background-color: #CBE8F6;
+    }
+</style>
+<div class="sm-container">
+        <div class="sm-songtb">
+            <div class="songtb-title">
+                <span><label>版权信息&nbsp;&nbsp;&nbsp;<i class="icon-play-circle" ng-click="addPlaySong(info.songId,info.copyrightId);"></i></label></span>
+            </div>
+            <table class="table table-striped">
+                <tbody>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">版权ID:</td>
+                    <td style="width: 40%;">{{info.copyrightId}}</td>
+                    <td style="width: 10%;">版权类型:</td>
+                    <td style="width: 40%;">
+                        <span ng-if="info.copyrightType == 10">歌曲</span>
+                        <span ng-if="info.copyrightType == 20">MV</span>
+                        <span ng-if="info.copyrightType == 30">图片</span>
+                        <span ng-if="info.copyrightType == 40">数字专辑</span>
+                    </td>
+                </tr>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">版权状态:</td>
+                    <td style="width: 40%;">
+                        <span ng-if="info.karakalStatus == 10">正常</span>
+                        <span ng-if="info.karakalStatus == 11">正常待编目</span>
+                        <span ng-if="info.karakalStatus == 12">正常待审核</span>
+                        <span ng-if="info.karakalStatus == 14">审核中</span>
+                        <span ng-if="info.karakalStatus == 15">编辑中</span>
+                        <span ng-if="info.karakalStatus == 20">删除</span>
+                        <span ng-if="info.karakalStatus == 30">禁用</span>
+                        <span ng-if="info.karakalStatus == 111">审核未通过</span>
+                        <span ng-if="info.karakalStatus == -1">未关联曲库</span>
+                    </td>
+                    <td style="width: 10%;">版权产品试听:</td>
+                    <td style="width: 40%;" ><a href="javascript:;" ng-click="addPlaySong(info.songId,info.copyrightId);" ng-if="info.copyrightType != 20">试听</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sm-songtb" ng-if="detail != undefined && info.copyrightType == 10">
+            <div class="songtb-title">
+                <span><label>已编目歌曲信息&nbsp;&nbsp;&nbsp;<i class="icon-control-play" ng-click="addPlaySong(detail.songId,detail.cids.copyrightId);"></i></label></span>
+            </div>
+            <table class="table table-striped">
+                <tbody>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">歌曲名称:</td>
+                        <td style="width: 25%;">{{detail.songName}}</td>
+                        <td style="width: 10%;">专辑名称:</td>
+                        <td style="width: 25%;">
+                            <span ng-if="detail.albums.length == 1">
+                                <a href="/mls/album/search?albumId={{detail.albums[0].albumId}}" target="_blank">{{detail.albums[0].albumName}}</a>
+                            </span>
+                            <span ng-if="detail.albums.length > 1">
+                                <a href="/mls/album/search?albumId={{detail.albums[0].albumId}}" target="_blank">{{detail.albums[0].albumName}}</a>
+                                <span uib-dropdown>
+                                    <i class="icon-double-angle-down" uib-dropdown-toggle></i>
+                                    <ul class="dropdown-menu" role="menu"  style="max-width: 234px;width: auto;">
+                                        <li role="menuitem" ng-repeat="album in detail.albums track by $index" >
+                                            <p title="{{album.albumName}}" ng-if="$index > 0" style="width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a href="/mls/album/search?albumId={{album.albumId}}" target="_blank">{{album.albumName}}</a></p>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </span>
+                        </td>
+                        <td style="width: 10%;">歌手:</td>
+                        <td style="width: 25%;">
+                            <span ng-if="detail.artists.length == 1">
+                                <a ng-repeat="artist in detail.artists" href="/mls/artist/search?artistId={{artist.artistId}}" target="_blank">{{artist.artistName}}</a>
+                            </span>
+                            <span ng-if="detail.artists.length > 1">
+                                <a ng-repeat="artist in detail.artists" href="/mls/artist/search?artistId={{artist.artistId}}" target="_blank">{{artist.artistName}};</a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">词作者:</td>
+                        <td style="width: 25%;">{{detail.lyricser}}</td>
+                        <td style="width: 10%;">曲作者:</td>
+                        <td style="width: 25%;">{{detail.composer}}</td>
+                        <td style="width: 10%;">演奏者:</td>
+                        <td style="width: 25%;">
+                            <span ng-if="detail.performers.length == 1">
+                                <span ng-repeat="artist in detail.performers" >{{artist}}</span>
+                            </span>
+                            <span ng-if="detail.performers.length > 1">
+                                <span ng-repeat="artist in detail.performers" >{{artist}};</span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">指挥者:</td>
+                        <td style="width: 25%;">
+                            <span ng-if="detail.cantors.length == 1">
+                                <span ng-repeat="artist in detail.cantors" >{{artist}}</span>
+                            </span>
+                            <span ng-if="detail.cantors.length > 1">
+                                <span ng-repeat="artist in detail.cantors" >{{artist}};</span>
+                            </span>
+                        </td>
+                        <td style="width: 10%;">歌曲时长:</td>
+                        <td style="width: 25%;">{{detail.playTime}}</td>
+                        <td style="width: 10%;">歌曲速度:</td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">音轨号:</td>
+                        <td style="width: 25%;"></td>
+                        <td style="width: 10%;">歌曲语言:</td>
+                        <td style="width: 25%;">{{detail.language}}</td>
+                        <td style="width: 10%;"></td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sm-songtb" ng-if="detail != undefined && info.copyrightType == 40">
+            <div class="songtb-title">
+                <span><label>已编目专辑信息&nbsp;&nbsp;&nbsp;<i class="icon-control-play" ng-click="addPlaySong(detail.songId,detail.cids.copyrightId);"></i></label></span>
+            </div>
+            <table class="table table-striped">
+                <tbody>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">专辑名称:</td>
+                    <td style="width: 25%;">{{detail.albumName}}</td>
+                    <td style="width: 10%;">专辑艺术家:</td>
+                    <td style="width: 25%;">
+                        <span ng-if="detail.artists.length == 1">
+                            <a ng-repeat="artist in detail.artists" href="/mls/artist/search?artistId={{artist.artistId}}" target="_blank">{{artist.artistName}}</a>
+                        </span>
+                        <span ng-if="detail.artists.length > 1">
+                            <a ng-repeat="artist in detail.artists" href="/mls/artist/search?artistId={{artist.artistId}}" target="_blank">{{artist.artistName}}、</a>
+                        </span>
+                    </td>
+                    <td style="width: 10%;">曲目数量:</td>
+                    <td style="width: 25%;">{{detail.num}}</td>
+                </tr>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">专辑类型:</td>
+                    <td style="width: 25%;">{{detail.category}}</td>
+                    <td style="width: 10%;">发行公司:</td>
+                    <td style="width: 25%;">{{detail.company}}</td>
+                    <td style="width: 10%;">专辑语言:</td>
+                    <td style="width: 25%;">{{detail.language}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sm-songtb" ng-repeat="data in info.colorRingList.list">
+            <div class="songtb-title">
+                <span><label>彩铃基本信息&nbsp;&nbsp;&nbsp;<i class="icon-control-play" ng-click="addPlaySong_Catalog(info.copyrightId,['彩铃']);"></i></label></span>
+            </div>
+            <table class="table table-striped">
+                <tbody>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">歌曲名称:</td>
+                    <td style="width: 25%;">{{data.contentInfo.toneName}}</td>
+                    <td style="width: 10%;">歌手名称:</td>
+                    <td style="width: 25%;">{{data.contentInfo.singerName}}</td>
+                    <td style="width: 10%;">铃音类型:</td>
+                    <td style="width: 25%;">
+                        <span ng-if="data.contentInfo.type == 0">
+                            普通铃音
+                        </span>
+                        <span ng-if="data.contentInfo.type == 1">
+                            集团铃音
+                        </span>
+                    </td>
+                </tr>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">铃音有效日期:</td>
+                    <td style="width: 25%;">{{data.contentInfo.toneValidDay}}</td>
+                    <td style="width: 10%;">铃音附加信息:</td>
+                    <td style="width: 25%;">{{data.contentInfo.appendInfo}}</td>
+                    <td style="width: 10%;">版权所有方名称:</td>
+                    <td style="width: 25%;">{{data.contentInfo.spName}}</td>
+                </tr>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">铃音价格:</td>
+                    <td style="width: 25%;">{{data.contentInfo.price}}</td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 25%;"></td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 25%;"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sm-songtb" ng-repeat="data in info.walkmanList.list">
+                <div class="songtb-title" >
+                    <span><label>随身听&nbsp;&nbsp;&nbsp;<i class="icon-control-play" ng-click="addPlaySong_Catalog(info.copyrightId,['随身听']);"></i></label></span>
+                </div>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">内容名称:</td>
+                        <td style="width: 25%;">{{data.contentName}}</td>
+                        <td style="width: 10%;">歌手名称:</td>
+                        <td style="width: 25%;">{{data.singer}}</td>
+                        <td style="width: 10%;">词作者:</td>
+                        <td style="width: 25%;">
+                        <span ng-repeat="param in data.paramSet">
+                            <span ng-if="param.paramName == 'LyricAuthor'">
+                                {{param.paramValue}}
+                            </span>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">曲作者:</td>
+                        <td style="width: 25%;">
+                         <span ng-repeat="param in data.paramSet">
+                            <span ng-if="param.paramName == 'SongAuthor'">
+                                {{param.paramValue}}
+                            </span>
+                        </span>
+                        </td>
+                        <td style="width: 10%;">内容ID:</td>
+                        <td style="width: 25%;">{{data.contentID}}</td>
+                        <td style="width: 10%;">专辑名称:</td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">有效日期:</td>
+                        <td style="width: 25%;">{{data.validateDate}}</td>
+                        <td style="width: 10%;">失效日期:</td>
+                        <td style="width: 25%;">{{data.invalidateDate}}</td>
+                        <td style="width: 10%;">版权所有方ID:</td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="sm-songtb"  ng-repeat="data in info.callRingList.list" >
+            <div class="songtb-title">
+                <span><label>振铃&nbsp;&nbsp;&nbsp;<i class="icon-control-play" ng-click="addPlaySong_Catalog(info.copyrightId,['振铃']);"></i></label></span>
+            </div>
+            <table class="table table-striped">
+                    <tbody>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">内容名称:</td>
+                        <td style="width: 25%;">{{data.contentName}}</td>
+                        <td style="width: 10%;">歌手名称:</td>
+                        <td style="width: 25%;">{{data.singer}}</td>
+                        <td style="width: 10%;">词作者:</td>
+                        <td style="width: 25%;">
+                        <span ng-repeat="param in data.paramSet">
+                            <span ng-if="param.paramName == 'LyricAuthor'">
+                                {{param.paramValue}}
+                            </span>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">曲作者:</td>
+                        <td style="width: 25%;">
+                        <span ng-repeat="param in data.paramSet">
+                            <span ng-if="param.paramName == 'SongAuthor'">
+                                {{param.paramValue}}
+                            </span>
+                        </span>
+                        </td>
+                        <td style="width: 10%;">内容ID:</td>
+                        <td style="width: 25%;">{{data.contentID}}</td>
+                        <td style="width: 10%;">专辑名称:</td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">有效日期:</td>
+                        <td style="width: 25%;">{{data.validateDate}}</td>
+                        <td style="width: 10%;">失效日期:</td>
+                        <td style="width: 25%;">{{data.invalidateDate}}</td>
+                        <td style="width: 10%;">版权所有方ID:</td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="sm-songtb" ng-repeat="data in info.fullMusicList.list">
+            <div class="songtb-title">
+                <span><label>全曲&nbsp;&nbsp;&nbsp;<i class="icon-control-play" ng-click="addPlaySong_Catalog(info.copyrightId,['全曲']);"></i></label></span>
+            </div>
+            <table class="table table-striped">
+                    <tbody>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">内容名称:</td>
+                        <td style="width: 25%;">{{data.contentName}}</td>
+                        <td style="width: 10%;">歌手名称:</td>
+                        <td style="width: 25%;">{{data.singer}}</td>
+                        <td style="width: 10%;">词作者:</td>
+                        <td style="width: 25%;">
+                        <span ng-repeat="param in data.paramSet">
+                            <span ng-if="param.paramName == 'LyricAuthor'">
+                                {{param.paramValue}}
+                            </span>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">曲作者:</td>
+                        <td style="width: 25%;">
+                        <span ng-repeat="param in data.paramSet">
+                            <span ng-if="param.paramName == 'SongAuthor'">
+                                {{param.paramValue}}
+                            </span>
+                        </span>
+                        </td>
+                        <td style="width: 10%;">内容ID:</td>
+                        <td style="width: 25%;">{{data.contentID}}</td>
+                        <td style="width: 10%;">专辑名称:</td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">有效日期:</td>
+                        <td style="width: 25%;">{{data.validateDate}}</td>
+                        <td style="width: 10%;">失效日期:</td>
+                        <td style="width: 25%;">{{data.invalidateDate}}</td>
+                        <td style="width: 10%;">版权所有方ID:</td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="sm-songtb" ng-repeat="data in info.mvList.list">
+            <div class="songtb-title">
+                <span><label>点播类MV信息</label></span>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">内容名称:</td>
+                        <td style="width: 25%;">{{data.contentName}}</td>
+                        <td style="width: 10%;">表演者姓名:</td>
+                        <td style="width: 25%;">{{data.actorName}}</td>
+                        <td style="width: 10%;">词作者:</td>
+                        <td style="width: 25%;">{{data.lyricWriter}}</td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">曲作者:</td>
+                        <td style="width: 25%;">{{data.composer}}</td>
+                        <td style="width: 10%;">MV版权ID:</td>
+                        <td style="width: 25%;">{{data.copyrightID}}</td>
+                        <td style="width: 10%;">内容ID:</td>
+                        <td style="width: 25%;">{{data.contentID}}</td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">发行地区:</td>
+                        <td style="width: 25%;"></td>
+                        <td style="width: 10%;">价格:</td>
+                        <td style="width: 25%;">{{data.price}}</td>
+                        <td style="width: 10%;">生效日期:</td>
+                        <td style="width: 25%;">{{data.validateDate}}</td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">失效日期:</td>
+                        <td style="width: 25%;">{{data.invalidateDate}}</td>
+                        <td style="width: 10%;"></td>
+                        <td style="width: 25%;"></td>
+                        <td style="width: 10%;"></td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">文件列表:</td>
+                        <td style="width: 25%;" colspan="5">
+                            <pre >
+                                    <a style="display: inline-block;" href="{{f.fileUrl}}" target="_blank" ng-repeat="f in data.mVFileSet">{{f.fileUrl}}</a>
+                            </pre>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="sm-songtb" ng-repeat="data in info.dalbumList.list">
+            <div class="songtb-title">
+                <span><label>数字专辑</label></span>
+            </div>
+            <table class="table table-striped">
+                <tbody>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">专辑名称:</td>
+                    <td style="width: 25%;">{{data.albumName}}</td>
+                    <td style="width: 10%;">艺术家名称:</td>
+                    <td style="width: 25%;">{{data.singer}}</td>
+                </tr>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">首发开始时间:</td>
+                    <td style="width: 25%;">{{data.firstStartDate}}</td>
+                    <td style="width: 10%;">首发结束时间:</td>
+                    <td style="width: 25%;">{{data.firstEndDate}}</td>
+                </tr>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">专辑ID:</td>
+                    <td style="width: 25%;">{{data.albumID}}</td>
+                    <td style="width: 10%;">专辑描述:</td>
+                    <td style="width: 25%;">{{data.albumDesc}}</td>
+                </tr>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">预售开始时间:</td>
+                    <td style="width: 25%;">{{data.presellDate}}</td>
+                    <td style="width: 10%;">销售结束时间:</td>
+                    <td style="width: 25%;">{{data.salesEndDate}}</td>
+                </tr>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">失效日期:</td>
+                    <td style="width: 25%;">{{data.invalidateDate}}</td>
+                    <td style="width: 10%;">价格:</td>
+                    <td style="width: 25%;">{{data.price}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-repeat="data in info.dalbumList.list">
+            <div class="sm-songtb" ng-repeat="data2 in data.contentSet">
+                <div class="songtb-title">
+                    <span><label>数字专辑歌曲产品</label></span>
+                </div>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">版权ID:</td>
+                        <td style="width: 25%;">{{data2.copyrightID}}</td>
+                        <td style="width: 10%;">内容ID:</td>
+                        <td style="width: 25%;">{{data2.contentID}}</td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">歌曲产品名称:</td>
+                        <td style="width: 25%;">{{data2.contentName}}</td>
+                        <td style="width: 10%;">歌手名称:</td>
+                        <td style="width: 25%;">{{data2.singer}}</td>
+                    </tr>
+                    <tr class="gradeX odd">
+                        <td style="width: 10%;">版权产品试听:</td>
+                        <td style="width: 25%;"><a ng-click="addPlaySong(null,data2.copyrightID);">试听</a></td>
+                        <td style="width: 10%;"></td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="sm-songtb">
+            <div class="songtb-title">
+                <span><label ng-if="info.copyrightType != 40">歌曲检索</label><label ng-if="info.copyrightType == 40">专辑检索</label></span>
+            </div>
+            <div class="detail" style="padding: 0 !important;">
+                <div>
+                    <form class="form-inline">
+                        <div class="well" style="margin-top: 0;border-top: 1px solid #ddd;">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td class="name" ng-show="info.copyrightType != 40">歌曲名称:</td>
+                                    <td class="content" ng-show="info.copyrightType != 40">
+                                        <input type="text" class="border1px" ng-model="song.songKeyword" />
+                                    </td>
+                                    <td class="name">专辑名称:</td>
+                                    <td class="content" >
+                                        <input type="text" class="border1px" ng-model="song.albumKeyword" />
+                                    </td>
+                                    <td class="name">歌手名称:</td>
+                                    <td class="content">
+                                        <input type="text" class="border1px" ng-model="song.artistKeyword" />
+                                    </td>
+                                    <td class="name"></td>
+                                    <td class="content" >
+                                        <div class="">
+                                            <div class="btn-group" >
+                                                <button class="btn btn-default btn-sm" ng-click="info_search(song,'song');" ng-if="info.copyrightType != 40">搜索</button>
+                                                <button class="btn btn-default btn-sm" ng-click="info_search(song,'album');" ng-if="info.copyrightType == 40">搜索</button>
+                                                <button class="btn btn-default btn-sm disabled" >新增</button>
+                                            </div>
+                                        </div>
+                                        <!--<a class="search-btn" href="javascript:;" ng-click="info_search(song,'song');" ng-if="info.copyrightType != 40">搜索</a>-->
+                                        <!--<a class="search-btn" href="javascript:;" ng-click="info_search(song,'album');" ng-if="info.copyrightType == 40">搜索</a>-->
+                                        <!--<a class="search-btn disabled" href="javascript:;">新增</a>-->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <table class="table table-striped" ng-if="info.copyrightType != 40">
+                <thead>
+                    <tr>
+                        <th style="width: 30px;">选择</th>
+                        <th style="width: 50px;">歌曲ID</th>
+                        <th style="width: 110px;">歌曲名称</th>
+                        <th style="width: 110px;">专辑名称</th>
+                        <th style="width: 100px;">歌手名称</th>
+                        <th style="width: 90px;">歌曲语言</th>
+                        <th style="width: 90px;">时长</th>
+                        <th style="width: 90px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="gradeX odd" ng-repeat="data in datas" ng-class="{'bg': data.isCheck}">
+                        <td><input type="radio" name="param.info" ng-click="chk(data,datas);"></td>
+                        <td>{{data.songId}}</td>
+                        <td>{{data.songName}}</td>
+                        <td>
+                            <span ng-if="data.albums.length == 1">
+                                <a ui-sref="albumInfo({albumId:data.albums[0].albumId})">{{data.albums[0].albumName}}</a>
+                            </span>
+                            <span ng-if="data.albums.length > 1">
+                                <a ui-sref="albumInfo({albumId:data.albums[0].albumId})">{{data.albums[0].albumName}}</a>
+                                <span uib-dropdown>
+                                    <i class="icon-double-angle-down" uib-dropdown-toggle></i>
+                                    <ul class="dropdown-menu" role="menu"  style="max-width: 234px;width: auto;">
+                                        <li role="menuitem" ng-repeat="album in data.albums track by $index" >
+                                            <p title="{{album.albumName}}" ng-if="$index > 0" style="width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a ui-sref="albumInfo({albumId:album.albumId})">{{album.albumName}}</a></p>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-if="data.artists.length == 1">
+                                <a ng-repeat="artist in data.artists" ui-sref="artistInfo({artistId:artist.artistId})">{{artist.artistName}}</a>
+                            </span>
+                            <span ng-if="data.artists.length > 1">
+                                <a ng-repeat="artist in data.artists" ui-sref="artistInfo({artistId:artist.artistId})">{{artist.artistName}};</a>
+                            </span>
+                        </td>
+                        <td>{{data.language}}</td>
+                        <td>{{data.playTime}}</td>
+                        <td><play-icon></play-icon>&nbsp;&nbsp;<a ui-sref="songEdit({songId:data.songId})">编辑</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped" ng-if="info.copyrightType == 40">
+                <thead>
+                <tr>
+                    <th style="width: 30px;">选择</th>
+                    <th style="width: 50px;">专辑ID</th>
+                    <th style="width: 110px;">专辑名称</th>
+                    <th style="width: 110px;">歌手名称</th>
+                    <th style="width: 90px;">发行时间</th>
+                    <th style="width: 90px;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="gradeX odd" ng-repeat="data in datas" ng-class="{'bg': data.isCheck}">
+                    <td><input type="radio" name="param.info" ng-click="chk(data,datas);"></td>
+                    <td>{{data.albumId}}</td>
+                    <td>{{data.albumName}}</td>
+                    <td>
+                        <span ng-if="data.artists.length == 1">
+                            <a ng-repeat="artist in data.artists" ui-sref="artistInfo({artistId:artist.artistId})">{{artist.artistName}}</a>
+                        </span>
+                        <span ng-if="data.artists.length > 1">
+                            <a ng-repeat="artist in data.artists" ui-sref="artistInfo({artistId:artist.artistId})">{{artist.artistName}};</a>
+                        </span>
+                    </td>
+                    <td>{{data.publishTime}}</td>
+                    <td><a ui-sref="albumEdit({albumId:data.albumId})">编辑</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<ng-include src="'app/views/partials/pagination.html'"></ng-include>-->
+            <span class="page-detail">总共{{totalPage}}页,共{{bigTotalItems}}条记录,每页显示{{itemsPerPage}}条记录</span>
+            <uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>
+        </div>
+        <div class="sm-songtb">
+            <div class="songtb-title">
+                <span><label>编目数据</label></span>
+            </div>
+            <table class="table table-striped">
+                <tbody>
+                <tr class="gradeX odd">
+                    <td style="width: 10%;">紧急程度:</td>
+                    <td style="width: 90%;">
+                        <span><input type="radio" name="emergency" ng-model="info.urgentDegree" checked="checked" value="0">0</span>
+                        <span style="margin-left: 5px"><input type="radio" name="emergency" ng-model="info.urgentDegree" value="1">1</span>
+                        <span style="margin-left: 5px"><input type="radio" name="emergency" ng-model="info.urgentDegree" value="2">2</span>
+                        <span style="margin-left: 5px"><input type="radio" name="emergency" ng-model="info.urgentDegree" value="3">3</span>
+                        <span style="margin-left: 5px"><input type="radio" name="emergency" ng-model="info.urgentDegree" value="4">4</span>
+                        <span style="margin-left: 5px"><input type="radio" name="emergency" ng-model="info.urgentDegree" value="5">5</span>
+                        <span style="margin-left: 5px;color: red;">(紧急编目,在编目后直接发送到门户,无需等待审核.0,1,2优先级低3,4优先级中5优先级高){{catalogInfo.egy}}</span>
+                    </td>
+                </tr>
+                <tr class="gradeX odd" ng-if="info.copyrightType != 40">
+                    <td style="width: 10%;">歌曲名:</td>
+                    <td style="width: 90%;"><a ui-sref="song({songIds:catalogInfo.songId})" target="_blank">{{catalogInfo.songName}}</a></td>
+                </tr>
+                <tr class="gradeX odd" ng-if="info.copyrightType != 40">
+                    <td style="width: 10%;">专辑名:</td>
+                    <td style="width: 90%;">
+                        <span ng-if="catalogInfo.albums.length == 1">
+                            <a ui-sref="album({albumIds:catalogInfo.albums[0].albumId})" target="_blank">{{catalogInfo.albums[0].albumName}}</a>
+                        </span>
+                        <span ng-if="catalogInfo.albums.length > 1">
+                            <a ui-sref="album({albumIds:catalogInfo.albums[0].albumId})" target="_blank">{{catalogInfo.albums[0].albumName}}</a>
+                            <span uib-dropdown>
+                                <i class="icon-double-angle-down" uib-dropdown-toggle></i>
+                                <ul class="dropdown-menu" role="menu"  style="max-width: 234px;width: auto;">
+                                    <li role="menuitem" ng-repeat="album in catalogInfo.albums track by $index" >
+                                        <p title="{{album.albumName}}" ng-if="$index > 0" style="width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a ui-sref="album({albumIds:album.albumId})"  target="_blank">{{album.albumName}}</a></p>
+                                    </li>
+                                </ul>
+                            </span>
+                        </span>
+                    </td>
+                </tr>
+                <tr class="gradeX odd" ng-if="info.copyrightType != 40">
+                    <td style="width: 10%;">歌手名:</td>
+                    <td style="width: 90%;">
+                        <span ng-if="catalogInfo.artists.length == 1">
+                            <a ng-repeat="artist in catalogInfo.artists" ui-sref="artist({artistIds:artist.artistId})" target="_blank">{{artist.artistName}}</a>
+                        </span>
+                        <span ng-if="catalogInfo.artists.length > 1">
+                            <a ng-repeat="artist in catalogInfo.artists" ui-sref="artist({artistIds:artist.artistId})" target="_blank">{{artist.artistName}};</a>
+                        </span>
+                    </td>
+                </tr>
+                <tr class="gradeX odd" ng-if="info.copyrightType == 40">
+                    <td style="width: 10%;">专辑名:</td>
+                    <td style="width: 90%;">
+                        <a ui-sref="album({albumIds:catalogInfo.albumId})" target="_blank">{{catalogInfo.albumName}}</a>
+                    </td>
+                </tr>
+                <tr class="gradeX odd" ng-if="info.copyrightType == 40">
+                    <td style="width: 10%;">歌手名:</td>
+                    <td style="width: 90%;">
+                        <span ng-if="catalogInfo.artists.length == 1">
+                            <a ng-repeat="artist in catalogInfo.artists" ui-sref="artist({artistIds:artist.artistId})" target="_blank">{{artist.artistName}}</a>
+                        </span>
+                        <span ng-if="catalogInfo.artists.length > 1">
+                            <a ng-repeat="artist in catalogInfo.artists" ui-sref="artist({artistIds:artist.artistId})" target="_blank">{{artist.artistName}};</a>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sm-songtb">
+            <div class="songtb-title" style="border-bottom: 0;">
+                    <div class="col-sm-3">
+                        <div class="btn-group" >
+                            <button class="btn btn-default btn-sm" ng-click="update(info.copyrightId,catalogInfo.songId,info.urgentDegree,info.copyrightType);"  ng-if="info.copyrightType != 40">确认</button>
+                            <button class="btn btn-default btn-sm" ng-click="update(info.copyrightId,catalogInfo.albumId,info.urgentDegree,info.copyrightType);"  ng-if="info.copyrightType == 40">确认</button>
+                            <button class="btn btn-default btn-sm" ng-click="catalogPass(info.copyrightId,1);" ng-if="info.karakalStatus == 12">审核通过</button>
+                            <button class="btn btn-default btn-sm" ng-click="catalogPass(info.copyrightId,0);" ng-if="info.karakalStatus == 12">审核不通过</button>
+                            <button class="btn btn-default btn-sm" ng-click="goBack();">返回</button>
+                        </div>
+                    </div>
+                <!--<span>-->
+                    <!--<a class="search-btn" href="javascript:;" ng-click="update(info.copyrightId,catalogInfo.songId,catalogInfo.egy,info.copyrightType);" ng-if="info.copyrightType != 40">确认</a>-->
+                    <!--<a class="search-btn" href="javascript:;" ng-click="update(info.copyrightId,catalogInfo.albumId,catalogInfo.egy,info.copyrightType);" ng-if="info.copyrightType == 40">确认</a>-->
+                    <!--<span ng-if="info.karakalStatus == 12">-->
+                        <!--<a class="search-btn" href="javascript:;" ng-click="catalogPass(info.copyrightId,1);">审核通过</a>-->
+                        <!--<a class="search-btn" href="javascript:;" ng-click="catalogPass(info.copyrightId,0);">审核不通过</a>-->
+                    <!--</span>-->
+                    <!--<a class="search-btn" href="javascript:;" ng-click="goBack();">返回</a>-->
+                <!--</span>-->
+            </div>
+        </div>
+    </div>

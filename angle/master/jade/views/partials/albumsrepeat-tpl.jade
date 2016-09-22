@@ -1,0 +1,5 @@
+//
+   Created by hao.cheng on 2016/8/15.
+span(ng-repeat="album in data.albums")
+    a(ui-sref="albumInfo({albumId:album.albumId})") {{album.albumName}}
+    span(ng-if="!$last") 、

@@ -1,0 +1,30 @@
+//
+   Created by hao.cheng on 2016/8/22.
+div
+    div.form-group
+        div.col-sm-4(ng-include="'app/views/partials/taskswitch-tpl.html'")
+        div(ng-include="'app/views/partials/taskassign-tpl.html'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/artist-id.html'")
+        ng-include(src="'app/views/partials/search-conditions/artist-name.html'")
+        ng-include(src="'app/views/partials/search-conditions/status.html'",ng-if="module == 0")
+        ng-include(src="'app/views/partials/search-conditions/status-task.html'",ng-if="module == 1 || module == '-1,1,2'")
+        ng-include(src="'app/views/partials/search-conditions/mscore.html'")
+        ng-include(src="'app/views/partials/search-conditions/user.html'",ng-if="module == 3 && userRole == 'fzr'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/hotscore.html'")
+        ng-include(src="'app/views/partials/search-conditions/time-create.html'",ng-if="module == 0")
+        ng-include(src="'app/views/partials/search-conditions/time-distribution.html'",ng-if="module != 0")
+        ng-include(src="'app/views/partials/search-conditions/user.html'",ng-if="module == 1")
+    div.form-group(ng-if="module == 3")
+        ng-include(src="'app/views/partials/search-conditions/time-complete.html'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/tagsearch.html'")
+    div.form-group
+        div.col-sm-4
+            div.btn-group(ng-controller="ModalCtrl")
+                button.btn.btn-default.btn-sm(task-submit="") 查询
+                button.btn.btn-default.btn-sm(task-reset="") 重置
+                button.btn.btn-default.btn-sm(ng-if="module == 0", ng-click="songTagImport('artist');") 导入
+                button.btn.btn-default.btn-sm(ng-if="module == 0", state-to-feedback="", feed-back="artist") 已导入
+                div(ng-include="'app/views/modals/modal-import.html'")

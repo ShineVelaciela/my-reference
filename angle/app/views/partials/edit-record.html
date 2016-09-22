@@ -1,0 +1,29 @@
+<!--Created by kiracheng on 2016/6/7.
+-->
+<h5 class="text-center text-thin">编辑记录</h5>
+<ul class="nav">
+   <li>
+      <!-- START User status-->
+      <a href="javascript:;" ng-repeat="op in opDatas" class="media-box p mt0">
+         <span class="pull-right">
+            <span class="circle circle-success circle-lg"></span>
+         </span>
+         <!-- Contact info-->
+         <span class="media-box-body">
+            <span class="media-box-heading">
+               <strong>{{op.user.name}}</strong>
+               <br/>
+               <small class="text-muted">{{op.optTime | date:'yyyy-MM-dd HH:mm:ss'}}</small>
+            </span>
+         </span>
+      </a>
+      <!-- END User status-->
+   </li>
+   <li>
+      <div class="p-lg text-center">
+         <a href="javascript:;" title="See more contacts" data-ng-click="loadMoreOperate();" class="btn btn-purple btn-sm">
+            <strong translate="offsidebar.chat.LOAD_MORE">Load more..</strong>
+         </a>
+      </div>
+   </li>
+</ul>

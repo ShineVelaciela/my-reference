@@ -1,0 +1,47 @@
+<table class="table table-striped">
+    <thead>
+    <tr role="row">
+        <th style="width: 100px;">审核人员</th>
+        <th style="width: 100px;">歌曲通过</th>
+        <th style="width: 100px;">歌曲不通过</th>
+        <th style="width: 100px;">专辑通过</th>
+        <th style="width: 80px;">专辑不通过</th>
+        <th style="width: 100px;">艺术家通过</th>
+        <th style="width: 100px;">艺术家不通过</th>
+        <th style="width: 100px;">标签通过</th>
+        <th style="width: 100px;">标签不通过</th>
+    </thead>
+    <tbody role="alert" >
+    <tr class="gradeX odd" ng-repeat="data in datas">
+        <td>{{data.copyrightId}}</td>
+        <td>
+            <span ng-if="data.copyrightType == 10">歌曲</span>
+            <span ng-if="data.copyrightType == 20">MV</span>
+            <span ng-if="data.copyrightType == 30">图片</span>
+        </td>
+        <td></td>
+        <td>{{data.utime | date:'yyyy-MM-dd' }}</td>
+        <td>
+            <span ng-if="data.karakalStatus == 10">正常</span>
+            <span ng-if="data.karakalStatus == 11">正常待编目</span>
+            <span ng-if="data.karakalStatus == 12">正常待审核</span>
+            <span ng-if="data.karakalStatus == 14">审核中</span>
+            <span ng-if="data.karakalStatus == 15">编辑中</span>
+            <span ng-if="data.karakalStatus == 20">删除</span>
+            <span ng-if="data.karakalStatus == 30">禁用</span>
+            <span ng-if="data.karakalStatus == 111">审核未通过</span>
+            <span ng-if="data.karakalStatus == -1">未关联曲库</span>
+        </td>
+        <td>{{data.vDate | date:'yyyy-MM-dd'}}</td>
+        <td>{{data.vDate | date:'yyyy-MM-dd'}}</td>
+        <td>{{data.vDate | date:'yyyy-MM-dd'}}</td>
+        <td>{{data.vDate | date:'yyyy-MM-dd'}}</td>
+    </tr>
+    <tr ng-if="datas.length < 1">
+        <td colspan="6">暂无数据</td>
+    </tr>
+    </tbody>
+</table>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>
+<!--<span class="page-detail">总共{{totalPage}}页,共{{bigTotalItems}}条记录,每页显示{{itemsPerPage}}条记录</span>-->
+<!--<uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>-->

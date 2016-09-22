@@ -1,0 +1,38 @@
+<!--Created by kiracheng on 2016/7/18.-->
+<table class="table table-striped">
+   <thead>
+      <tr>
+         <th style="width: 50px">选择</th>
+         <th style="width: 180px;">歌曲名</th>
+         <th style="width: 120px;">歌曲ID</th>
+         <th style="width: 180px;">艺人</th>
+         <th style="width: 180px;">专辑名称</th>
+         <th style="width: 100px;">语言</th>
+         <th style="width: 100px;">时长</th>
+         <th style="width: 100px;">词作者</th>
+         <th style="width: 100px;">曲作者</th>
+         <th style="width: 120px;">操作</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="data in datas" class="gradeX odd">
+         <td>
+            <radio-button></radio-button>
+         </td>
+         <td>{{data.songName}}</td>
+         <td>{{data.songId}}</td>
+         <td>
+            <span ng-repeat="artist in data.artists">{{artist.artistName}};</span>
+         </td>
+         <td>
+            <span ng-repeat="album in data.albums">{{album.albumName}};</span>
+         </td>
+         <td></td>
+         <td>{{data.playTime}}</td>
+         <td>{{data.lyricsers}}</td>
+         <td>{{data.composers}}</td>
+         <td><a ui-sref="songInfo({songId:data.songId})">查看&nbsp</a><a ng-click="remove(datas,data)">删除</a></td>
+      </tr>
+   </tbody>
+</table>
+<ng-include src="'app/views/merge/merge-btn.html'"></ng-include>

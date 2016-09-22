@@ -1,0 +1,55 @@
+<table class="table table-striped" >
+    <thead>
+    <tr role="row">
+        <th style="width: 60px;">
+            <check-all-btn></check-all-btn>
+        </th>
+        <th style="width: 100px;">歌曲ID</th>
+        <th style="width: 100px;">歌曲名</th>
+        <th style="width: 80px;">专辑名&nbsp;&nbsp;<i class="icon-double-angle-down" ui-sref="app.examine.1({orderBys:[{key:'albumId',value:'ASC'}]})" ng-if="type == 1"></i><i class="icon-double-angle-down" ui-sref="app.examine.4({orderBys:[{key:'albumId',value:'ASC'}]})" ng-if="type == 4"></i></th>
+        <th style="width: 100px;">艺人名&nbsp;&nbsp;<i class="icon-double-angle-down" ui-sref="app.examine.1({orderBys:[{key:'artistId',value:'ASC'}]})" ng-if="type == 1"></i><i class="icon-double-angle-down" ui-sref="app.examine.4({orderBys:[{key:'artistId',value:'ASC'}]})" ng-if="type == 4"></i></th>
+        <th style="width: 40px;">新歌</th>
+        <th style="width: 100px;">优质度</th>
+        <th style="width: 100px;">编辑提交时间</th>
+        <th style="width: 100px;">操作列表</th>
+    </thead>
+    <tbody role="alert" >
+    <tr class="gradeX odd" ng-repeat="data in $parent.datas">
+        <td>
+            <div class="checkbox c-checkbox">
+                <label>
+                    <input type="checkbox" ng-model="data.isCheck">
+                    <span class="fa fa-check"></span>
+                </label>
+            </div>
+        </td>
+        <td>{{data.songId}}</td>
+        <td><span class="text-danger" ng-if="data.type == 0">[G]</span><td-song></td-song><td-song-search></td-song-search></td>
+        <td>
+            <td-albums></td-albums>
+        </td>
+        <td>
+            <td-artists></td-artists>
+        </td>
+        <td>{{data.newSong}}</td>
+        <td>{{data.degree}}</td>
+        <td>{{data.subTime | date: 'yyyy-MM-dd'}}</td>
+        <td ng-if="type == 1">
+            <a ng-click="examineJump(data,'song');" ng-right-click="examineJump(data,'song', '_blank');" ng-if="!data.lockUser">审核</a>
+            <a ng-click="examineJump(data,'song');" ng-right-click="examineJump(data,'song', '_blank');" ng-if="data.lockUser && (user.id == data.lockUser.uid)">{{data.lockUser.name}}</a>
+            <span ng-if="data.lockUser && (user.id != data.lockUser.uid)">{{data.lockUser.name}}</span>
+        </td>
+        <td ng-if="type == 4">
+            <a ng-click="examineJump(data, 'songTag');" ng-right-click="examineJump(data,'songTag', '_blank');" ng-if="!data.tagLockUser">审核</a>
+            <a ng-click="examineJump(data,'songTag');" ng-right-click="examineJump(data,'songTag', '_blank');" ng-if="data.tagLockUser && (user.id == data.tagLockUser.uid)">{{data.tagLockUser.name}}</a>
+            <span ng-if="data.tagLockUser && (user.id != data.tagLockUser.uid)">{{data.tagLockUser.name}}</span>
+        </td>
+    </tr>
+    <!--<tr ng-if="datas.length < 1">-->
+        <!--<td colspan="8">暂无数据</td>-->
+    <!--</tr>-->
+    </tbody>
+</table>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>
+<!--<span class="page-detail">总共{{totalPage}}页,共{{bigTotalItems}}条记录,每页显示{{itemsPerPage}}条记录</span>-->
+<!--<uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>-->

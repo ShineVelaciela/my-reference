@@ -1,0 +1,8 @@
+//
+   Created by hao.cheng on 2016/8/24.
+.col-sm-3
+    tag-search-tpl
+label.col-sm-7.control-label(style="text-align: left")
+    span.label.label-default.tag(ng-repeat="tag in form.tagBeans track by $index")
+        i {{tag.name}}
+        em.fa.fa-remove(ng-click="artistTagRemove(tag)")

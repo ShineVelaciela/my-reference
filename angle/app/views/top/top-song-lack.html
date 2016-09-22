@@ -1,0 +1,151 @@
+<style>
+    .detail table tbody tr td select{
+        border-radius: 0;
+        height: 21px;
+    }
+    .dropdown-menu table{
+        margin-left: 0;
+    }
+    .dropdown-menu .btn{
+        padding: 0;
+    }
+    .dropdown-menu table thead tr{
+        height: 20px;
+    }
+    .dropdown-menu table tbody tr{
+        height: 20px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>榜单缺歌对标
+            </h3>
+        </div>
+    </div>
+    <div id="page" class="dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">歌曲列表</div>
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="param-name" class="col-sm-1 control-label" >歌曲名称</label>
+                                <div class="col-sm-2">
+                                    <input id="param-name" type="text" placeholder="请输入歌曲名" class="form-control input-sm" ng-model="params.songName">
+                                </div>
+                                <label for="param-artist" class="col-sm-1 control-label" >歌手名称</label>
+                                <div class="col-sm-2">
+                                    <input id="param-artist" type="text" placeholder="请输入歌手名" class="form-control input-sm" ng-model="params.singerName">
+                                </div>
+                                <label for="param-copyfName" class="col-sm-1 control-label" >版权方</label>
+                                <div class="col-sm-2">
+                                    <input id="param-copyfName" type="text" placeholder="请输入版权方" class="form-control input-sm" ng-model="params.copyfName">
+                                </div>
+                                <label for="param-lange" class="col-sm-1 control-label" >语种</label>
+                                <div class="col-sm-2">
+                                    <input id="param-lange" type="text" placeholder="请输入语种" class="form-control input-sm" ng-model="params.lange">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label" >一次引入</label>
+                                <div class="col-sm-2">
+                                    <select ng-model="params.oneStatus" class="form-control input-sm">
+                                        <option></option>
+                                        <option value="已引入">已引入</option>
+                                        <option value="未引入">未引入</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 control-label" >二次引入</label>
+                                <div class="col-sm-2">
+                                    <select ng-model="params.twoStatus" class="form-control input-sm">
+                                        <option></option>
+                                        <option value="已引入">已引入</option>
+                                        <option value="未引入">未引入</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 control-label" >缺歌类型</label>
+                                <div class="col-sm-2">
+                                    <select ng-model="params.qgType" class="form-control input-sm">
+                                        <option></option>
+                                        <option value="中音已合作cp">中音已合作cp</option>
+                                        <option value="未合作唱片公司发行">未合作唱片公司发行</option>
+                                        <option value="影视原声">影视原声</option>
+                                        <option value="游戏广告歌曲">游戏广告歌曲</option>
+                                        <option value="原创歌曲">原创歌曲</option>
+                                        <option value="录音室唱片">录音室唱片</option>
+                                        <option value="媒体节目">媒体节目</option>
+                                        <option value="公益歌曲">公益歌曲</option>
+                                        <option value="影视剧歌曲">影视剧歌曲</option>
+                                        <option value="游戏歌曲">游戏歌曲</option>
+                                        <option value="演唱会版本">演唱会版本</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 control-label" >中音合作</label>
+                                <div class="col-sm-2">
+                                    <select ng-model="params.cooperation" class="form-control input-sm">
+                                        <option ></option>
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label" >对标起始</label>
+                                <div class="col-sm-2"  ng-controller="DatepickerCtrl">
+                                    <input type="text" placeholder="请输入对标起始时间" class="form-control input-sm" uib-datepicker-popup ng-model="params.stdbDate" current-text="今天" clear-text="清除" close-text="关闭" is-open="status.sopened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" >
+                                    <span class="input-group-btn">
+                                        <i class="icon-calendar" ng-click="sopen($event)" style="font-size: 20px;"></i>
+                                    </span>
+                                </div>
+                                <label class="col-sm-1 control-label" >对标截止</label>
+                                <div class="col-sm-2"  ng-controller="DatepickerCtrl">
+                                    <input type="text" placeholder="请输入对标截止时间" class="form-control input-sm" uib-datepicker-popup ng-model="params.enddbDate" current-text="今天" clear-text="清除" close-text="关闭" is-open="status.eopened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" >
+                                    <span class="input-group-btn">
+                                        <i class="icon-calendar" ng-click="eopen($event)" style="font-size: 20px;"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-pill-left btn-default btn-sm" ui-sref="app.song-lack.search({songName:params.songName,singerName:params.singerName,copyfName:params.copyfName,lange:params.lange,oneStatus:params.oneStatus,twoStatus:params.twoStatus,qgType:params.qgType,stdbDate:params.stdbDate,enddbDate:params.enddbDate,firstIndex:firstIndex})">查询</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="openImport_lack();">导入</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="export(params);">导出</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="reset();">重置</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="del();">删除</button>
+                            <button type="button" class="btn btn-pill-right btn-default btn-sm" ng-click="downloadModel();">下载模板</button>
+                        </div>
+                        <script type="text/ng-template" id="import_lack.html">
+                            <div class="modal-header">
+                                <h3 class="modal-title">导入excel数据</h3>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                            <form class="form-horizontal" >
+                                <div class="control-group">
+                                    <label class="control-label">上传附件</label>
+                                    <div class="controls">
+                                        <input type="file" id="excelFile" name="excelFile" class="default" fileread="uploadme.src">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <span style="color: red;">{{error}}</span>
+                                    <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+                                    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+                                </div>
+                            </form>
+                        </script>
+                        <div>
+                            <div ui-view="song_lack_list">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

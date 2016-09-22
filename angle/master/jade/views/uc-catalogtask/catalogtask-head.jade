@@ -1,0 +1,24 @@
+//
+   Created by hao.cheng on 2016/8/2.
+div.row-fluid
+    h3.page-title  媒资库
+        span.divider /
+        span 手动编目工单
+div
+    div.row
+        div.col-lg-12
+            div.panel.panel-default(id="paneDemo1")
+                div.panel-heading(ng-class="{'panel-heading-collapsed':paneDemo1}") 条件查询
+                    paneltool(tool-collapse="tool-collapse")
+                div.panel-wrapper(collapse="paneDemo1")
+                    div.panel-body
+                        form.form-horizontal
+                            ng-include(src="'app/views/uc-catalogtask/catalogtask-condition.html'")
+    div.row
+        div.col-lg-12
+            div.panel.panel-default(id="paneDemo2")
+                div.panel-heading(ng-class="{'panel-heading-collapsed':paneDemo2}") 数据列表
+                    paneltool(tool-collapse="tool-collapse")
+                div.panel-wrapper(collapse="paneDemo2")
+                    div.panel-body
+                        div.table-responsive(ui-view="data-list")

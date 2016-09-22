@@ -1,0 +1,42 @@
+<style>
+    .border-none{
+        border: 0;
+    }
+    .songtb-title{
+        border-bottom: 2px solid #5EAFE3;
+    }
+    .select{
+        width: 123px;
+        padding: 0;
+        margin-left: 10px;
+        border-color: #afd6f1;
+        border-radius: 0;
+        height: 22px;
+    }
+</style>
+<div class="sm-songtb" style="margin-top: 0;">
+    <div class="songtb-title">
+        <!--<span><label>自定义标签&nbsp;&nbsp;&nbsp;</label></span>-->
+        <select class="select" style="margin: 5px;" ng-model="site" ng-change="chooseSite(site);">
+            <option ng-repeat="s in sites" >{{s}}</option>
+        </select>
+    </div>
+    <div class="detail" style="padding: 0 !important;border-top: 1px solid #ddd;" >
+    </div>
+</div>
+<div class="cmmt" ng-repeat="data in comment_all track by $index">
+    <div class="cmmts" >
+        <div class="itm" ng-class="$index == 0 ? 'border-none':''">
+            <div class="nm">
+                {{$index + 1}}.
+            </div>
+            <textarea msd-elastic class="cnt" ng-model="data.content" >{{data.content}}</textarea>
+            <div class="ft">
+                <i class="icon-thumbs-up"></i>(<span style="color: red;">{{data.agreeNum}}</span>) | <a href="javascript:;" ng-click="saveComment(data,info.id,comment_all.site,data.content);">保存</a>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>
+<!--<span class="page-detail">总共{{totalPage}}页,共{{bigTotalItems}}条记录,每页显示{{itemsPerPage}}条记录</span>-->
+<!--<uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>-->

@@ -1,0 +1,26 @@
+<style>
+    #body div #page div ul li.active{
+        background-color: rgba(129, 180, 230, 0.57);
+    }
+</style>
+<div class="panel-body">
+    <div class="accordion-group" ng-repeat="menuP in menus track by $index">
+        <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" ng-if="menuP.data != undefined">
+                <i class="icon-chevron-right"></i>
+                {{menuP.name}}
+            </a>
+            <a class="accordion-toggle collapsed" ng-if="menuP.data == undefined" ui-sref="app.top-list.day.list({id:menuP.id})">
+                {{menuP.name}}
+            </a>
+        </div>
+        <div id="collapse_{{$index+1}}" class="accordion-body in collapse" style="height: auto;" ng-if="menuP.data != undefined">
+            <div class="accordion-inner">
+                <ul class="unstyled">
+                    <li ng-repeat="menuC in menuP.data" ui-sref-active="active"   ng-if="topListShowFlag == true || menuC.hidden == 0"><a ui-sref="{{topListTpye}}({id:menuC.id, data:''})">{{menuC.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div ui-view="top-song-list"></div>
+</div>

@@ -1,0 +1,362 @@
+<!--
+-- Created by YuChunzhuo on 2015/11/19.
+-->
+<style>
+    .tree li {
+        cursor: pointer;
+        padding-left: 1.3em;
+    }
+
+    .tree ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .intermediate {
+        opacity: 0.3;
+    }
+    #body div #page div div div #widget-body div ul li li {
+        float: none;
+        height: 26px;
+        margin: 0 0 0 0;
+        border: none;
+        width: auto;
+        text-align: left;
+    }
+    div #page div.widget-body div.row-fluid ul.ul-groups li.li-first ul{
+        width: 190px;
+    }
+    .dropdown-menu li>a{
+        padding: 3px 5px;
+    }
+    div.checker span input{
+        margin-left: 0px;
+    }
+    .row-fluid .span9 {
+        width: 70%;
+        margin-left: 2.127659574468085%;
+        float: left;
+    }
+    .row-fluid .span3 {
+        width: 20%;
+        float: left;
+    }
+    /*.ztree li span.button.ico_docu{margin-right:2px; background-position: -147px -42px; vertical-align:top; *vertical-align:middle}*/
+    .ztree li span.button.pIcon01_ico_docu{margin-right:2px; background-position:-110px -32px; vertical-align:top; *vertical-align:middle}
+    .ztree li span.button.pIcon01_ico_open{margin-right:2px; background-position:-110px -32px; vertical-align:top; *vertical-align:middle}
+    .ztree li span.button.pIcon01_ico_close{margin-right:2px; background-position:-110px -32px; vertical-align:top; *vertical-align:middle}
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>标签树管理
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="panel panel-default" id="panelDemo1">
+                <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" ><span class="col-lg-7">标签树</span> <span ng-click="show()" ><a href="">查看标签</a></span><paneltool tool-collapse="tool-collapse"></paneltool></div>
+                <div collapse="panelDemo1" class="panel-wrapper">
+                    <div class="panel-body">
+                        <ul id="treeDemo" class="ztree"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="panel panel-default" id="panelDemo2">
+                <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo2}" >操作<paneltool tool-collapse="tool-collapse"></paneltool></div>
+                <div collapse="panelDemo2" class="panel-wrapper">
+                    <div class="panel-body">
+                        <div class="row-fluid">
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                <input type="text" class="form-control" ng-model="tag" placeholder="此处输入名字搜索标签"
+                                       uib-typeahead="tag as tag.name for tag in tagTreeNodes | filter:{name:$viewValue}"  typeahead-on-select="searchTag($item)">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><em class="icon-magnifier"></em></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-pill-left btn-default disabled btn-sm" >显示/隐藏</button>
+                                    <button type="button" class="btn btn-pill-right btn-default btn-sm" ng-click="mergeTagButton()">合并</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped"  >
+                                <thead>
+                                    <tr role="row">
+                                        <th class="hidden-phone sorting Status" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1" style="width: 80px;">合并</th>
+                                        <th class="sorting cId" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">ID</th>
+                                        <th class="sorting cId" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">QQ类型</th>
+                                        <th class="sorting cId" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">媒资库类型</th>
+                                        <th class="sorting cId" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">文件夹</th>
+                                        <th class="sorting cId" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">名称</th>
+                                        <th class="sorting cId" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">隐藏</th>
+                                        <th class="sorting cId" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">艺人</th>
+                                        <th class="sorting cId" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">专辑</th>
+                                        <th class="sorting cId" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">歌曲</th>
+                                        <th class="hidden-phone sorting oPerson" role="columnheader" tabindex="0"
+                                            aria-controls="sample_1" rowspan="1" colspan="1">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr class="gradeX odd" ng-repeat="tag in tags">
+                                    <td class="sorting_1">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="tag.isCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker" ng-click="checkSingle(tag.checkb, tag)">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[tag.isCheck]"><input type="checkbox" ng-model="tag.checkb"></span>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="sorting cId">{{tag.id}}</td>
+                                    <td class="sorting cId">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="tag.isQQCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker" ng-click="checkPorp(tag.qqCheck, tag)">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[tag.isQQCheck]"><input type="checkbox"></span>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="sorting cId">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="tag.isMlsCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker" ng-click="checkPorp(tag.mlsCheck, tag)">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[tag.isMlsCheck]"><input type="checkbox"></span>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="sorting cId">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="tag.isFolderCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker" ng-click="checkPorp(tag.folderCheck, tag)">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[tag.isFolderCheck]"><input type="checkbox"></span>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="sorting cId">{{tag.name}}</td>
+                                    <td class="sorting cId">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="tag.isHideCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker" ng-click="checkPorp(tag.hideCheck, tag)">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[tag.isHideCheck]"><input type="checkbox"></span>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="sorting cId">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="tag.isArtistCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker" ng-click="checkPorp(tag.artistCheck, tag)">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[tag.isArtistCheck]"><input type="checkbox"></span>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="sorting cId">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="tag.isAlbumCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker" ng-click="checkPorp(tag.albumCheck, tag)">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[tag.isAlbumCheck]"><input type="checkbox"></span>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="sorting cId">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="tag.isSongCheck">
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker" ng-click="checkPorp(tag.songCheck, tag)">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[tag.isSongCheck]"><input type="checkbox"></span>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="hidden-phone sorting oPerson">
+                                        <!--<a class="icon-pencil" style="font-size: 16px;" href="" title="提交" ng-click="commit(tag)">-->
+                                            <!--<a href=""></a>-->
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+    </div>
+    <!--<div id="page">-->
+        <!--<div class="row-fluid">-->
+            <!--<div class="span3">-->
+                <!--<div class="widget">-->
+                    <!--<div class="widget-title">-->
+                        <!--<h4>-->
+                            <!--<i class=""></i>-->
+                            <!--标签树-->
+                        <!--</h4>-->
+                        <!--&lt;!&ndash;<span style="float: right;" ng-click="show()" ui-sref="tagTree.list({choseTagIds:choseTagIds})">&ndash;&gt;-->
+                        <!--<span ng-click="show()" style="float: right;">-->
+                            <!--<h4 ><a href="">查看标签</a></h4>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                    <!--<div class="widget-body">-->
+                        <!--<div class="accordion" style="min-height: 500px;">-->
+                            <!--<ul id="treeDemo" class="ztree"></ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="span9" ui-view="tag-tree-merge">-->
+                <!--<div class="widget">-->
+                    <!--<div class="widget-title">-->
+                        <!--<h4>-->
+                            <!--<i class=""></i>-->
+                            <!--操作-->
+                        <!--</h4>-->
+                    <!--</div>-->
+                    <!--<div class="widget-body" id="widget-body">-->
+                        <!--<div class="row-fluid" style="background-color: #fff;z-index:99;">-->
+                            <!--<ul class="ul-groups" style="position:relative;">-->
+                                <!--<li class="li-first" style="width: 200px;background: #f7fcfd !important;border: 1px solid #5faee3;border-radius: 25px 25px 25px 25px;">-->
+                                <!--&lt;!&ndash;<li class="li-first">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<input type="text" style="width: 95%;">&ndash;&gt;-->
+                                    <!--<input type="text" style="width: 92%;margin-left: 0px;" placeholder="此处输入名字搜索标签" ng-model="tag" uib-typeahead="tag as tag.name for tag in tagTreeNodes | filter:{name:$viewValue}"  typeahead-on-select="searchTag($item)">-->
+                                <!--</li>-->
+                                <!--&lt;!&ndash;<ul class="dropdown-search" style="  top: 85%;left: 17px;width: 250px;">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<div class="list">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<li class="li-last" style="border-left: 0;  font-size: 19px;width: 40px;"></li>&ndash;&gt;-->
+                            <!--</ul>-->
+                            <!--<ul class="ul-groups" style="float: right;margin-right: 15px;">-->
+                                <!--<li class="li-first disabled">显示/隐藏</li>-->
+                                <!--<li class="li-last" ng-click="mergeTagButton()">合并</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                        <!--<div class="dataTables_wrapper form-inline">-->
+                            <!--<table class="table table-striped table-bordered dataTable" id="song_table" aria-describedby="sample_1_info">-->
+                                <!--<thread>-->
+                                    <!--<tr role="row">-->
+                                        <!--<th class="hidden-phone sorting Status" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1" style="width: 80px;">合并</th>-->
+                                        <!--<th class="sorting cId" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">ID</th>-->
+                                        <!--<th class="sorting cId" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">QQ类型</th>-->
+                                        <!--<th class="sorting cId" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">媒资库类型</th>-->
+                                        <!--<th class="sorting cId" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">文件夹</th>-->
+                                        <!--<th class="sorting cId" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">名称</th>-->
+                                        <!--<th class="sorting cId" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">隐藏</th>-->
+                                        <!--<th class="sorting cId" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">艺人</th>-->
+                                        <!--<th class="sorting cId" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">专辑</th>-->
+                                        <!--<th class="sorting cId" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">歌曲</th>-->
+                                        <!--<th class="hidden-phone sorting oPerson" role="columnheader" tabindex="0"-->
+                                            <!--aria-controls="sample_1" rowspan="1" colspan="1">操作</th>-->
+                                    <!--</tr>-->
+                                <!--</thread>-->
+                                <!--<tbody role="alert" aria-live="polite" aria-relevant="all" >-->
+                                    <!--&lt;!&ndash;<span ng-model="temp" id="tag_tree_tags" value="123">{{temp}}</span>&ndash;&gt;-->
+
+                                    <!--<tr class="gradeX odd" ng-repeat="tag in tags">-->
+                                        <!--<td class="sorting_1">-->
+                                            <!--<div class="checker" ng-click="checkSingle(tag.checkb, tag)">-->
+                                                <!--<span ng-class="{true: 'checked', false: ''}[tag.isCheck]"><input type="checkbox" ng-model="tag.checkb"></span>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="sorting cId">{{tag.id}}</td>-->
+                                        <!--<td class="sorting cId">-->
+                                            <!--<div class="checker" ng-click="checkPorp(tag.qqCheck, tag)">-->
+                                                <!--<span ng-class="{true: 'checked', false: ''}[tag.isQQCheck]"><input type="checkbox"></span>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="sorting cId">-->
+                                            <!--<div class="checker" ng-click="checkPorp(tag.mlsCheck, tag)">-->
+                                                <!--<span ng-class="{true: 'checked', false: ''}[tag.isMlsCheck]"><input type="checkbox"></span>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="sorting cId">-->
+                                            <!--<div class="checker" ng-click="checkPorp(tag.folderCheck, tag)">-->
+                                                <!--<span ng-class="{true: 'checked', false: ''}[tag.isFolderCheck]"><input type="checkbox"></span>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="sorting cId">{{tag.name}}</td>-->
+                                        <!--<td class="sorting cId">-->
+                                            <!--<div class="checker" ng-click="checkPorp(tag.hideCheck, tag)">-->
+                                                <!--<span ng-class="{true: 'checked', false: ''}[tag.isHideCheck]"><input type="checkbox"></span>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="sorting cId">-->
+                                            <!--<div class="checker" ng-click="checkPorp(tag.artistCheck, tag)">-->
+                                                <!--<span ng-class="{true: 'checked', false: ''}[tag.isArtistCheck]"><input type="checkbox"></span>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="sorting cId">-->
+                                            <!--<div class="checker" ng-click="checkPorp(tag.albumCheck, tag)">-->
+                                                <!--<span ng-class="{true: 'checked', false: ''}[tag.isAlbumCheck]"><input type="checkbox"></span>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="sorting cId">-->
+                                            <!--<div class="checker" ng-click="checkPorp(tag.songCheck, tag)">-->
+                                                <!--<span ng-class="{true: 'checked', false: ''}[tag.isSongCheck]"><input type="checkbox"></span>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="hidden-phone sorting oPerson">-->
+                                            <!--<a class="icon-pencil" style="font-size: 16px;" href="" title="提交" ng-click="commit(tag)">-->
+                                                <!--&lt;!&ndash;<a href=""></a>&ndash;&gt;-->
+                                            <!--</a>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>

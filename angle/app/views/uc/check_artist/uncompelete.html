@@ -1,0 +1,212 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="form-1" class="col-sm-1 control-label" >艺人ID</label>
+        <div class="col-sm-2">
+            <input id="form-1" type="text" placeholder="请输入艺人ID" class="form-control input-sm" ng-model="form.artistIds" valid-number>
+        </div>
+        <label for="form-2" class="col-sm-1 control-label" >艺人名称</label>
+        <div class="col-sm-2">
+            <input id="form-2" type="text" placeholder="请输入艺人名称" class="form-control input-sm" ng-model="form.artistName">
+        </div>
+        <label for="form-3" class="col-sm-1 control-label" >最后编辑者</label>
+        <div class="col-sm-2">
+            <input id="form-3" type="text" placeholder="请输入最后编辑者" class="form-control input-sm" ng-model="form.editUserName"
+                   uib-typeahead="user.name as user.allname for user in users | filter:{allname:$viewValue}">
+        </div>
+        <label for="form-4" class="col-sm-1 control-label">最后审核者</label>
+        <div class="col-sm-2">
+            <input id="form-4" type="text" placeholder="请输入最后审核者" class="form-control input-sm" ng-model="form.auditUserName"
+                   uib-typeahead="user.name as user.allname for user in users | filter:{allname:$viewValue}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="form-5" class="col-sm-1 control-label" >版权接收起</label>
+        <div class="col-sm-2">
+            <input id="form-5" type="text" placeholder="请输入版权接收起" class="form-control input-sm" my-date ng-model="form.cpCreateStartTime" ng-click="open(1)" uib-datepicker-popup  is-open="dateStatus.opened1" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+        <label for="form-6" class="col-sm-1 control-label" >版权接收止</label>
+        <div class="col-sm-2">
+            <input id="form-6" type="text" placeholder="请输入版权接收止" class="form-control input-sm" my-date ng-model="form.cpCreateEndTime" ng-click="open(2)" uib-datepicker-popup  is-open="dateStatus.opened2" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+        <label for="form-7" class="col-sm-1 control-label" >最后分发起</label>
+        <div class="col-sm-2">
+            <input id="form-7" type="text" placeholder="请输入最后分发起" class="form-control input-sm" my-date ng-model="form.sendStartTime" ng-click="open(3)" uib-datepicker-popup  is-open="dateStatus.opened3" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+        <label for="form-8" class="col-sm-1 control-label">最后分发止</label>
+        <div class="col-sm-2">
+            <input id="form-8" type="text" placeholder="请输入最后分发止" class="form-control input-sm" my-date ng-model="form.sendEndTime" ng-click="open(4)" uib-datepicker-popup  is-open="dateStatus.opened4" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="form-9" class="col-sm-1 control-label" >艺人评分</label>
+        <div class="col-sm-1">
+            <input id="form-9" type="text" placeholder="起始" class="form-control input-sm" ng-model="form.mscoreMin">
+        </div>
+        <div class="col-sm-1">
+            <input type="text" placeholder="截止" class="form-control input-sm" ng-model="form.mscoreMax">
+        </div>
+        <!--<label for="form-10" class="col-sm-1 control-label" >地域</label>-->
+        <!--<div class="col-sm-2">-->
+            <!--<select id="form-10" class="form-control input-sm" ng-model="form.tags" ng-options="tag.tagId as tag.tagName for tag in areaList.tagList">-->
+                <!--<option value="">请选择地域</option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <label class="col-sm-1 control-label">状态</label>
+        <div class="col-sm-2">
+            <select class="form-control input-sm" ng-model="form.status">
+                <option value="">全部</option>
+                <option value="10">正常</option>
+                <option value="12">待审核</option>
+                <option value="30">禁用</option>
+                <option value="111">未通过</option>
+            </select>
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType == 'unassigned' || pageType == 'uncompelete'">热度评分</label>
+        <div class="col-sm-1" ng-if="pageType == 'unassigned' || pageType == 'uncompelete'">
+            <input type="text" placeholder="起始" class="form-control input-sm" ng-model="form.hotScoreMin" decimal>
+        </div>
+        <div class="col-sm-1" ng-if="pageType == 'unassigned' || pageType == 'uncompelete'">
+            <input type="text" placeholder="截止" class="form-control input-sm" ng-model="form.hotScoreMax" decimal>
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType == 'assigned'">被分配人</label>
+        <div class="col-sm-2" ng-if="pageType == 'assigned'">
+            <select ng-model="form.uid" ng-options="cyr.uid as cyr.uName for cyr in cyr_list" class="form-control input-sm" >
+                <option value="">请选择人员</option>
+            </select>
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType == 'compelete'">抽查者</label>
+        <div class="col-sm-2" ng-if="pageType == 'compelete'">
+            <select ng-model="form.uid" ng-options="cyr.uid as cyr.uName for cyr in cyr_list" class="form-control input-sm">
+                <option value="">请选择人员</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 control-label" ng-if="pageType == 'assigned' || pageType == 'uncompelete'">分配时间起</label>
+        <div class="col-sm-2" ng-if="pageType == 'assigned' || pageType == 'uncompelete'">
+            <input type="text" placeholder="请输入分配时间起" class="form-control input-sm" my-date ng-model="form.distributionStartTime" ng-click="open(5)" uib-datepicker-popup  is-open="dateStatus.opened5" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType == 'assigned' || pageType == 'uncompelete'">分配时间止</label>
+        <div class="col-sm-2" ng-if="pageType == 'assigned' || pageType == 'uncompelete'">
+            <input type="text" placeholder="请输入分配时间止" class="form-control input-sm" my-date ng-model="form.distributionEndTime" ng-click="open(6)" uib-datepicker-popup  is-open="dateStatus.opened6" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType == 'compelete'">完成时间起</label>
+        <div class="col-sm-2" ng-if="pageType == 'compelete'">
+            <input type="text" placeholder="请输入完成时间起" class="form-control input-sm" my-date ng-model="form.completeStartTime" ng-click="open(7)" uib-datepicker-popup  is-open="dateStatus.opened7" datepicker-options="dateOptions"  close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType == 'compelete'">完成时间止</label>
+        <div class="col-sm-2" ng-if="pageType == 'compelete'">
+            <input type="text" placeholder="请输入完成时间止" class="form-control input-sm" my-date ng-model="form.completeEndTime" ng-click="open(8)" uib-datepicker-popup  is-open="dateStatus.opened8" datepicker-options="dateOptions"  close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType == 'compelete'">抽查结果</label>
+        <div class="col-sm-2" ng-if="pageType == 'compelete'">
+            <select ng-model="params.ckResult" class="form-control input-sm">
+                <option value="">请选择分类</option>
+                <option value="0">合格</option>
+                <option value="1">可优化</option>
+                <option value="2">不合格</option>
+            </select>
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType != 'unassigned' && pageType != 'uncompelete'">热度评分</label>
+        <div class="col-sm-1" ng-if="pageType != 'unassigned' && pageType != 'uncompelete'">
+            <input type="text" placeholder="起始" class="form-control input-sm" ng-model="form.hotScoreMin" decimal>
+        </div>
+        <div class="col-sm-1" ng-if="pageType != 'unassigned' && pageType != 'uncompelete'">
+            <input type="text" placeholder="截止" class="form-control input-sm" ng-model="form.hotScoreMax" decimal>
+        </div>
+    </div>
+    <div class="form-group" ng-if="pageType == 'compelete'">
+        <label class="col-sm-1 control-label">错误分类</label>
+        <div class="col-sm-2">
+            <select chosen="" ng-model="ckTagErrors" class="chosen-select form-control" data-placeholder="请选择错误分类" ng-options="tag.value as tag.name for tag in tempscope"
+                    ng-change="tagErrorChoose(ckTagErrors);">
+                <option value="">请选择错误分类</option>
+            </select>
+        </div>
+        <label class="col-sm-8 control-label">
+            <span class='label label-primary tag' ng-repeat="c in params.ckTagErrors">
+                <i ng-if="c == 1">人工错误</i>
+                <i ng-if="c == 2">产品错误</i>
+                <i ng-if="c == 3">业务不熟</i>
+                <i ng-if="c == 4">产品侧</i>
+                <i ng-if="c == 5">运营侧</i>
+                &nbsp;
+                <em class="fa fa-remove" ng-click="ckTagErrorsRemove(c)"></em>
+            </span>
+        </label>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3">
+            <tag-search-tpl></tag-search-tpl>
+        </div>
+        <div class="col-sm-2" ng-if="form.style">
+            <div class="radio c-radio c-radio-nofont" ng-click="changeTagType(1);">
+                <label>
+                    <input type="radio" value="1" ng-model="form.style">
+                    <span></span>主风格
+                </label>
+            </div>
+            <div class="radio c-radio c-radio-nofont" ng-click="changeTagType(2);">
+                <label>
+                    <input type="radio" value="2" ng-model="form.style">
+                    <span></span>次风格
+                </label>
+            </div>
+        </div>
+        <label class="col-sm-7 control-label " style="text-align: left">
+            <span class='label label-default tag' ng-repeat="tag in form.tagBeans ">
+                <i>{{tag.name}}</i>&nbsp;<em class="fa fa-remove" ng-click="artistTagRemove(tag)"></em>
+            </span>
+        </label>
+    </div>
+    <div class="form-group" ng-controller="uc_task_check_controller">
+        <div class="col-sm-4" >
+            <div class="btn-group">
+                <button class="btn btn-default btn-sm" ng-click="paramsSearchClick($parent.pageType)">查询</button>
+                <button class="btn btn-default btn-sm" ng-click="reset()" >重置</button>
+                <button class="btn btn-default btn-sm" ng-click="export('artist', selectedDataIds)">导出</button>
+                <button class="btn btn-default btn-sm" ng-if="pageType == 'unassigned'" ng-click="import('artist')">导入</button>
+                <button class="btn btn-default btn-sm" ng-if="pageType == 'unassigned'" ng-click="checkBatchDelete('artist', datas);">批量删除</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/ng-template" id="uc_task_check_import.html">
+    <div ng-include="'app/views/partials/import.html'"></div>
+</script>
+<!--抽查导出-->
+<script type="text/ng-template" id="uc_task_check_export.html">
+    <div class="modal-header">
+        <h3 class="modal-title">导出数据</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <form class="form-horizontal song_special_export" >
+        <div class="control-group">
+            <input class="control-label" type="radio" ng-model="export_type" value="1">
+            <div class="controls">
+                按选中导出
+            </div>
+        </div>
+        <div class="control-group">
+            <input class="control-label" type="radio" ng-model="export_type" value="2">
+            <div class="controls">
+                序号
+                起<input type="number" ng-model="numberStart">止<input type="number" ng-model="numberEnd">
+            </div>
+        </div>
+        <div class="control-group">
+            <input class="control-label" type="radio" ng-model="export_type" value="3">
+            <div class="controls">
+                页数
+                起<input type="number" ng-model="pageStart">止<input type="number" ng-model="pageEnd">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </form>
+</script>
+<div ng-include="'app/views/modals/modal-delete.html'"></div>

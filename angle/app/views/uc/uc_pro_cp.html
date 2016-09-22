@@ -1,0 +1,112 @@
+<style>
+    .red {background-color: red;}
+</style>
+<div ng-controller="ModalCtrl">
+    <div class="project" ng-click="open()" style="cursor: pointer;">
+        <div class="project_" style="text-align: center;margin: auto;">
+            <h2 style="margin-top: 50px;"><i class="icon-plus" style="color: #5eafe3;"></i></h2>
+            <h4>添加新项目</h4>
+        </div>
+    </div>
+</div>
+<div class="project" ng-repeat="p in projects"  >
+    <div class="project_ panel-body">
+        <div class="project_title">
+            <h5 style="margin: 0 0 0 5px;line-height: 58px;"><i class="icon-briefcase" style="font-size: 38px"></i>{{p.name | cut: true: 9: '...'}}</h5>
+        </div>
+        <div class="project_content">
+            <p>项目进度：{{p.progress}}%</p>
+            <p>负责人：<span ng-repeat="f in p.fzrList">{{f.uName | cut: true: 5: '...'}};</span></p>
+            <p>共有{{p.cyrList.length}}人参与</p>
+            <p><i class="icon-plus-sign" title=""></i></p>
+        </div>
+        <div class="project_foot">
+            <p>{{p.start}}&nbsp;&nbsp;至&nbsp;&nbsp;{{p.end}}</p>
+        </div>
+        <div>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_pdetail({pId:p.id})">详情</button>
+            <!--<button class="badge badge-warning" ui-sref-active='active' ui-sref="uc_atask({pId:p.id,status:0})" ng-if="p.type != 5">列表</button>-->
+            <button class="btn btn-default btn-sm" ui-sref="app.artistTask.module({projectId:p.id,module:'-1,1,2',uid:user.id})" ng-if="p.flowType == 0">艺人列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.albumTask.module({projectId:p.id,module:'-1,1,2',uid:user.id})" ng-if="p.flowType == 1">专辑列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.songTask.module({projectId:p.id,module:'-1,1,2',uid:user.id})" ng-if="p.flowType == 2">歌曲列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.catalogTask.module({projectId:p.id,module:'-1,1,2',pageSize:50,pageNo:1})" ng-if="p.flowType == 4">编目列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.songtagTask.module({projectId:p.id,module:'-1,1,2',pageSize:50,pageNo:1})" ng-if="p.flowType == 3">标签列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_new_song.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uId:user.id})" ng-if="p.flowType == 10">新歌列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_new_song_tag.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uId:user.id})" ng-if="p.flowType == 11">新歌标签</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_check_song.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uid:user.id})" ng-if="p.flowType == 22">歌曲抽查</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_check_album.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uid:user.id})" ng-if="p.flowType == 23">专辑抽查</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_check_artist.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uid:user.id})" ng-if="p.flowType == 24">艺人抽查</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_check_song.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uid:user.id,dataType:'songTag'})" ng-if="p.flowType == 25">歌曲标签抽查</button>
+            <!--<span ng-switch on="p.flowType">-->
+                <!--<button class="badge badge-warning" ui-sref="uc_task_catalog({pId:p.id,status:0})" ng-switch-when="5">编目列表</button>-->
+            <!--</span>-->
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">新建项目</h3>
+    </div>
+    <form class="form-horizontal panel-body" name="projectForm" ng-controller="taskCtrl">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">项目名称</label>
+            <div class="col-sm-5">
+                <input type="text" placeholder="请输入项目名称" class="form-control input-sm" ng-model="data.name" ng-required="true" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">负责人</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control input-sm" ng-model="f" uib-typeahead="f as f.name for f in users | filter:$viewValue | limitTo:6" typeahead-on-select="selectFzr($item)">
+                <!--{{fzr_arr|json}}-->
+                <span class='label label-primary tag' ng-repeat="f in fzr_arr track by $index">
+                    <i>{{f.name}}</i>&nbsp;<em class="fa fa-remove" ng-click="removeFzr(f);"></em>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">参与人</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control input-sm" ng-model="c" uib-typeahead="c as c.name for c in users | filter:$viewValue | limitTo:6"  typeahead-on-select="selectCyr($item)">
+                <span class='label label-primary tag' ng-repeat="c in cyr_arr track by $index">
+                    <i>{{c.name}}</i>&nbsp;<em class="fa fa-remove" ng-click="removeCyr(c);"></em>
+                </span>
+                <input value="{{cyr}}" style="display: none;" ng-model="data.cyr">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">需要审核</label>
+            <div class="col-sm-5">
+                <select class="form-control input-sm" ng-model="data.examine" ng-required="true">
+                    <option value="0">不需要</option>
+                    <option value="1">需要</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">流程绑定</label>
+            <div class="col-sm-5">
+                <select class="form-control input-sm" ng-model="data.flowType" ng-required="true">
+                    <option value="0">艺人编辑</option>
+                    <option value="1">专辑编辑</option>
+                    <option value="2">歌曲编辑</option>
+                    <!--<option value="4">编目流程</option>-->
+                    <option value="3">歌曲标签</option>
+                    <!--<option value="5">艺人审核</option>-->
+                    <!--<option value="6">专辑审核</option>-->
+                    <!--<option value="7">歌曲审核</option>-->
+                    <!--<option value="8">标签审核</option>-->
+                    <!--<option value="9">编目审核</option>-->
+                    <!--<option value="10">新歌流程</option>-->
+                    <!--<option value="11">新歌标签</option>-->
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <button class="btn btn-primary" ng-disabled="projectForm.$invalid" type="button" ng-click="ok()">确认</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </form>
+</script>

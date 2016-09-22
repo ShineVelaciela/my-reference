@@ -1,0 +1,28 @@
+//
+   Created by kiracheng on 2016/7/18.
+table.table.table-striped
+    thead
+        tr
+            th(style="width: 50px") 选择
+            th(style="width: 180px;") 专辑
+            th(style="width: 120px;") 专辑ID
+            th(style="width: 200px;") 艺人
+            th(style="width: 60px;") 曲目数量
+            th(style="width: 100px;") 发行时间
+            th(style="width: 100px;") 语言
+            th(style="width: 120px;") 操作
+    tbody
+        tr.gradeX.odd(ng-repeat="data in datas")
+            td
+                radio-button
+            td {{data.albumName}}
+            td {{data.albumId}}
+            td
+                span(ng-repeat="artist in data.artists") {{artist.artistName}};
+            td {{data.num}}
+            td {{data.publishTime}}
+            td
+            td
+                a(ui-sref="albumInfo({albumId:data.albumId})") 查看&nbsp
+                a(ng-click="remove(datas,data)") 删除
+ng-include(src="'app/views/merge/merge-btn.html'")

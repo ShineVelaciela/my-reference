@@ -1,0 +1,95 @@
+<style>
+    .artist{
+        float: left;
+        width: 150px;
+        margin-top: 30px;
+    }
+    .artist a{
+        cursor: pointer;
+        line-height: 24px;
+        vertical-align: middle;
+        color: #999;
+    }
+    .artist strong a{
+        font-size: 14px;
+        color: #333;
+    }
+    .artist .image{
+        margin: 0 0 10px 20px;
+        position: relative;
+        float: left;
+        width: 100px;
+        height: 100px;
+        font-size: 0;
+    }
+    .artist .image:hover i{
+        display: inline;
+    }
+    .artist .image i{
+        display: none;
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        top: 0;
+        width: 100px;
+        height: 100px;
+        background-color: #000;
+        opacity: .3;
+    }
+    .artist .image img{
+        border-radius: 3px;
+    }
+    .artist .info{
+        clear: left;
+        overflow: hidden;
+        width: 100px;
+        margin-left: 20px;
+    }
+    .info p{
+        height: 24px;
+    }
+    .song{
+        float: left;
+        width: 265px;
+        padding: 5px 0;
+        margin-top: 10px;
+    }
+    .song:hover{
+        border-radius:3px;
+        background-color:#DBEEF5;
+    }
+    .song .image{
+        position: relative;
+        z-index: 3;
+        margin: 0 10px 0 20px;
+        float: left;
+        width: 55px;
+        height: 55px;
+        font-size: 0;
+    }
+    .song strong a{
+        font-size: 14px;
+        color: #333;
+    }
+    .song a{
+        line-height: 24px;
+        color: #999;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                <i class="icon-home"></i>&nbsp;&nbsp;媒资库<span class="divider">/</span>九天音乐歌单
+            </h3>
+        </div>
+    </div>
+    <div id="page" class="dashboard">
+        <div class="row-fluid" id="list_part">
+            <div class="span12" ui-view="form-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+

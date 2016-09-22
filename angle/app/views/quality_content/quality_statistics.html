@@ -1,0 +1,113 @@
+<style>
+    .nav-tabs{
+        border-bottom: 2px solid #527AA2;
+        margin-bottom: 0;
+    }
+    .nav-tabs>li{
+        margin-bottom: 0;
+    }
+
+    .tab-content{
+        /*border-top: 1px solid #ccc;*/
+        padding-top: 10px;
+        /*padding-left: 12px;*/
+    }
+    .quality-tabs{
+        list-style: none;margin-left: 0;overflow: hidden;
+        margin-bottom: 0;
+    }
+    .quality-tabs li{
+        float: left;
+    }
+    .quality-tabs li.active{
+        background: #5EAFE3;
+    }
+    .quality-tabs li.active a{
+        background: #5EAFE3;
+        text-decoration: none;
+        color: #fff;
+    }
+    .quality-tabs li.active a:hover{
+        background: transparent;
+        color: #fff;
+    }
+    .quality-tabs li a{
+        padding: 3px 5px;
+        color: #5EAFE3;
+        background: #F7FCFD;
+        border-radius: 0;
+    }
+    .quality-tabs li a:hover{
+        background: #5EAFE3;
+        text-decoration: none;
+        color: #fff;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" id="panelDemo1">
+            <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" >优质内容统计 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+            <div collapse="panelDemo1" class="panel-wrapper">
+                <div class="panel-body">
+                    <uib-tabset justified="true">
+                        <uib-tab  heading="优质艺人">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 100px;">素材类型</th>
+                                    <th style="width: 100px;">有</th>
+                                    <th style="width: 100px;">无</th>
+                                </tr>
+                                </thead>
+                                <tbody role="alert" >
+                                <tr class="gradeX odd" ng-repeat="data in artist_staistics">
+                                    <td>{{data.type}}</td>
+                                    <td>{{data.yesCount}}</td>
+                                    <td>{{data.noCount}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </uib-tab>
+                        <uib-tab  heading="优质专辑">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 100px;">素材类型</th>
+                                    <th style="width: 100px;">有</th>
+                                    <th style="width: 100px;">无</th>
+                                    <!--<th style="width: 100px;">操作列表</th>-->
+                                </tr>
+                                </thead>
+                                <tbody role="alert" >
+                                <tr class="gradeX odd" ng-repeat="data in album_staistics">
+                                    <td>{{data.type}}</td>
+                                    <td>{{data.yesCount}}</td>
+                                    <td>{{data.noCount}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </uib-tab>
+                        <uib-tab  heading="优质歌曲">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 100px;">素材类型</th>
+                                    <th style="width: 100px;">有</th>
+                                    <th style="width: 100px;">无</th>
+                                </tr>
+                                </thead>
+                                <tbody role="alert" >
+                                <tr class="gradeX odd" ng-repeat="data in song_staistics">
+                                    <td>{{data.type}}</td>
+                                    <td>{{data.yesCount}}</td>
+                                    <td>{{data.noCount}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

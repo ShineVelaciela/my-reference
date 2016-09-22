@@ -1,0 +1,17 @@
+//
+   Created by hao.cheng on 2016/8/11.
+script( type="text/ng-template",id="assignToTaskTpl.html")
+    div.modal-header
+        button.close(type="button",ng-click="cancel();") ×
+        h4.modal-title 添加到指定工单
+    div.modal-body
+        form.form-horizontal
+            div.form-group
+                div.radio.c-radio.c-radio-nofont(style="float: left;margin-left: 15px;")
+                    label
+                        input(type="radio",value="1",ng-model="assign.type")
+                        span
+                label.control-label 抽查工单
+    div.modal-footer
+        button.btn.btn-primary(type="button",ng-click="assign();") 确认
+        button.btn.btn-warning(type="button",ng-click="cancel();") 取消

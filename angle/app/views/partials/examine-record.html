@@ -1,0 +1,35 @@
+<!--Created by kiracheng on 2016/6/7.-->
+<h5 class="text-center text-thin">审核记录</h5>
+<ul class="nav">
+   <li>
+      <!-- START User status-->
+      <a href="javascript:;" ng-repeat="auditData in auditDatas" class="media-box p mt0">
+         <span class="pull-right">
+            <span data-ng-class="{1: 'circle-success', 0: 'circle-danger', '-1': 'circle-danger', '-2': 'circle-danger'}[auditData.auditResut]" class="circle circle-lg"></span>
+         </span>
+         <!-- Contact info-->
+         <span class="media-box-body">
+            <span class="media-box-heading">
+               <strong>{{auditData.user.name}} -
+                  <span ng-if="auditData.auditResut == 1">通过</span>
+                  <span ng-if="auditData.auditResut == 0">不通过</span>
+                  <span ng-if="auditData.auditResut == -1">A不通过</span>
+                  <span ng-if="auditData.auditResut == -2">B不通过</span>
+               </strong>
+               <br/>
+               <small class="text-muted">{{auditData.optTime | date:'yyyy-MM-dd HH:mm'}}</small>
+               <br/>
+               <small title="{{auditData.opinion}}" class="text-muted">{{auditData.opinion | cut:true:14:' ...'}}</small>
+            </span>
+         </span>
+      </a>
+      <!-- END User status-->
+   </li>
+   <li>
+      <div class="p-lg text-center">
+         <a href="javascript:;" title="See more contacts" data-ng-click="loadMoreExamine();" class="btn btn-purple btn-sm">
+            <strong translate="offsidebar.chat.LOAD_MORE">Load more..</strong>
+         </a>
+      </div>
+   </li>
+</ul>

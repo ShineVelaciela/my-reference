@@ -1,0 +1,14 @@
+//
+   Created by kiracheng on 2016/6/7.
+nav(ng-if="!pre")
+   tabset(justified="true")
+      tab
+         tab-heading 编辑
+         div(ng-include="'app/views/partials/edit-record.html'")
+      tab
+         tab-heading 抽查
+         div(ng-include="'app/views/partials/check-record.html'")
+      tab
+         tab-heading 审核
+         div(ng-include="'app/views/partials/examine-record.html'")
+

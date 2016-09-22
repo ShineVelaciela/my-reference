@@ -1,0 +1,76 @@
+<!--Created by hao.cheng on 2016/8/15.-->
+<div class="col-sm-3">
+   <div class="input-group">
+      <input type="text" placeholder="请输入关键字搜索" ng-model="form.searchKeyWord" class="form-control" />
+      <span class="input-group-btn">
+         <button type="button" task-submit="" class="btn btn-default">
+            <em class="icon-magnifier"></em>
+         </button>
+      </span>
+   </div>
+</div>
+<div class="col-sm-3 pull-right">
+   <div class="btn-group">
+      <button ng-click="addDic();" class="btn btn-default">新增</button>
+   </div>
+</div>
+<table class="table table-striped">
+   <thead>
+      <tr>
+         <th style="width: 50px">
+            <check-all-btn></check-all-btn>
+         </th>
+         <th style="width: 140px;" ng-if="type == 'country'">国家/地区名称</th>
+         <th style="width: 100px;" ng-if="type == 'country'">国家/地区全拼音</th>
+         <th style="width: 140px;" ng-if="type == 'nation'">民族名称</th>
+         <th style="width: 100px;" ng-if="type == 'nation'">所在国家/地区</th>
+         <th style="width: 100px;" ng-if="type == 'nation'">民族全拼音</th>
+         <th style="width: 140px;">拼音首字母组合</th>
+         <th style="width: 120px;">操作功能</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="data in datas track by $index" class="gradeX odd">
+         <td>
+            <div class="checkbox c-checkbox">
+               <label>
+                  <input type="checkbox" ng-model="data.isCheck" />
+                  <span class="fa fa-check"></span>
+               </label>
+            </div>
+         </td>
+         <td>
+            <span editable-text="data.name" e-name="name" e-form="rowform" e-required="" e-ng-model="data.name">{{ data.name }}</span>
+         </td>
+         <td ng-if="type == 'nation'">
+            <span editable-text="data.countryName" e-name="countryName" e-form="rowform" e-required="" e-ng-model="data.countryName">{{ data.countryName }}</span>
+         </td>
+         <td>
+            <span editable-text="data.pinyin" e-name="status" e-form="rowform" e-required="" e-ng-model="data.pinyin">{{data.pinyin}}</span>
+         </td>
+         <td>
+            <span editable-text="data.pyfirstletters" e-name="group" e-form="rowform" e-required="" e-ng-model="data.pyfirstletters">{{data.pyfirstletters}}</span>
+         </td>
+         <td style="white-space: nowrap">
+            <!-- form-->
+            <form editable-form="" name="rowform" ng-show="rowform.$visible" shown="table.inserted == data" class="form-buttons form-inline">
+               <button type="button" ng-disabled="rowform.$waiting" title="Save" ng-click="saveDic(data,rowform);" class="btn btn-sm btn-info">
+                  <em class="fa fa-save"></em>
+               </button>
+               <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                  <em class="fa fa-times"></em>
+               </button>
+            </form>
+            <div ng-show="!rowform.$visible" class="buttons">
+               <button ui-sref="app.dictionaryEdit({type: type, id: data.id})" title="Edit" class="btn btn-sm btn-info">
+                  <em class="fa fa-pencil"></em>
+               </button>
+               <button ng-click="deleteDic(data);" title="Delete" class="btn btn-sm btn-danger">
+                  <em class="fa fa-trash"></em>
+               </button>
+            </div>
+         </td>
+      </tr>
+   </tbody>
+</table>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>

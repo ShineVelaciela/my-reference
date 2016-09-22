@@ -1,0 +1,25 @@
+<!--Created by hao.cheng on 2016/8/22.-->
+<div class="col-sm-3">
+   <tag-search-tpl></tag-search-tpl>
+</div>
+<div ng-if="form.style" class="col-sm-2">
+   <div change-tag-type="" class="radio c-radio c-radio-nofont">
+      <label>
+         <input type="radio" value="1" ng-model="form.style" />
+         <span></span>
+         <div style="display: inline-block;">主风格</div>
+      </label>
+   </div>
+   <div change-tag-type="" class="radio c-radio c-radio-nofont">
+      <label>
+         <input type="radio" value="2" ng-model="form.style" />
+         <span></span>
+         <div style="display: inline-block;">次风格</div>
+      </label>
+   </div>
+</div>
+<label style="text-align: left" class="col-sm-7 control-label">
+   <span ng-repeat="tag in form.tagBeans" class="label label-default tag"><i>{{tag.name}}</i>
+      <em ng-click="artistTagRemove(tag)" class="fa fa-remove"></em>
+   </span>
+</label>

@@ -1,0 +1,178 @@
+<style>
+    .sm-container{
+        padding: 47px 30px 40px 39px;
+        background-color: rgb(255, 255, 255);
+    }
+    .sm-info:after{
+        clear: both;
+        content: '.';
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+    .sm-info .cover{
+        float: left;
+        position: relative;
+        display: inline;
+        margin: 0 -220px 0 0;
+    }
+    .sm-info .cover img{
+        width: 200px;
+        height: 200px;
+    }
+    .sm-info .left-info{
+        float: right;
+        width: 100%;
+    }
+    .sm-info .left-info-c{
+        margin-left: 230px;
+    }
+    .sm-info .hd{
+        position: relative;
+        margin: 0 0 12px;
+        line-height: 24px;
+    }
+    .sm-info .user{
+        margin: 0 0 20px;
+        line-height: 35px;
+    }
+    .sm-info .user .face{
+        margin-right: 10px;
+        float: left;
+        width: 35px;
+        height: 35px;
+    }
+    .sm-info .user .name{
+        float: left;
+    }
+    .sm-info .user .time{
+        margin-left: 15px;
+    }
+    .sm-info .btns{
+        margin-bottom: 25px;
+        margin-right: -10px;
+    }
+    .sm-info .tags{
+        margin: 25px 0 5px;
+        line-height: 22px;
+    }
+    .sm-info .desc{
+        margin-top: 4px;
+        line-height: 18px;
+        color: #666;
+    }
+    .f-fr{
+        float: right;
+    }
+    .sm-songtb{
+        margin-top: 27px;
+    }
+    .songtb-title{
+        height: 33px;
+        border-bottom: 2px solid #c20c0c;
+    }
+    .songtb-title h3{
+        font-size: 20px;
+        line-height: 8px;
+        float: left;
+        font-weight: normal;
+    }
+    .songtb-title .sub{
+        margin: 9px 0 0 20px;
+        float: left;
+    }
+    .songtb-title .play-count{
+        margin-top: 5px;
+        float: right;
+    }
+    i{
+        cursor: pointer;
+    }
+</style>
+<div>
+
+</div>
+<div class="sm-container">
+    <div class="sm-info">
+        <div class="cover">
+            <img  src="{{data.img}}">
+        </div>
+        <div class="left-info">
+            <div class="left-info-c">
+                <div class="hd">
+                    <div>
+                        <h3 class="f-ff2 f-brk">{{data.name}}</h3>
+                    </div>
+                </div>
+                <div class="user">
+                    <!--<a class="face" href="/user/home?id=33256078"><img src="http://p3.music.126.net/UQtFJ5Xto8xnaz3aAVoayQ==/7965961744963988.jpg?param=40y40"></a>-->
+                    <span class="name">
+                    <a href="/user/home?id=33256078" class="s-fc7">{{data.user}}</a>
+                    </span>
+                    <span class="time s-fc4">{{data.ctime}}&nbsp;创建</span>
+                </div>
+                <div class="tags">
+                    <b>标签：</b>
+                    <span action-type="check" title="{{tag}}" class="W_btn_b W_btn_tag" ng-repeat="tag in data.tags">
+                        <span class="W_arrow_bor W_arrow_bor_l"><i class="S_line3"></i><em class="S_bg2_br"></em></span>
+                        <i>{{tag}}</i>&nbsp;&nbsp;
+                    </span>
+                </div>
+                <p class="desc">
+                    <b>介绍：</b>
+                    <span ng-bind-html="data.playlistExt.descr|to_trusted "></span>
+                    <!--{{data.playlistExt.descr |to_trusted}}-->
+                    <br>
+                </p>
+                <div><a href="javascript:;" class="f-fr">展开<i class=""></i></a></div>
+            </div>
+        </div>
+    </div>
+    <div class="sm-songtb">
+        <div class="songtb-title">
+            <h3>
+                <span class="f-ff2">歌曲列表</span>
+            </h3>
+            <span class="sub"><span>{{data.playlistSongs.length}}</span>首歌</span>
+            <div class="play-count">播放：<strong>{{data.playlistExt.playNum}}</strong>次</div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr role="row">
+                <th style="width: 50px;"></th>
+                <th style="width: 130px;border-left: 0;">歌曲名称</th>
+                <th style="width: 107px;">歌手</th>
+                <th style="width: 123px;">专辑</th>
+                <th style="width: 60px;">媒资库ID</th>
+                <th style="width: 100px;">版权ID</th>
+                <th style="width: 100px;">过期时间</th>
+                <th style="width: 60px;">评分</th>
+                <th style="width: 60px;">操作</th>
+            </thead>
+
+            <tbody role="alert" >
+            <tr class="gradeX odd" ng-repeat="data in data.songs track by $index">
+                <td>{{$index + 1}}</td>
+                <!--<td><a href="">{{song.songName}}</a></td>-->
+                <td><a ui-sref="songInfo({songId:data.songId})">{{data.songName}}</a></td>
+                <td><a ui-sref="artistInfo({artistId:artist.artistId})" ng-repeat="artist in data.artists">{{artist.artistName}}</a></td>
+                <td>
+                    <!--<a ng-repeat="album in song.albums"><{{album.albumName}}></a>-->
+                    {{data.album.albumName}}
+                    <span uib-dropdown>
+                        <i class="icon-double-angle-down" uib-dropdown-toggle></i>
+                        <ul class="dropdown-menu" role="menu"  style="max-width: 234px;width: auto;">
+                            <li role="menuitem" ng-repeat="album in data.albums" ><p title="{{album.albumName}}" style="width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{album.albumName}}</p></li>
+                        </ul>
+                    </span>
+                </td>
+                <td><a href="http://music.migu.cn/#/song/{{data.qid}}" target="_blank">{{data.qid}}</a></td>
+                <td>{{data.cids.copyrightId}}</td>
+                <td>{{data.cids.expirationDate  | date:'yyyy/MM/dd'}}</td>
+                <td>{{data.score}}</td>
+                <td><play-icon></play-icon></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

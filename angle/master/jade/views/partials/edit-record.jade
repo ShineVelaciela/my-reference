@@ -1,0 +1,21 @@
+//
+   Created by kiracheng on 2016/6/7.
+
+h5.text-center.text-thin 编辑记录
+ul.nav
+   li
+      // START User status
+      a(href="javascript:;" ng-repeat="op in opDatas").media-box.p.mt0
+         span.pull-right
+            span.circle.circle-success.circle-lg
+         // Contact info
+         span.media-box-body
+            span.media-box-heading
+               strong {{op.user.name}}
+               br
+               small.text-muted {{op.optTime | date:'yyyy-MM-dd HH:mm:ss'}}
+      // END User status
+   li
+      .p-lg.text-center
+         a.btn.btn-purple.btn-sm(href="javascript:;", title="See more contacts",data-ng-click="loadMoreOperate();")
+            strong(translate="offsidebar.chat.LOAD_MORE") Load more..

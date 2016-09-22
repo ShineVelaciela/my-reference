@@ -1,0 +1,249 @@
+<style>
+    .badge.badge-warning{
+        cursor: pointer;
+    }
+    tr.gradeX.odd.selected{
+        background-color: #CBE8F6;
+    }
+    tr.gradeX.odd.selected:hover{
+        background-color: #CBE8F6;
+    }
+    tr.gradeX.odd:hover{
+        background-color: white;
+    }
+    i{
+        cursor: pointer;
+    }
+    td.border1px{
+        border-top: 1px solid #ff1212 !important;
+        border-bottom: 1px solid #ff1212 !important;
+    }
+    td.border1px-left{
+        border-top: 1px solid #ff1212 !important;
+        border-bottom: 1px solid #ff1212 !important;
+        border-left: 1px solid #ff1212 !important;
+    }
+    td.border1px-right{
+        border-top: 1px solid #ff1212 !important;
+        border-bottom: 1px solid #ff1212 !important;
+        border-right: 1px solid #ff1212 !important;
+    }
+</style>
+<!--<div ui-view="song-tag">-->
+    <table class="table table-striped" ng-controller="tagTableDataController"
+           >
+        <thead>
+        <tr role="row">
+            <th style="width: 24px;" class="sorting_disabled" role="columnheader"
+                rowspan="1"
+                colspan="1" aria-label="">
+                <div class="checkbox c-checkbox">
+                    <label>
+                        <input type="checkbox" ng-click="checkAll(allIsCheck, datas)">
+                        <span class="fa fa-check"></span>
+                    </label>
+                </div>
+
+                <!--<div class="checker" ng-click='checkAll(all, datas)' style="cursor: pointer;">-->
+                    <!--<span ng-class="{true: 'checked', false: ''}[allIsCheck]">-->
+                        <!--<input type="checkbox" class="group-checkable" ng-model="all"-->
+                               <!--data-set=".checkboxes" ng-click='checkAll(all, datas)' style="margin-top:0;cursor: auto;">-->
+                    <!--</span>-->
+                <!--</div>-->
+            </th>
+            <th class="hidden-phone sorting Status" role="columnheader" tabindex="0"
+                aria-controls="sample_1" rowspan="1" colspan="1"
+                style="width: 80px;border-left: 0;">
+                歌曲ID
+            </th>
+            <th class="sorting cId" role="columnheader" tabindex="0" aria-controls="sample_1"
+                rowspan="1" colspan="1"
+                style="width: 130px;">歌曲名
+            </th>
+            <th class="hidden-phone sorting songId" role="columnheader" tabindex="0"
+                aria-controls="sample_1" rowspan="1" colspan="1"
+                aria-label="Email: activate to sort column ascending" style="width: 110px;"
+                    >艺术家名
+            </th>
+            <th style="width: 30px;" ng-if="sahala == true">BPM</th>
+            <th style="width: 30px;" ng-if="sahala == true">配速</th>
+            <th style="width: 30px;" ng-if="sahala == true">权重</th>
+            <!--<th class="hidden-phone sorting cId" role="columnheader" tabindex="0"-->
+                <!--aria-controls="sample_1" rowspan="1" colspan="1"-->
+                <!--style="width: 80px;">-->
+                    <!--曲库ID-->
+            <!--</th>-->
+            <th class="hidden-phone sorting cId" role="columnheader" tabindex="0"
+                aria-controls="sample_1" rowspan="1" colspan="1"
+                style="width: 70px;"
+                    >版权有效期
+            </th>
+            <th class="hidden-phone sorting songName" role="columnheader" tabindex="0"
+                aria-controls="sample_1" rowspan="1" colspan="1"
+                aria-label="Points: activate to sort column ascending" style="width: 50px;"
+                i>标签名
+            </th>
+            <th class="hidden-phone sorting artistName" role="columnheader" tabindex="0"
+                aria-controls="sample_1" rowspan="1" colspan="1"
+                style="width: 40px;"
+                    >次数
+            </th>
+            <!--<th class="hidden-phone sorting albumName" role="columnheader" tabindex="0"-->
+                <!--aria-controls="sample_1" rowspan="1" colspan="1"-->
+                <!--style="width: 100px;">-->
+                <!--曲库ID-->
+            <!--</th>-->
+
+            <th class="hidden-phone sorting language" role="columnheader" tabindex="0"  uib-dropdown dropdown-append-to-body auto-close="outsideClick"
+                aria-controls="sample_1" rowspan="1" colspan="1"
+                style="width: 40px;">
+                    <span ng-switch on="status" uib-dropdown-toggle style="cursor: pointer;color: #5fb0e3;">
+                        <span ng-switch-when="99">全部</span>
+                        <span ng-switch-when="1">通过</span>
+                        <span ng-switch-when="0">默认</span>
+                        <span ng-switch-when="-1">禁用</span>
+                    </span>
+                    <!--<i class="icon-double-angle-down"  data-toggle="dropdown" style="color: #5fb0e3;"></i>-->
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" style="position: absolute;left: 0px;width: auto;cursor: pointer;">
+                        <li><a href="" ui-sref="{{nowurl}}({tagId:tagId,tagName:tagName,firstIndex:0,status:99,ctype:ctype})">全部</a></li>
+                        <li><a href="" ui-sref="{{nowurl}}({tagId:tagId,tagName:tagName,firstIndex:0,status:1,ctype:ctype})">通过</a></li>
+                        <li><a href="" ui-sref="{{nowurl}}({tagId:tagId,tagName:tagName,firstIndex:0,status:-1,ctype:ctype})">禁用</a></li>
+                        <li><a href="" ui-sref="{{nowurl}}({tagId:tagId,tagName:tagName,firstIndex:0,status:0,ctype:ctype})">默认</a></li>
+                    </ul>
+            </th>
+            <th class="hidden-phone sorting oPerson" role="columnheader" tabindex="0"
+                aria-controls="sample_1" rowspan="1" colspan="1"
+                style="width: 130px;">操作
+            </th>
+            <th class="hidden-phone sorting checkStatus" role="columnheader" tabindex="0"
+                aria-controls="sample_1" rowspan="1" colspan="1"
+                style="width: 90px;">
+                用户
+            </th>
+            <th class="hidden-phone sorting checkStatus" role="columnheader" tabindex="0"
+                style="width: 90px;">
+                时间
+            </th>
+        </thead>
+
+        <tbody role="alert" aria-live="polite" aria-relevant="all" >
+        <tr class="gradeX odd " ng-repeat="data in datas track by $index" ng-class="{'selected': data.isCheck}" ng-click="chk(data, data.isCheck, datas)">
+        <!--<tr class="gradeX odd" ng-repeat="data in datas">-->
+            <td class="sorting_1" ng-class="{'border1px-left': data.playCheck}">
+                <div class="checkbox c-checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="data.isCheck">
+                        <span class="fa fa-check"></span>
+                    </label>
+                </div>
+            </td>
+            <td class="hidden-phone Status" ng-class="{'border1px': data.playCheck}">{{data.songId}}</td>
+            <td class="cId " title="{{data.songName}}" ng-class="{'border1px': data.playCheck}" ng-click="chk(data, data.isCheck, datas)">
+                <span has-permission ='tag/tag_manage/tag_manage_unclick'>
+                    <span ng-if="data.topStatus == 1" style="color: orange">(新)</span>
+                    <span ng-if="data.topStatus == 2" style="color: red">(顶)</span>
+                    {{data.songName | cut:true:20:' ...'}}
+                </span>
+                <a has-permission ='tag/tag_manage/tag_manage_click' href="/mls/song/search?songId={{data.songId}}" target="_blank">
+                    <span ng-if="data.topStatus == 1" style="color: orange">(新)</span>
+                    <span ng-if="data.topStatus == 2" style="color: red">(顶)</span>
+                    {{data.songName | cut:true:20:' ...'}}
+                </a>
+                <i class="icon-play-circle" title="试听" style="font-size: 16px;" ng-click="addPlaySong(datas, data)" ng-if="data.cid != ''"></i>
+            </td>
+            <td class="hidden-phone songId" title="{{data.artistName}}" ng-class="{'border1px': data.playCheck}" style="overflow-x: hidden;" ng-click="chk(data, data.isCheck, datas)">
+                <span ng-repeat="artist in data.artists">
+                    <a has-permission ='tag/tag_manage/tag_manage_click' href="/mls/artist?artistId={{artist.artistId}}" target="_blank">{{artist.artistName}}</a>
+                    <span has-permission ='tag/tag_manage/tag_manage_unclick'>{{artist.artistName}}</span>
+                </span>
+                <!--{{data.artistName | cut:true:20:' ...'}}-->
+            </td>
+            <td ng-if="sahala == true" ng-class="{'border1px': data.playCheck}">{{data.bpmVal}}</td>
+            <td ng-if="sahala == true" ng-class="{'border1px': data.playCheck}">{{data.paceVal}}</td>
+            <td ng-if="sahala == true" ng-class="{'border1px': data.playCheck}">{{data.weightVal}}</td>
+            <!--<td class="hidden-phone cId" ><a href="http://music.migu.cn/#/song/{{data.qid}}" target="_blank">{{data.qid}}</a>-->
+            <!--</td>-->
+            <td class="hidden-phone cId" title="" ng-class="{'border1px': data.playCheck}">{{data.cidDate | date:'yyyy/MM/dd'}}
+            </td>
+            <td class="hidden-phone songName" ng-class="{'border1px': data.playCheck}">{{data.tagName}}
+            </td>
+            <td class="hidden-phone artistName" ng-class="{'border1px': data.playCheck}">{{data.num}}
+            </td>
+            <!--<td class="hidden-phone albumName" ><a href="http://music.migu.cn/#/song/{{data.kid}}" target="_blank">{{data.kid}}</a>&nbsp;<a target="_blank" href="http://218.200.230.40:18089/musiclibrary/song!findSongByPage.action?songFormBean.searchSongId={{data.kid}}">K</a>-->
+            <!--</td>-->
+            <!--<td ng-switch on="data.statStr">-->
+                <!--<td class="hidden-phone language" ng-switch-when="默认">1</td>-->
+            <!--</td>-->
+            <td class="hidden-phone language" ng-class="{'border1px': data.playCheck}">{{data.status}}</td>
+            <td class="hidden-phone oPerson" ng-class="{'border1px': data.playCheck}">
+                <span has-permission='tag/tag_manage/tag_manage_pass' ng-if="status != 1"><a href="" ng-click="postUrl({data:data, stat:1})">通过</a></span>
+                <span has-permission='tag/tag_manage/tag_manage_disable' ng-if="status != -1"><a href="" ng-click="postUrl({data:data, stat:-1})">禁用</a></span>
+                <span has-permission='tag/tag_manage/tag_manage_default' ng-if="status != 0"><a href="" ng-click="postUrl({data:data, stat:0})">默认</a></span>
+                <span ng-if="params.searchOrder == 'ranked'"><a href="" ng-click="useTop({song:data})">排序</a></span>
+                <span ng-if="params.searchOrder == 'ranked' && data.topStatus == 2 "><a href="" ng-click="unuseTop({song:data})">取消</a></span>
+            </td>
+            <td class="hidden-phone center checkStatus" ng-class="{'border1px': data.playCheck}">{{data.userName}}</td>
+            <td class="hidden-phone option" style="line-height: 30px;width: 120px" title="{{data.utime | date:'yyyy-MM-dd HH:mm:ss'}}" ng-class="{'border1px-right': data.playCheck}">
+                {{data.utime | date:'yyyy/MM/dd HH:mm:ss' | cut:true:25:' ...'}}
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+    <div class="row-fluid paginate" ng-controller="tagTableDataSeparatPageController">
+        <div class="span6" style="width: initial;">
+            <div class="dataTables_info" id="sample_1_info" style="float: left;">共<span
+                    id="totalNum">{{totalrecord}}</span>条,每页<span
+                    id="eveNum">{{maxResult}}</span>条,共{{totalPage}}页
+            </div>
+            <div class="dataTables_length" style="margin-top: 5px;float: left;">
+                <span class='btn btn-primary btn-xs' ng-click="batchPass(1, datas)" has-permission='tag/tag_manage/tag_manage_batchpass' ng-if="status != 1">
+                    <i>通过</i>
+                </span>
+                <span class='btn btn-warning btn-xs' ng-click="batchPass(-1, datas)" has-permission='tag/tag_manage/tag_manage_batchpass' ng-if="status != -1">
+                    <i>禁用</i>
+                </span>
+            </div>
+        </div>
+
+        <div class="span3 pull-right" style="width: initial;">
+
+            <div class="">
+                <div class="dataTables_length" style="margin-top: 5px;">
+                    <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-change="choosePage(nowurl);" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后" rotate="false" style="margin: 0 5px 0 0;width:auto;"></uib-pagination>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 pull-right" style="margin-top: 5px;">
+            <div class="input-group">
+                <input type="number" class="form-control input-sm" ng-model="inputPageNum">
+               <span class="input-group-btn">
+                  <button class="btn btn-default btn-sm" type="button" ng-click="setPage(inputPageNum, nowurl)">跳转</button>
+               </span>
+            </div>
+        </div>
+    </div>
+<!--</div>-->
+<!--添加弹出层-->
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">人工数据排序</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <form class="form-horizontal" name="projectForm" style="margin-bottom: 0px;">
+        <div class="control-group">
+            <label class="control-label">排序位置</label>
+            <div class="controls">
+                <input type="number" class="span3" ng-model="position">
+                <button class="btn btn-primary" type="button" style="margin-left: 5px;cursor:pointer;" ng-click="setPosition(position)">提交排序</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <!--<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>-->
+            <button class="btn btn-warning" type="button" ng-click="cancel()">关闭</button>
+        </div>
+    </form>
+</script>
+<!--添加弹出层end-->

@@ -1,0 +1,34 @@
+<!--Created by hao.cheng on 2016/8/17.-->
+<div class="form-group">
+   <label class="col-sm-1 control-label">全局搜索</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入名称或者拼音" ng-model="form.searchKeyWord" class="form-control input-sm" />
+   </div>
+</div>
+<div ng-if="type == 'nation'" class="form-group">
+   <label class="col-sm-1 control-label">全局搜索</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入民族名称" ng-model="$parent.form.name" class="form-control input-sm" />
+   </div>
+   <label class="col-sm-1 control-label">所在国家/地区</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入所在国家/地区" ng-model="$parent.form.countryName" class="form-control input-sm" />
+   </div>
+   <label class="col-sm-1 control-label">民族全拼音</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入民族全拼音" ng-model="$parent.form.pinyin" class="form-control input-sm" />
+   </div>
+   <label class="col-sm-1 control-label">拼音首字母组合</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入拼音首字母组合" ng-model="$parent.form.pyfirstletters" class="form-control input-sm" />
+   </div>
+</div>
+<div class="form-group">
+   <div class="col-sm-4">
+      <div class="btn-group">
+         <button task-submit="" class="btn btn-default btn-sm">查询</button>
+         <button task-reset="" class="btn btn-default btn-sm">重置</button>
+         <button ng-click="addDic()" class="btn btn-default btn-sm">新建</button>
+      </div>
+   </div>
+</div>

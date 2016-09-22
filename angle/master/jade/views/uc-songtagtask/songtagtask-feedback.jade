@@ -1,0 +1,36 @@
+//
+   Created by YuChunzhuo-Dev on 2016/8/9.
+
+.container-fluid
+    .row-fluid
+        .span12
+            h3.page-title
+                span.divider 媒资库/项目管理/导入反馈
+    .row
+        .col-lg-12
+            #panelDemo1.panel.panel-default
+                .panel-heading(ng-class="{'panel-heading-collapsed':panelDemo1}") 导入列表
+                    paneltool(tool-collapse="tool-collapse")
+                .panel-wrapper(collapse="panelDemo1")
+                    .panel-body
+                        .table-responsive(style="padding-top: 10px;")
+                            table.table.table-striped
+                                thead
+                                    tr(role="row")
+                                        th(style="width: 15%") 序号
+                                        th(style="width: 20%;") 文件名
+                                        th(style="width: 15%;") 合并
+                                        th(style="width: 15%;") 成功
+                                        th(style="width: 15%;") 失败
+                                        th(style="width: 20%;") 导入时间
+                                tbody(role="alert")
+                                    tr.gradeX.odd(ng-repeat="data in datas track by $index")
+                                        td {{$index + 1}}
+                                        td {{data.filename}}
+                                        td {{data.merge}}
+                                        td {{data.success}}
+                                        td
+                                            a(ng-if="data.fail != 0" ui-sref="app.songtagTaskFailed({type: type, fid: data.id})" target="_blank") {{data.fail}}
+                                            span(ng-if="data.fail == 0") {{data.fail}}
+                                        td {{data.ctime | date: 'yyyy/MM/dd HH:mm:ss'}}
+                            ng-include(src="'app/views/partials/pagination.html'")

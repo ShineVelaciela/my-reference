@@ -1,0 +1,73 @@
+<style>
+    .cmmt table tbody tr:hover{
+        background-color: transparent;
+    }
+    .cmmt table tbody tr td.name{
+        width: 6%;
+    }
+    .cmmt table tbody tr td span{
+        /*width: 20%;*/
+        font-weight: bold;
+    }
+    td i{
+        cursor: pointer;
+    }
+    .cmmt .cmmts .itm .cnt.new{
+        background-color: #fff;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+        height: 40px;
+    }
+    .cmmt .cmmts .itm .cnt.new.saved{
+        background-color: #F1CC92 !important;
+    }
+</style>
+<div class="cmmt" style="padding-left: 10px;">
+    <table style="width: 100%;">
+        <tbody>
+        <tr>
+            <td class="name">{{type.name}}名称:</td>
+            <td class="content">
+                <span ng-if="type.num == 0">{{info.albumName}}</span>
+                <span ng-if="type.num == 1">{{info.songName}}</span>
+            </td>
+            <td class="name" ng-if="type.num == 1">专辑名称:</td>
+            <td class="content" ng-if="type.num == 1"><span>{{info.albumName}}</span></td>
+            <td class="name">歌手名称:</td>
+            <td class="content"><span>{{info.artistName}}</span></td>
+            <td class="name">列表序号:</td>
+            <td class="content"><span>{{info.no}}</span></td>
+            <td class="name" ng-if="type.num == 1">试听:</td>
+            <td class="content" ng-if="type.num == 1"><span><i class="icon-control-play" ng-click="addPlaySong(info.mid,info.cids.copyrightId);"></i></span><span><a href="{{info.songUrl}}" target="_blank"><i class="icon-share"></i></a></span></td>
+            <td><a href="javascript:;" ng-click="addComment();">新增</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="cmmt" ng-repeat="n in newComments track by $index">
+    <div class="cmmts">
+        <div class="itm">
+            <div class="nm">{{$index + 1}}.</div>
+            <textarea msd-elastic class="cnt new" ng-class="{'saved':n.isSaved}" ng-model="content" popover-placement="bottom" uib-popover="请填写新增的评论内容" popover-trigger="focus"></textarea>
+            <div class="ft">
+                <a href="javascript:;" ng-click="saveComment(newData,content,n);">保存</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cmmt" ng-repeat="data in saved_datas track by $index">
+    <div class="cmmts">
+        <div class="itm pass" ng-class="data.status == -1 ? 'delete':''">
+            <div class="nm">
+                {{$index + 1}}.<span ng-if="data.status == -1">(<i class="icon-trash"></i>)</span>
+            </div>
+            <textarea class="cnt" msd-elastic ng-model="data.content" >{{data.content}}</textarea>
+            <div class="ft" ng-if="data.status == 0">
+                <i class="icon-thumbs-up"></i>(<span style="color: red;">{{data.sourceAgreeNum}}</span>) | <a href="javascript:;" ng-click="saveComment(data,data.content,data);">保存</a> | <a href="javascript:;" ng-click="deleteComment(data);">取消</a>
+            </div>
+            <div class="ft" ng-if="data.status == -1">
+                <i class="icon-thumbs-up"></i>(<span style="color: red;">{{data.sourceAgreeNum}}</span>) | <a href="javascript:;" ng-click="saveComment(data,data.content,data);">恢复</a>
+            </div>
+        </div>
+    </div>
+</div>

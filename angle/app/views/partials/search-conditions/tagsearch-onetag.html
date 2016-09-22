@@ -1,0 +1,9 @@
+<!--Created by YuChunzhuo-Dev on 2016/8/31.-->
+<div class="col-sm-3">
+   <tag-search-one-tag-tpl></tag-search-one-tag-tpl>
+</div>
+<label style="text-align: left" class="col-sm-7 control-label">
+   <span ng-repeat="tag in form.tagBeans track by $index" class="label label-default tag"><i>{{tag.name}}</i>
+      <em ng-click="artistTagRemove(tag)" class="fa fa-remove"></em>
+   </span>
+</label>

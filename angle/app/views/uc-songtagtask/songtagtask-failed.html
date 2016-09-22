@@ -1,0 +1,71 @@
+<!--Created by YuChunzhuo-Dev on 2016/8/9.
+-->
+<div class="container-fluid">
+   <div class="row-fluid">
+      <div class="span12">
+         <h3 class="page-title">
+            <span class="divider">媒资库/项目管理/导入反馈</span>
+         </h3>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="panelDemo1" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':panelDemo1}" class="panel-heading">失败详细列表
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="panelDemo1" class="panel-wrapper">
+               <div class="panel-body">
+                  <div class="col-sm-3 pull-right">
+                     <div class="btn-group">
+                        <button ng-click="exportFaildExcel()" class="btn btn-default">导出</button>
+                     </div>
+                  </div>
+                  <div style="padding-top: 10px;" class="table-responsive">
+                     <table class="table table-striped">
+                        <thead>
+                           <tr role="row">
+                              <th style="width: 5%">序号</th>
+                              <th style="width: 10%;" ng-if="type == 'tag'">版权ID</th>
+                              <th style="width: 10%;" ng-if="type == 'tag'">歌曲ID</th>
+                              <th style="width: 20%;" ng-if="type == 'tag'">歌曲名</th>
+                              <th style="width: 15%;" ng-if="type == 'tag'">艺人名</th>
+                              <th style="width: 25%;" ng-if="type == 'tag'">标签（表格）</th>
+                              <th ng-if="type == 'song'">版权ID</th>
+                              <th ng-if="type == 'album'">专辑ID</th>
+                              <th ng-if="type == 'artist'">艺人ID</th>
+                              <th style="width: 15%;" ng-if="type == 'task'">版权ID</th>
+                              <th style="width: 15%;" ng-if="type == 'task'">歌曲ID</th>
+                              <th style="width: 20%;" ng-if="type == 'task'">歌曲名</th>
+                              <th style="width: 20%;" ng-if="type == 'task'">艺人名</th>
+                              <th ng-if="type != 'tag'">被分配者</th>
+                              <th>失败原因</th>
+                           </tr>
+                        </thead>
+                        <tbody role="alert">
+                           <tr ng-repeat="data in datas track by $index" class="gradeX odd">
+                              <td>{{$index + 1}}</td>
+                              <td ng-if="type == 'tag'">{{data.copyrightId}}</td>
+                              <td ng-if="type == 'tag'">{{data.data.songId}}</td>
+                              <td ng-if="type == 'tag'">{{data.songName}}</td>
+                              <td ng-if="type == 'tag'">{{data.singerName}}</td>
+                              <td ng-if="type == 'tag'">{{data.tag}}</td>
+                              <td ng-if="type == 'song'">{{data.copyrightId}}</td>
+                              <td ng-if="type == 'album'">{{data.albumId}}</td>
+                              <td ng-if="type == 'artist'">{{data.artistId}}</td>
+                              <td ng-if="type == 'task'">{{data.copyrightId}}</td>
+                              <td ng-if="type == 'task'">{{data.songId}}</td>
+                              <td ng-if="type == 'task'">{{data.songName}}</td>
+                              <td ng-if="type == 'task'">{{data.artistName}}</td>
+                              <td ng-if="type != 'tag'">{{data.data.username}}</td>
+                              <td>{{data.msg}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

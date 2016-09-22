@@ -1,0 +1,39 @@
+<!--Created by hao.cheng on 2016/8/23.-->
+<div>
+   <div class="form-group">
+      <div ng-include="'app/views/partials/taskswitch-tpl.html'" class="col-sm-4"></div>
+      <div ng-include="'app/views/partials/taskassign-tpl.html'"></div>
+   </div>
+   <div class="form-group">
+      <ng-include src="'app/views/partials/search-conditions/album-id.html'"></ng-include>
+      <ng-include src="'app/views/partials/search-conditions/album-name.html'"></ng-include>
+      <ng-include src="'app/views/partials/search-conditions/artist-name.html'"></ng-include>
+      <ng-include src="'app/views/partials/search-conditions/status.html'" ng-if="module == 0"></ng-include>
+      <ng-include src="'app/views/partials/search-conditions/status-task.html'" ng-if="module == 1 || module == '-1,1,2'"></ng-include>
+      <ng-include src="'app/views/partials/search-conditions/user.html'" ng-if="module == 3 &amp;&amp; userRole == 'fzr'"></ng-include>
+   </div>
+   <div class="form-group">
+      <ng-include src="'app/views/partials/search-conditions/time-distribution.html'" ng-if="module != 0"></ng-include>
+      <ng-include src="'app/views/partials/search-conditions/time-create.html'" ng-if="module == 0"></ng-include>
+      <ng-include src="'app/views/partials/search-conditions/mscore.html'"></ng-include>
+      <ng-include src="'app/views/partials/search-conditions/hotscore.html'"></ng-include>
+   </div>
+   <div ng-if="module == 1 || module == 3" class="form-group">
+      <ng-include src="'app/views/partials/search-conditions/time-complete.html'" ng-if="module == 3"></ng-include>
+      <ng-include src="'app/views/partials/search-conditions/user.html'" ng-if="module == 1"></ng-include>
+   </div>
+   <div class="form-group">
+      <ng-include src="'app/views/partials/search-conditions/tagsearch.html'"></ng-include>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-4">
+         <div ng-controller="ModalCtrl" class="btn-group">
+            <button task-submit="" class="btn btn-default btn-sm">查询</button>
+            <button task-reset="" class="btn btn-default btn-sm">重置</button>
+            <button ng-if="module == 0" ng-click="songTagImport('album');" class="btn btn-default btn-sm">导入</button>
+            <button ng-if="module == 0" state-to-feedback="" feed-back="album" class="btn btn-default btn-sm">已导入</button>
+            <div ng-include="'app/views/modals/modal-import.html'"></div>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                <i class="icon-home"></i>&nbsp;&nbsp;媒资库<span class="divider">/</span>统计报表
+            </h3>
+        </div>
+    </div>
+    <div id="page" class="dashboard">
+        <div class="widget ">
+            <div class="row-fluid">
+                <div class="span12" ui-view="form-content" style="background-color: rgb(255, 255, 255);">
+                    <div class="widget-title">
+                        <h4><i class="icon list-icon"></i>抓取监控</h4>
+                        <span class="tools">
+                            <a href="javascript:;" class="chevron-down"></a>
+                        </span>
+                    </div>
+                    <div class="widget-body">
+                        <div ui-view="catch_view">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<!--Created by YuChunzhuo-Dev on 2016/8/9.
+-->
+<div class="container-fluid">
+   <div class="row-fluid">
+      <div class="span12">
+         <h3 class="page-title">媒资库/数据字典-常量配置</h3>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="panelDemo1" class="panel panel-info">
+            <div ng-class="{'panel-heading-collapsed':panelDemo1}" class="panel-heading">配置详情
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="panelDemo1" class="panel-wrapper">
+               <div class="panel-body">
+                  <form name="form" ng-submit="submit(data)" class="form-horizontal">
+                     <div ng-if="type == 'country'" class="form-group">
+                        <label class="col-lg-1 control-label">国家名</label>
+                        <div ng-class="{'has-error': form.name.$invalid &amp;&amp; form.name.$dirty }" class="col-lg-4">
+                           <input ng-model="$parent.data.name" name="name" ng-required="true" ng-change="formChange(data)" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div ng-if="type == 'country'" class="form-group">
+                        <label class="col-lg-1 control-label">国家名全拼</label>
+                        <div ng-class="{'has-error': form.pinyin.$invalid &amp;&amp; form.pinyin.$dirty }" class="col-lg-4">
+                           <input ng-model="$parent.data.pinyin" name="pinyin" ng-required="true" ng-change="formChange(data)" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div ng-if="type == 'country'" class="form-group">
+                        <label class="col-lg-1 control-label">国家名首字母</label>
+                        <div ng-class="{'has-error': form.pyfirstletters.$invalid &amp;&amp; form.pyfirstletters.$dirty }" class="col-lg-4">
+                           <input ng-model="$parent.data.pyfirstletters" name="pyfirstletters" ng-required="true" ng-change="formChange(data)" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div ng-if="type == 'nation'" ng-controller="DictionaryCountrySelectController" class="form-group">
+                        <label class="col-lg-1 control-label">国家名</label>
+                        <div ng-class="{'has-error': form.countryName.$invalid &amp;&amp; form.countryName.$dirty }" class="col-lg-4">
+                           <select ng-model="$parent.$parent.data.countryName" name="countryName" ng-required="true" ng-change="formChange(data)" ng-options="select.name as select.name for select in countrySelects" class="form-control input-sm">
+                              <option value="">请选择所在国家/地区</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div ng-if="type == 'nation'" class="form-group">
+                        <label class="col-lg-1 control-label">民族名</label>
+                        <div ng-class="{'has-error': form.name.$invalid &amp;&amp; form.name.$dirty }" class="col-lg-4">
+                           <input ng-model="$parent.data.name" name="name" ng-required="true" ng-change="formChange(data)" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div ng-if="type == 'nation'" class="form-group">
+                        <label class="col-lg-1 control-label">民族名全拼</label>
+                        <div ng-class="{'has-error': form.pinyin.$invalid &amp;&amp; form.pinyin.$dirty }" class="col-lg-4">
+                           <input ng-model="$parent.data.pinyin" name="pinyin" ng-required="true" ng-change="formChange(data)" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div ng-if="type == 'nation'" class="form-group">
+                        <label class="col-lg-1 control-label">民族名首字母</label>
+                        <div ng-class="{'has-error': form.pyfirstletters.$invalid &amp;&amp; form.pyfirstletters.$dirty }" class="col-lg-4">
+                           <input ng-model="$parent.data.pyfirstletters" name="pyfirstletters" ng-required="true" ng-change="formChange(data)" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-lg-1 control-label"></label>
+                        <div class="col-lg-4">
+                           <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary btn-sm">确认提交</button>
+                           <button type="button" ng-click="return()" class="btn btn-warning btn-sm">返回</button>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

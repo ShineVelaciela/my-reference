@@ -1,0 +1,42 @@
+<!--Created by kiracheng on 2016/6/7.-->
+<h5 class="text-center text-thin">抽查记录</h5>
+<ul class="nav">
+   <li>
+      <!-- START User status-->
+      <a href="javascript:;" ng-repeat="data in checkRecords" class="media-box p mt0">
+         <span class="pull-right">
+            <span data-ng-class="{0: 'circle-success', 1: 'circle-warning', 2: 'circle-danger'}[data.result]" class="circle circle-lg"></span>
+         </span>
+         <!-- Contact info-->
+         <span class="media-box-body">
+            <span class="media-box-heading">
+               <strong>{{data.user.name}} -
+                  <span data-ng-if="data.result == 0">合格</span>
+                  <span data-ng-if="data.result == 1">可优化</span>
+                  <span data-ng-if="data.result == 2">不合格</span>
+               </strong>
+               <br/>
+               <small class="text-muted">{{data.ctime | date:'yyyy-MM-dd HH:mm'}}</small>
+               <br/>
+               <small ng-repeat="tag in data.tagIds track by $index" class="text-muted">
+                  <span data-ng-if="tag == 1">({{$index+1}})人员侧-人工错误</span>
+                  <span data-ng-if="tag == 2">({{$index+1}})人员侧-产品错误</span>
+                  <span data-ng-if="tag == 3">({{$index+1}})人员侧-产品错误</span>
+                  <span data-ng-if="tag == 4">({{$index+1}})产品侧</span>
+                  <span data-ng-if="tag == 5">({{$index+1}})运营侧</span>
+               </small>
+               <br/>
+               <small title="{{data.opinion}}" class="text-muted">{{data.opinion | cut:true:14:' ...'}}</small>
+            </span>
+         </span>
+      </a>
+      <!-- END User status-->
+   </li>
+   <li>
+      <div class="p-lg text-center">
+         <a href="javascript:;" title="See more contacts" data-ng-click="loadMoreCheck();" class="btn btn-purple btn-sm">
+            <strong translate="offsidebar.chat.LOAD_MORE">Load more..</strong>
+         </a>
+      </div>
+   </li>
+</ul>

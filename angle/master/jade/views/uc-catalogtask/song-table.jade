@@ -1,0 +1,65 @@
+//
+   Created by hao.cheng on 2016/8/2.
+table.table.table-striped
+    thead
+        tr
+            th(style="width: 50px")
+                check-all-btn
+            th(style="width: 40px;") 序号
+            th(style="width: 120px;") 版权ID
+            th(style="width: 140px;")
+                span(ng-if="$parent.module != 3") 产品歌曲名
+                span(ng-if="$parent.module == 3") 编目歌曲名
+            th(style="width: 120px;")
+                span(ng-if="$parent.module != 3") 产品歌手名
+                span(ng-if="$parent.module == 3") 歌手名
+            th(style="width: 120px;")
+                span(ng-if="$parent.module != 3") 产品专辑名
+                span(ng-if="$parent.module == 3") 专辑名
+            th(style="width: 140px;") 新歌/首发
+            th(style="width: 100px;") 优质
+            th(style="width: 100px;",ng-if="$parent.module == 1") 用户
+            th(style="width: 80px;",ng-if="$parent.module == '-1,1,2'") 编目状态
+            th(style="width: 100px;",ng-if="$parent.module == '-1,1,2'") 工单状态
+            th(style="width: 120px;",ng-if="$parent.module == '-1,1,2' || $parent.module == 3") 操作
+            th(style="width: 100px;",ng-if="$parent.module != 0") 分配时间
+    tbody
+        tr.gradeX.odd(ng-repeat="data in $parent.datas track by $index")
+            td
+                div.checkbox.c-checkbox
+                    label
+                        input(type="checkbox",ng-model="data.isCheck")
+                        span.fa.fa-check
+            td {{$index+1}}
+            td {{data.copyrightId}}
+            td
+                span(ng-if="$parent.module != 3") {{data.cpSongName}}
+                td-song(ng-if="$parent.module == 3")
+                //a(ng-if="$parent.module == 3",ui-sref="songInfo({songId: data.songId})") {{data.songName}}
+            td
+                span(ng-if="$parent.module != 3") {{data.cpArtistName}}
+                td-artists(ng-if="$parent.module == 3")
+                //a(ng-if="$parent.module == 3 && data.artists.length > 1",ui-sref="artistInfo({artistId: artist.artistId})",ng-repeat="artist in data.artists") {{artist.artistName}}、
+                //a(ng-if="$parent.module == 3 && data.artists.length == 1",ui-sref="artistInfo({artistId: artist.artistId})",ng-repeat="artist in data.artists") {{artist.artistName}}
+            td
+                span(ng-if="$parent.module != 3") {{data.cpAlbumName}}
+                td-albums(ng-if="$parent.module == 3")
+                //a(ng-if="$parent.module == 3 && data.albums.length > 1",ui-sref="albumInfo({albumId: album.albumId})",ng-repeat="album in data.albums") {{album.albumName}}、
+                //a(ng-if="$parent.module == 3 && data.albums.length == 1",ui-sref="albumInfo({albumId: album.albumId})",ng-repeat="album in data.albums") {{album.albumName}}
+            td {{data.newSong}}
+            td {{data.degree}}
+            td(ng-if="$parent.module == 1") {{data.edit.name}}
+            td(ng-if="$parent.module == '-1,1,2'")
+                span.label.label-default.tag(ng-if="data.karakalStatus == 10") 已编目
+                span.label.label-default.tag(ng-if="data.karakalStatus == 11") 未编目
+            td(ng-if="$parent.module == '-1,1,2'")
+                span.label.label-default.tag(ng-if="data.taskStatus == 1") 待办
+                span.label.label-default.tag(ng-if="data.taskStatus == 2") 待审核
+                span.label.label-default.tag(ng-if="data.taskStatus == -1") 审核未通过
+            td(ng-if="$parent.module == '-1,1,2' || $parent.module == 3")
+                td-catalog
+                //a(ng-if="data.karakalStatus == 10",ui-sref="app.catalog.info({copyId:data.copyrightId,taskId:data.taskId})") 重新编目&nbsp;
+                //a(ng-if="data.karakalStatus == 11",ui-sref="app.catalog.info({copyId:data.copyrightId,taskId:data.taskId})") 编目&nbsp;
+                a(ng-click="tagging(data, '_self');" ng-if="data.karakalStatus == 10 && $parent.module != 3",ng-right-click="tagging(data, '_blank');") 打标签&nbsp;
+            td(ng-if="$parent.module != 0") {{data.distributionTime | date : 'yyyy-MM-dd'}}
+ng-include(src="'app/views/partials/pagination.html'")

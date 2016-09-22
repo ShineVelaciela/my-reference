@@ -1,0 +1,49 @@
+//
+   Created by YuChunzhuo-Dev on 2016/8/9.
+
+.container-fluid
+    .row-fluid
+        .span12
+            h3.page-title 媒资库/数据字典-常量配置
+    .row
+        .col-lg-12
+            #panelDemo1.panel.panel-info
+                .panel-heading(ng-class="{'panel-heading-collapsed':panelDemo1}") 配置详情
+                    paneltool(tool-collapse="tool-collapse")
+                .panel-wrapper(collapse="panelDemo1")
+                    .panel-body
+                        form.form-horizontal(name="form" ng-submit="submit(data)")
+                            .form-group(ng-if="type == 'country'")
+                                label.col-lg-1.control-label 国家名
+                                .col-lg-4(ng-class="{'has-error': form.name.$invalid && form.name.$dirty }")
+                                    input.form-control.input-sm(ng-model="$parent.data.name",name="name",ng-required="true" ng-change="formChange(data)")
+                            .form-group(ng-if="type == 'country'")
+                                label.col-lg-1.control-label 国家名全拼
+                                .col-lg-4(ng-class="{'has-error': form.pinyin.$invalid && form.pinyin.$dirty }")
+                                    input.form-control.input-sm(ng-model="$parent.data.pinyin",name="pinyin",ng-required="true" ng-change="formChange(data)")
+                            .form-group(ng-if="type == 'country'")
+                                label.col-lg-1.control-label 国家名首字母
+                                .col-lg-4(ng-class="{'has-error': form.pyfirstletters.$invalid && form.pyfirstletters.$dirty }")
+                                    input.form-control.input-sm(ng-model="$parent.data.pyfirstletters",name="pyfirstletters",ng-required="true" ng-change="formChange(data)")
+                            .form-group(ng-if="type == 'nation'" ng-controller="DictionaryCountrySelectController")
+                                label.col-lg-1.control-label 国家名
+                                .col-lg-4(ng-class="{'has-error': form.countryName.$invalid && form.countryName.$dirty }")
+                                    select.form-control.input-sm(ng-model="$parent.$parent.data.countryName",name="countryName",ng-required="true" ng-change="formChange(data)" ng-options="select.name as select.name for select in countrySelects")
+                                        option(value="") 请选择所在国家/地区
+                            .form-group(ng-if="type == 'nation'")
+                                label.col-lg-1.control-label 民族名
+                                .col-lg-4(ng-class="{'has-error': form.name.$invalid && form.name.$dirty }")
+                                    input.form-control.input-sm(ng-model="$parent.data.name",name="name",ng-required="true" ng-change="formChange(data)")
+                            .form-group(ng-if="type == 'nation'")
+                                label.col-lg-1.control-label 民族名全拼
+                                .col-lg-4(ng-class="{'has-error': form.pinyin.$invalid && form.pinyin.$dirty }")
+                                    input.form-control.input-sm(ng-model="$parent.data.pinyin",name="pinyin",ng-required="true" ng-change="formChange(data)")
+                            .form-group(ng-if="type == 'nation'")
+                                label.col-lg-1.control-label 民族名首字母
+                                .col-lg-4(ng-class="{'has-error': form.pyfirstletters.$invalid && form.pyfirstletters.$dirty }")
+                                    input.form-control.input-sm(ng-model="$parent.data.pyfirstletters",name="pyfirstletters",ng-required="true" ng-change="formChange(data)")
+                            .form-group
+                                label.col-lg-1.control-label
+                                .col-lg-4
+                                    button.btn.btn-primary.btn-sm(type="submit" ng-disabled="form.$invalid") 确认提交
+                                    button.btn.btn-warning.btn-sm(type="button" ng-click="return()") 返回

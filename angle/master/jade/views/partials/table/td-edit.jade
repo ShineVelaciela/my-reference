@@ -1,0 +1,5 @@
+//
+   Created by hao.cheng on 2016/8/23.
+a(ng-click="edit(data, '_self');",ng-right-click="edit(data, '_blank');",ng-if="data.status != 30 && !data.lockUser") 编辑&nbsp;
+a(ng-click="edit(data, '_self');",ng-right-click="edit(data, '_blank');",ng-if="data.status != 30 && data.lockUser && (user.id == data.lockUser.uid)") {{data.lockUser.name}}
+span(ng-if="data.lockUser && (user.id != data.lockUser.uid)") {{data.lockUser.name}}

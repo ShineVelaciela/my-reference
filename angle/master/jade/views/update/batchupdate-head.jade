@@ -1,0 +1,124 @@
+//
+   Created by hao.cheng on 2016/7/19.
+div.row-fluid
+    h3.page-title  媒资库
+        span.divider /
+        span 歌曲批量修改
+div
+    div.row
+        div.col-lg-12
+            div.panel.panel-default(id="paneDemo1")
+                div.panel-heading(ng-class="{'panel-heading-collapsed':paneDemo1}") 条件查询
+                    paneltool(tool-collapse="tool-collapse")
+                div.panel-wrapper(collapse="paneDemo1")
+                    div.panel-body
+                        form.form-horizontal
+                            div.form-group(ng-if="!batchLocal")
+                                label.col-sm-1.control-label 批量修改
+                                div.col-sm-2
+                                    select.form-control.input-sm(ng-model="form.type",ng-init="form.type = 'artist'",ng-change="changeUpdateType(form.type);")
+                                        option(value="artist") 艺人
+                                        option(value="album") 歌曲专辑
+                                        option(value="lyricser") 词作者
+                                        option(value="composer") 曲作者
+                                        option(value="lyric") 歌词
+                                        option(value="tag") 标签
+                                div.col-sm-2
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择添加的歌曲ID",ng-model="form.ids")
+                            div.form-group
+                                //工单批量
+                                label.col-sm-1.control-label(ng-if="batchLocal") 批量修改
+                                //歌曲标签工单批量
+                                div.col-sm-2(ng-if="batchLocal && !batchLocal.all")
+                                    select.form-control.input-sm(ng-model="form.type",ng-init="form.type = 'tag'",ng-change="changeUpdateType(form.type);")
+                                        option(value="tag") 标签
+                                //存量工单批量
+                                div.col-sm-2(ng-if="batchLocal && batchLocal.all")
+                                    select.form-control.input-sm(ng-model="form.type",ng-init="form.type = 'artist'",ng-change="changeUpdateType(form.type);")
+                                        option(value="artist") 艺人
+                                        option(value="album") 歌曲专辑
+                                        option(value="lyricser") 词作者
+                                        option(value="composer") 曲作者
+                                        option(value="lyric") 歌词
+                                        option(value="tag") 标签
+                                label.col-sm-1.control-label(ng-if="!batchLocal")
+                                div.col-sm-2(ng-if="!batchLocal")
+                                div.col-sm-2(ng-if="form.type == 'artist'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择删除的歌手ID",ng-model="form.delArtistIds",autocomplete="off"
+                                    typeahead-focus-first="false",uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')",
+                                    typeahead-on-select="addDelArtist($item,'artist');")
+                                div.col-sm-2(ng-if="form.type == 'album'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择删除的专辑ID",ng-model="form.delAlbumIds",autocomplete="off"
+                                    typeahead-focus-first="false",uib-typeahead="data.albumId as data.allstr for data in getArtistInputSearch($viewValue,'album')",
+                                    typeahead-on-select="addDelArtist($item,'album');")
+                                div.col-sm-2(ng-if="form.type == 'lyricser'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择删除的词作者ID",ng-model="form.delLyricserIds",autocomplete="off"
+                                    typeahead-focus-first="false",uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')",
+                                    typeahead-on-select="addDelArtist($item,'artist');")
+                                div.col-sm-2(ng-if="form.type == 'composer'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择删除的曲作者ID",ng-model="form.delComposerIds",autocomplete="off"
+                                    typeahead-focus-first="false",uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')",
+                                    typeahead-on-select="addDelArtist($item,'artist');")
+                                div.col-sm-2(ng-if="form.type == 'lyric'")
+                                    input.form-control.input-sm(type="file",name="lyricFile",id="lyricFile",placeholder="请选择文件",onchange="angular.element(this).scope().uploadLyric(this)")
+                                div.col-sm-2(ng-if="form.type == 'tag'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择删除的标签",ng-model="form.delTagIds",uib-typeahead="tag as tag.name for tag in tagTree | filter:{name:$viewValue}",
+                                    typeahead-focus-first="false",typeahead-on-select="addDelTags($item)")
+                                div.col-sm-1(ng-if="form.type == 'lyric'")
+                                    span {{form.fileName}}
+                                label.col-sm-6.control-label(ng-if="form.delArtists")
+                                    span.label.label-default.tag(ng-repeat="artist in form.delArtists") {{artist.artistName}}
+                                        em.fa.fa-remove(ng-click="removeRelationData('delArtists',artist);")
+                                label.col-sm-6.control-label(ng-if="form.delAlbums")
+                                    span.label.label-default.tag(ng-repeat="album in form.delAlbums") {{album.albumName}}
+                                        em.fa.fa-remove(ng-click="removeRelationData('delAlbums',album);")
+                                label.col-sm-6.control-label(ng-if="form.delTags")
+                                    span.label.label-default.tag(ng-repeat="tag in form.delTags") {{tag.tagName}}
+                                        em.fa.fa-remove(ng-click="removeRelationData('delTags',tag);")
+
+                            div.form-group
+                                label.col-sm-1.control-label
+                                div.col-sm-2
+                                div.col-sm-2(ng-if="form.type == 'artist'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择新增的歌手ID",ng-model="form.addArtistIds",autocomplete="off"
+                                    typeahead-focus-first="false",uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')",
+                                    typeahead-on-select="addAddArtist($item,'artist');")
+                                div.col-sm-2(ng-if="form.type == 'album'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择新增的专辑ID",ng-model="form.addAlbumIds",autocomplete="off"
+                                    typeahead-focus-first="false",uib-typeahead="data.albumId as data.allstr for data in getArtistInputSearch($viewValue,'album')",
+                                    typeahead-on-select="addAddArtist($item,'album');")
+                                div.col-sm-2(ng-if="form.type == 'lyricser'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择新增的词作者ID",ng-model="form.addLyricserIds",autocomplete="off"
+                                    typeahead-focus-first="false",uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')",
+                                    typeahead-on-select="addAddArtist($item,'artist');")
+                                div.col-sm-2(ng-if="form.type == 'composer'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择新增的曲作者ID",ng-model="form.addcomposerIds",autocomplete="off"
+                                    typeahead-focus-first="false",uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')",
+                                    typeahead-on-select="addAddArtist($item,'artist');")
+                                div.col-sm-2(ng-if="form.type == 'tag'")
+                                    input.form-control.input-sm(type="text",placeholder="请输入选择新增的标签",ng-model="form.addTagIds",uib-typeahead="tag as tag.name for tag in tagTree | filter:{name:$viewValue}",
+                                    typeahead-focus-first="false",typeahead-on-select="addAddTags($item)")
+                                label.col-sm-6.control-label(ng-if="form.addArtists")
+                                    span.label.label-default.tag(ng-repeat="artist in form.addArtists") {{artist.artistName}}
+                                        em.fa.fa-remove(ng-click="removeRelationData('addArtists',artist);")
+                                label.col-sm-6.control-label(ng-if="form.addAlbums")
+                                    span.label.label-default.tag(ng-repeat="album in form.addAlbums") {{album.albumName}}
+                                        em.fa.fa-remove(ng-click="removeRelationData('addAlbums',album);")
+                                label.col-sm-6.control-label(ng-if="form.addTags")
+                                    span.label.label-default.tag(ng-repeat="tag in form.addTags") {{tag.tagName}}
+                                        em.fa.fa-remove(ng-click="removeRelationData('addTags',tag);")
+
+                            div.form-group
+                                div.col-sm-4
+                                    div.btn-group
+                                        button.btn.btn-default.btn-sm(ng-click="add();",ng-if="!batchLocal") 添加
+                                        button.btn.btn-default.btn-sm(ng-click="submit();") 提交
+                                        button.btn.btn-default.btn-sm(ng-click="reset();") 重置
+    div.row
+        div.col-lg-12
+            div.panel.panel-default(id="paneDemo2")
+                div.panel-heading(ng-class="{'panel-heading-collapsed':paneDemo2}") 数据列表
+                    paneltool(tool-collapse="tool-collapse")
+                div.panel-wrapper(collapse="paneDemo2")
+                    div.panel-body
+                        div.table-responsive(ui-view="data-list")

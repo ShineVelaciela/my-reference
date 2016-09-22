@@ -1,0 +1,147 @@
+<!--Created by hao.cheng on 2016/8/2.-->
+<div class="form-group">
+   <div ng-include="'app/views/partials/taskswitch-tpl.html'" class="col-sm-4"></div>
+   <div ng-include="'app/views/partials/taskassign-tpl.html'"></div>
+</div>
+<!--通用-->
+<div class="form-group">
+   <label class="col-sm-1 control-label">版权ID</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入版权ID" ng-model="form.copyrightId" class="form-control input-sm" />
+   </div>
+   <label class="col-sm-1 control-label">产品歌曲名</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入产品歌曲名" ng-model="form.cpSongName" class="form-control input-sm" />
+   </div>
+   <label class="col-sm-1 control-label">产品歌手名</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入产品歌手名" ng-model="form.cpArtistName" class="form-control input-sm" />
+   </div>
+   <label class="col-sm-1 control-label">产品专辑名</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入产品专辑名" ng-model="form.cpAlbumName" class="form-control input-sm" />
+   </div>
+</div>
+<div class="form-group">
+   <label ng-if="module == 0" class="col-sm-1 control-label">创建时间起</label>
+   <div ng-if="module == 0" class="col-sm-2">
+      <input type="text" placeholder="请输入创建时间起" ng-model="form.createStartTime" my-date="" uib-datepicker-popup="" is-open="date1" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date1 = !date1" class="form-control input-sm"
+      />
+   </div>
+   <label ng-if="module == 0" class="col-sm-1 control-label">创建时间止</label>
+   <div ng-if="module == 0" class="col-sm-2">
+      <input type="text" placeholder="请输入创建时间止" ng-model="form.createEndTime" my-date="" uib-datepicker-popup="" is-open="date2" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date2 = !date2" class="form-control input-sm"
+      />
+   </div>
+   <label ng-if="module != 0" class="col-sm-1 control-label">分配时间起</label>
+   <div ng-if="module != 0" class="col-sm-2">
+      <input type="text" placeholder="请输入分配时间起" ng-model="form.distributionStartTime" my-date="" uib-datepicker-popup="" is-open="date1" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date1 = !date1" class="form-control input-sm"
+      />
+   </div>
+   <label ng-if="module != 0" class="col-sm-1 control-label">分配时间止</label>
+   <div ng-if="module != 0" class="col-sm-2">
+      <input type="text" placeholder="请输入分配时间止" ng-model="form.distributionEndTime" my-date="" uib-datepicker-popup="" is-open="date2" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date2 = !date2" class="form-control input-sm"
+      />
+   </div>
+   <label class="col-sm-1 control-label">紧急程度</label>
+   <div class="col-sm-2">
+      <select ng-model="form.urgentDegree" class="form-control input-sm">
+         <option value="">请选择</option>
+         <option value="5">5</option>
+         <option value="4">4</option>
+         <option value="3">3</option>
+         <option value="2">2</option>
+         <option value="1">1</option>
+         <option value="0">0</option>
+      </select>
+   </div>
+   <label class="col-sm-1 control-label">新歌/首发</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入新歌/首发" ng-model="form.newSong" class="form-control input-sm" />
+   </div>
+</div>
+<!--通用-->
+<div class="form-group">
+   <label class="col-sm-1 control-label">优质度</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入优质度" ng-model="form.degree" class="form-control input-sm" />
+   </div>
+   <label class="col-sm-1 control-label">人工评分</label>
+   <div class="col-sm-1">
+      <input type="text" placeholder="起始" ng-model="form.mscoreMin" class="form-control input-sm" />
+   </div>
+   <div class="col-sm-1">
+      <input type="text" placeholder="截止" ng-model="form.mscoreMax" class="form-control input-sm" />
+   </div>
+   <label class="col-sm-1 control-label">热度评分</label>
+   <div class="col-sm-1">
+      <input type="text" placeholder="起始" ng-model="form.hotScoreMin" class="form-control input-sm" />
+   </div>
+   <div class="col-sm-1">
+      <input type="text" placeholder="截止" ng-model="form.hotScoreMax" class="form-control input-sm" />
+   </div>
+   <label class="col-sm-1 control-label">语言</label>
+   <div class="col-sm-2">
+      <input type="text" placeholder="请输入语言" ng-model="form.language" class="form-control input-sm" />
+   </div>
+</div>
+<div ng-if="module != 0" class="form-group">
+   <label ng-if="module == 1 || module == '-1,1,2'" class="col-sm-1 control-label">工单状态</label>
+   <div ng-if="module == 1 || module == '-1,1,2'" class="col-sm-2">
+      <select ng-model="form.taskStatus" class="form-control input-sm">
+         <option value="">全部</option>
+         <option value="1">待办</option>
+         <option value="2">待审核</option>
+         <option value="-1">审核未通过</option>
+      </select>
+   </div>
+   <label ng-if="module == 1 || module == 3" class="col-sm-1 control-label">用户</label>
+   <div ng-if="module == 1 || module == 3" class="col-sm-2">
+      <edit-user-tpl></edit-user-tpl>
+   </div>
+   <label ng-if="module == '-1,1,2'" class="col-sm-1 control-label">编目状态</label>
+   <div ng-if="module == '-1,1,2'" class="col-sm-2">
+      <select ng-model="form.karakalStatus" class="form-control input-sm">
+         <option value="">全部</option>
+         <option value="10">已编目</option>
+         <option value="11">未编目</option>
+      </select>
+   </div>
+</div>
+<div class="form-group">
+   <div class="col-sm-4">
+      <div ng-controller="ModalCtrl" class="btn-group">
+         <button ng-click="submit();" class="btn btn-default btn-sm">查询</button>
+         <button ng-click="reset();" class="btn btn-default btn-sm">重置</button>
+         <button ng-click="unAssign(datas);" ng-if="module == 0" class="btn btn-default btn-sm">导出可分配数据</button>
+         <script type="text/ng-template" id="unAssign.html">
+            <div class="modal-header">
+               <button type="button" ng-click="cancel();" class="close">×</button>
+               <h4 id="myModalLabel" class="modal-title">导出可分配</h4>
+            </div>
+            <div class="modal-body">
+               <form class="form-horizontal">
+                  <div class="form-group">
+                     <label class="control-label col-sm-2">开始日期</label>
+                     <div class="col-sm-4">
+                        <input type="text" ng-model="startTime" placeholder="请输入开始日期" my-date="" uib-datepicker-popup="" is-open="date1" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date1 = !date1" class="form-control input-sm"
+                        />
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-2">结束日期</label>
+                     <div class="col-sm-4">
+                        <input type="text" ng-model="endTime" placeholder="请输入结束日期" my-date="" uib-datepicker-popup="" is-open="date2" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date2 = !date2" class="form-control input-sm"
+                        />
+                     </div>
+                  </div>
+               </form>
+            </div>
+            <div class="modal-footer">
+               <button type="button" ng-click="export(startTime, endTime);" class="btn btn-primary">确认</button>
+               <button type="button" ng-click="cancel();" class="btn btn-warning">取消</button>
+            </div>
+         </script>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,9 @@
+<!--Created by hao.cheng on 2016/8/2.-->
+<div ng-if="module == 0 || module == 1" class="col-sm-2">
+   <select ng-options="cyr.uid as cyr.uName for cyr in cyr_list" ng-model="$parent.assignUser" class="form-control input-sm">
+      <option value="">请选择</option>
+   </select>
+</div>
+<div ng-if="module == 0 || module == 1" class="col-sm-1">
+   <button assign-task="" class="btn btn-default btn-sm">确定分配</button>
+</div>

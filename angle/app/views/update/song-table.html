@@ -1,0 +1,38 @@
+<!--Created by kiracheng on 2016/7/19.-->
+<table class="table table-striped">
+   <thead>
+      <tr>
+         <!--th(style="width: 50px")-->
+         <!--    check-all-btn-->
+         <th style="width: 180px;">歌曲名</th>
+         <th style="width: 120px;">歌曲ID</th>
+         <th style="width: 180px;">艺人</th>
+         <th style="width: 120px;">艺人ID</th>
+         <th style="width: 180px;">专辑</th>
+         <th style="width: 100px;">词作者</th>
+         <th style="width: 100px;">曲作者</th>
+         <th style="width: 80px;">操作</th>
+         <th style="width: 120px;">失败原因</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="data in $parent.datas" class="gradeX odd">
+         <!--td-->
+         <!--    div.checkbox.c-checkbox-->
+         <!--        label-->
+         <!--            input(type="checkbox",ng-model="data.isCheck")-->
+         <!--            span.fa.fa-check-->
+         <td>{{data.songName}}</td>
+         <td>{{data.songId}}</td>
+         <td><a ng-repeat="artist in data.artists" ui-sref="artistInfo({artistId:artist.artistId})">{{artist.artistName}};</a></td>
+         <td>
+            <span ng-repeat="artist in data.artists">{{artist.artistId}};</span>
+         </td>
+         <td><a ng-repeat="album in data.albums" ui-sref="albumInfo({albumId:album.albumId})">{{album.albumName}};</a></td>
+         <td>{{data.lyricsers}}</td>
+         <td>{{data.composers}}</td>
+         <td><a ui-sref="songInfo({songId:data.songId})">查看&nbsp</a><a ng-click="remove(datas,data)">删除</a></td>
+         <td>{{data.msg}}</td>
+      </tr>
+   </tbody>
+</table>

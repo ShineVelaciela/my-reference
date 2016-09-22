@@ -1,0 +1,62 @@
+<!--Created by kiracheng on 2016/7/14.-->
+<div class="row-fluid">
+   <h3 class="page-title"> 媒资库
+      <span class="divider">/</span>
+      <span ng-if="form.type == 'artist'">艺人合并</span>
+      <span ng-if="form.type == 'album'">专辑合并</span>
+      <span ng-if="form.type == 'song'">歌曲合并</span>
+   </h3>
+</div>
+<div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="paneDemo1" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':paneDemo1}" class="panel-heading">条件查询
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="paneDemo1" class="panel-wrapper">
+               <div class="panel-body">
+                  <form class="form-horizontal">
+                     <div class="form-group">
+                        <label class="col-sm-1 control-label">类型</label>
+                        <div class="col-sm-2">
+                           <select ng-model="form.type" ng-init="form.type = 'artist'" ng-change="changeMergeType(form.type);" class="form-control input-sm">
+                              <option value="artist">艺人</option>
+                              <option value="album">专辑</option>
+                              <option value="song">歌曲</option>
+                           </select>
+                        </div>
+                        <label class="col-sm-1 control-label">门户ID</label>
+                        <div class="col-sm-2">
+                           <input type="text" placeholder="请输入门户ID" ng-model="form.ids" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="col-sm-4">
+                           <div class="btn-group">
+                              <button ng-click="submit();" class="btn btn-default btn-sm">确认添加</button>
+                              <button ng-click="reset();" class="btn btn-default btn-sm">重置</button>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="paneDemo2" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':paneDemo2}" class="panel-heading">合并数据列表
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="paneDemo2" class="panel-wrapper">
+               <div class="panel-body">
+                  <div ui-view="data-list" class="table-responsive"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

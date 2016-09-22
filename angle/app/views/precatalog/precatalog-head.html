@@ -1,0 +1,100 @@
+<!--Created by hao.cheng on 2016/7/25.-->
+<div class="row-fluid">
+   <h3 class="page-title"> 媒资库
+      <span class="divider">/</span>
+      <span>预编目工单</span>
+   </h3>
+</div>
+<div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="paneDemo1" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':paneDemo1}" class="panel-heading">条件查询
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="paneDemo1" class="panel-wrapper">
+               <div class="panel-body">
+                  <form class="form-horizontal">
+                     <div class="form-group">
+                        <label class="col-sm-1 control-label">版权ID</label>
+                        <div class="col-sm-2">
+                           <input type="text" placeholder="请输入版权ID" ng-model="form.copyrightId" class="form-control input-sm" />
+                        </div>
+                        <label class="col-sm-1 control-label">编目状态</label>
+                        <div class="col-sm-2">
+                           <select ng-model="form.catalogStatus" class="form-control input-sm">
+                              <option value="">请选择</option>
+                              <option value="1">已编目</option>
+                              <option value="0">未编目</option>
+                           </select>
+                        </div>
+                        <label class="col-sm-1 control-label">歌曲完成状态</label>
+                        <div class="col-sm-2">
+                           <select ng-model="form.songStatus" class="form-control input-sm">
+                              <option value="">请选择</option>
+                              <option value="1">已完成</option>
+                              <option value="0">未完成</option>
+                           </select>
+                        </div>
+                        <label class="col-sm-1 control-label">已打标签</label>
+                        <div class="col-sm-2">
+                           <select ng-model="form.istag" class="form-control input-sm">
+                              <option value="">请选择</option>
+                              <option value="1">是</option>
+                              <option value="0">否</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-sm-1 control-label">版权接收时间起</label>
+                        <div class="col-sm-2">
+                           <input type="text" placeholder="版权接收起始时间" ng-model="form.startTime" my-date="" uib-datepicker-popup="" is-open="date1" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date1 = !date1"
+                              class="form-control input-sm" />
+                        </div>
+                        <label class="col-sm-1 control-label">版权接收时间止</label>
+                        <div class="col-sm-2">
+                           <input type="text" placeholder="版权接收截止时间" ng-model="form.endTime" my-date="" uib-datepicker-popup="" is-open="date2" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-click="date2 = !date2" class="form-control input-sm"
+                           />
+                        </div>
+                        <label class="col-sm-1 control-label">导入者</label>
+                        <div class="col-sm-2">
+                           <edit-user-tpl></edit-user-tpl>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="col-sm-5">
+                           <div ng-controller="ModalCtrl" class="btn-group">
+                              <button ng-click="submit();" class="btn btn-default btn-sm">查询</button>
+                              <button ng-click="exportCommon(datas,form);" class="btn btn-default btn-sm">导出</button>
+                              <button ng-click="preCatalogImport();" class="btn btn-default btn-sm">导入</button>
+                              <button bacth-update-btn="bacth-update-btn" class="btn btn-default btn-sm">批量修改</button>
+                              <button ng-click="new('song');" class="btn btn-default btn-sm">新建</button>
+                              <button ng-click="preCatalogEmergImport();" class="btn btn-default btn-sm">紧急歌曲导入</button>
+                              <button ng-click="reset();" class="btn btn-default btn-sm">重置</button>
+                              <div ng-include="'app/views/modals/modal-export.html'"></div>
+                              <div ng-include="'app/views/modals/modal-import.html'"></div>
+                              <div ng-include="'app/views/modals/modal-emergimport.html'"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="paneDemo2" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':paneDemo2}" class="panel-heading">数据列表
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="paneDemo2" class="panel-wrapper">
+               <div class="panel-body">
+                  <div ui-view="data-list" class="table-responsive"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

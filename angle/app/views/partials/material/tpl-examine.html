@@ -1,0 +1,22 @@
+<!--Created by hao.cheng on 2016/8/31.-->
+<div ng-class="{'examineOp':app.examineStyle}" ng-if="examine" ng-mouseleave="app.examineStyle = !app.examineStyle" class="examine">
+   <div class="panel-body">
+      <form class="form-horizontal">
+         <div class="form-group">
+            <label class="col-sm-2 control-label">审核操作</label>
+            <div class="col-sm-2">
+               <select ng-model="$parent.$parent.examineResult" ng-init="$parent.$parent.examineResult = '1'" class="form-control input-sm">
+                  <option value="1">通过</option>
+                  <option value="0">不通过</option>
+               </select>
+            </div>
+         </div>
+         <div class="form-group">
+            <label class="col-sm-2 control-label">审核意见</label>
+            <div class="col-sm-8">
+               <textarea ng-model="$parent.$parent.examineSuggest" style="height: 100px;" placeholder="请输入审核意见" class="form-control"></textarea>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

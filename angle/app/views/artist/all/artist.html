@@ -1,0 +1,296 @@
+<style>
+    #body div #page #list_part div #widget-body div ul li ul li {
+        float: none;
+        height: 20px;
+        margin: 0 0 0 0;
+        border: none;
+        text-align: left;
+        width: auto;
+    }
+
+    div #page div.widget-body div.row-fluid ul.ul-groups li.li-first ul {
+        width: 250px;
+    }
+
+    .icon {
+        height: initial;
+        width: initial;
+    }
+
+    .dropdown-menu li > a {
+        padding: 3px 5px;
+    }
+
+    .dropdown-search .dropdown-menu li {
+        padding: 0px;
+    }
+    div.checker span input{
+        margin-left: 0px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>艺人列表
+            </h3>
+        </div>
+    </div>
+
+    <div ui-view="view-list">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default" id="panelDemo1">
+                    <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}">条件查询<paneltool tool-collapse="tool-collapse"></paneltool></div>
+                    <div collapse="panelDemo1" class="panel-wrapper">
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="param-name" class="col-sm-1 control-label" >艺人ID</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-name" type="text" placeholder="请输入艺人ID" class="form-control input-sm" ng-model="form.artistIds" valid-number>
+                                    </div>
+                                    <label for="param-artist" class="col-sm-1 control-label" >艺人名称</label>
+                                    <div class="col-sm-2">
+                                        <input id="param-artist" type="text" placeholder="请输入艺人名称" class="form-control input-sm" ng-model="form.artistKeyword">
+                                               <!--typeahead-focus-first="false"-->
+                                               <!--uib-typeahead="artist as artist.allstr for artist in getSearchResult($viewValue)"-->
+                                               <!--typeahead-on-select="addArtist2List($item)"-->
+                                               <!--ng-keypress="enter($event, form.artistKeyword, 'artistName')">-->
+                                    </div>
+                                    <label class="col-sm-1 control-label" >状态</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control input-sm" ng-model="form.status">
+                                            <option value="">全部</option>
+                                            <option value="10">正常</option>
+                                            <option value="12">待审核</option>
+                                            <option value="14">审核中</option>
+                                            <option value="30">禁用</option>
+                                            <option value="111">未通过</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-sm-1 control-label" >人工评分</label>
+                                    <div class="col-sm-1">
+                                        <input type="text" placeholder="起始" class="form-control input-sm" ng-model="form.mscoreMin" decimal>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="text" placeholder="截止" class="form-control input-sm" ng-model="form.mscoreMax" decimal>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label" >最后编辑</label>
+                                    <div class="col-sm-2" ng-controller="taskCtrl">
+                                        <!--<edit-user-tpl></edit-user-tpl>-->
+                                        <input id="param-10" class="form-control input-sm" placeholder="请输入最后编辑者" ng-model="form.lastEditSearch" type="text"
+                                               uib-typeahead="user.name as user.allname for user in users | filter:{allname:$viewValue}" typeahead-on-select="selectLastEdit($item)" autocomplete="off">
+                                    </div>
+                                    <label class="col-sm-1 control-label" >热度评分</label>
+                                    <div class="col-sm-1">
+                                        <input type="text" placeholder="起始" class="form-control input-sm" ng-model="form.hotScoreMin" decimal>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="text" placeholder="截止" class="form-control input-sm" ng-model="form.hotScoreMax" decimal>
+                                    </div>
+                                    <label class="col-sm-1 control-label" >抽查状态</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control input-sm" ng-model="form.ckResult">
+                                            <option value="" selected>请选择</option>
+                                            <option value="1">可优化</option>
+                                            <option value="2">不合格</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <tag-search-tpl></tag-search-tpl>
+                                    </div>
+                                    <div class="col-sm-2" ng-if="form.style">
+                                        <div class="radio c-radio c-radio-nofont" ng-click="changeTagType(1);">
+                                            <label>
+                                                <input type="radio" value="1" ng-model="form.style">
+                                                <span></span>主风格
+                                            </label>
+                                        </div>
+                                        <div class="radio c-radio c-radio-nofont" ng-click="changeTagType(2);">
+                                            <label>
+                                                <input type="radio" value="2" ng-model="form.style">
+                                                <span></span>次风格
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-7 control-label " style="text-align: left">
+                                        <span class='label label-default tag' ng-repeat="tag in form.tagBeans ">
+                                            <i>{{tag.name}}</i>&nbsp;<em class="fa fa-remove" ng-click="artistTagRemove(tag)"></em>
+                                        </span>
+                                    </label>
+                                </div>
+                                <!--<div class="col-sm-3">-->
+                                    <!--<tag-search-tpl></tag-search-tpl>-->
+                                <!--</div>-->
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <div class="btn-group" >
+                                            <button class="btn btn-default btn-sm" data-ng-click="submit();">查询</button>
+                                            <button class="btn btn-default btn-sm" data-ng-click="reset();">重置</button>
+                                            <!--<button class="btn btn-default btn-sm" data-ng-click="addToCheckTask(datas)">添加到抽查</button>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default" id="panelDemo2">
+                    <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo2}">艺人列表<paneltool tool-collapse="tool-collapse"></paneltool></div>
+                    <div collapse="panelDemo2" class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="btn-group" ng-controller="ModalCtrl">
+                                <button type="button" class="btn btn-pill-left btn-default btn-sm disabled" >导入</button>
+                                <button type="button" class="btn btn-default btn-sm disabled" >导出</button>
+                                <button type="button" class="btn btn-default btn-sm" merge-button>合并</button>
+                                <button type="button" class="btn btn-default btn-sm" ng-click="assignToTask('artist', datas);">指派</button>
+                                <button type="button" class="btn btn-pill-right btn-default btn-sm" ng-click="new('artist');">新建</button>
+                            </div>
+                            <div class="btn-group" dropdown="dropdown" auto-close="outsideClick">
+                                <button type="button" class="btn btn-pill-left btn-default btn-sm" ng-click="showAllHtmlElem()">全选</button>
+                                <!--<button type="button" class="btn btn-primary" ng-click="del();">删除</button>-->
+                                <button dropdown-toggle=""  type="button" class="btn btn-pill-right btn-default btn-sm" >已选<b class="caret"></b></button>
+                                <ul role="menu" class="dropdown-menu animated swing panel-body">
+                                    <li class="chooseth" ng-repeat="html in artist_html track by $index" style="">
+                                        <input ng-model="html.checked" type="checkbox" class="checkboxes" ng-click="storageTableShow();">
+                                        {{html.name}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div ng-include="'app/views/modals/modal-assigntotask.html'"></div>
+                            <div class="table-responsive" data-ui-view="data-list" >
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr role="row">
+                                        <th style="width: 30px">
+                                            <div class="checkbox c-checkbox">
+                                                <label>
+                                                    <input type="checkbox" ng-click="checkAll(datas)">
+                                                    <span class="fa fa-check"></span>
+                                                </label>
+                                            </div>
+                                        </th>
+                                        <th ng-class="{'hide':!artist_html[0].checked}" style="width: 60px;">{{artist_html[0].name}}
+                                        </th>
+                                        <th ng-class="{'hide':!artist_html[1].checked}" ng-click="html_artistId = !html_artistId" style="width: 80px">
+                                            {{artist_html[1].name}}
+                                        <th ng-class="{'hide':!artist_html[2].checked}" ng-click="html_artistName = !html_artistName" style="width: 200px">
+                                            {{artist_html[2].name}}
+                                        </th>
+                                        <th ng-class="{'hide':!artist_html[3].checked}" ng-click="html_artistName = !html_artistName" style="width: 200px;">
+                                            {{artist_html[3].name}}
+                                        </th>
+                                        <th ng-class="{'hide':!artist_html[4].checked}" style="width: 50px">
+                                            {{artist_html[4].name}}
+                                        </th>
+                                        <th ng-class="{'hide':!artist_html[5].checked}" style="width: 80px;">{{artist_html[5].name}}
+                                        </th>
+                                        <th ng-class="{'hide':!artist_html[6].checked}" style="width: 80px">{{artist_html[6].name}}
+                                            {{manualScore}}
+                                            <em class="fa fa-angle-double-down" data-ng-click="scoreSearch('manualScore','DESC');" ng-show="form.manualScore == 'ASC' || form.manualScore == undefined "></em>
+                                            <em class="fa fa-angle-double-up" data-ng-click="scoreSearch('manualScore','ASC');" ng-show="form.manualScore == 'DESC'"></em>
+                                        </th>
+                                        <th ng-class="{'hide':!artist_html[7].checked}" style="width: 80px">{{artist_html[7].name}}
+                                            <em class="fa fa-angle-double-down" data-ng-click="scoreSearch('score','DESC');" ng-show="form.score == 'ASC' || form.score == undefined"></em>
+                                            <em class="fa fa-angle-double-up" data-ng-click="scoreSearch('score','ASC');" ng-show="form.score == 'DESC'"></em>
+                                        </th>
+                                        <!--<th ng-class="{'hide':!artist_html[8].checked}" style="width: 60px">{{artist_html[8].name}}-->
+                                        <!--</th>-->
+                                        <!--<th ng-class="{'hide':!artist_html[9].checked}" style="width: 70px">{{artist_html[9].name}}-->
+                                        <!--</th>-->
+                                        <th style="width: 110px">
+                                            操作
+                                        </th>
+                                    </thead>
+                                    <tbody >
+                                    <tr ng-repeat="data in datas" class="gradeX odd">
+                                        <td class=" sorting_1">
+                                            <div class="checkbox c-checkbox">
+                                                <label>
+                                                    <input type="checkbox" ng-model="data.isCheck">
+                                                    <span class="fa fa-check"></span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="hidden-phone Status" ng-class="{'hide':!artist_html[0].checked}">
+                                            <ng-include src="'app/views/partials/data-status-tpl.html'"></ng-include>
+                                        </td>
+                                        <td class="artistId" ng-class="{'hide':!artist_html[1].checked}">
+                                            {{data.artistId}}
+                                        </td>
+                                        <td class="hidden-phone artistName" ng-class="{'hide':!artist_html[2].checked}" title="{{data.artistName}}">
+                                            <td-artist></td-artist>
+                                            <td-artist-search></td-artist-search>
+                                            <!--<a href="javascript:;" style="margin-left:5px;" ui-sref="app.artist({artistKeyword:data.artistName, id:'', tagIds:'', pageNo:'', pageSize:'', artistIds:'', karakalStatus:''})">【搜】</a>-->
+                                        </td>
+                                        <td ng-class="{'hide':!artist_html[3].checked}" title="{{data.artistNameAlias}}">
+                                            {{data.artistNameAlias}}
+                                            <span ng-if="data.artistNameAlias && data.nickName">、</span>
+                                            {{data.nickName}}
+                                        </td>
+                                        <td class="hidden-phone publishTime" ng-class="{'hide':!artist_html[4].checked}">
+                                            {{data.sex}}
+                                        </td>
+                                        <td class="hidden-phone language" ng-class="{'hide':!artist_html[5].checked}">
+                                            {{data.nation}}
+                                        </td>
+                                        <td class="hidden-phone oPerson" ng-class="{'hide':!artist_html[6].checked}">
+                                            {{data.score}}
+                                        </td>
+                                        <td class="hidden-phone checkStatus" ng-class="{'hide':!artist_html[7].checked}">
+                                            {{data.mscore}}
+                                        </td>
+                                        <!--<td class="hidden-phone oPerson" ng-class="{'hide':!artist_html[8].checked}"></td>-->
+                                        <!--<td class="hidden-phone checkStatus" ng-class="{'hide':!artist_html[9].checked}"></td>-->
+                                        <td class="hidden-phone option" >
+                                            <a id="a_{{data.artistId}}"  ng-click="editJump(data);"
+                                               title="编辑" ng-if="data.status != 30 && data.mstat != 1 && !data.lockUser" ng-right-click="rightClick(data);" >编辑</a>
+                                            <a ng-click="editJump(data);" ng-right-click="rightClick(data);" ng-if="data.lockUser && (user.id == data.lockUser.uid)">{{data.lockUser.name}}</a>
+                                            <span ng-if="data.lockUser && (user.id != data.lockUser.uid)">{{data.lockUser.name}}</span>
+                                            <!--<a href="javascript:;" onclick="checkData(${artist.artistId},'artist');"-->
+                                            <!--title="审核" class="icon huge">-->
+                                            <!--<i class="icon-eye-open"></i></a>-->
+                                            <!--<a href="javascript:;"-->
+                                            <!--onclick="addStore(${artist.artistId},'artist');"-->
+                                            <!--title="添加存储" class="icon huge">-->
+                                            <!--<i class="icon-plus-sign"></i></a>-->
+                                            <!--<a href="javascript:;" ng-click="extractedMaterial(artist.artistId, 'artist')" title="重新抽取素材" >抽取</a>-->
+                                            <a title="拆分" ng-click="separate('artist',data.artistId);" target="_blank" ng-right-click="separate('artist',data.artistId);">拆分</a>
+                                            <operate-data></operate-data>
+                                            <!--<label class="relative btn-more">...-->
+                                            <!--<span class="btn-sub">-->
+                                            <!--<div>-->
+                                            <!--<a href="javascript:;"-->
+                                            <!--onclick="addStore(${artist.artistId},'artist');"-->
+                                            <!--title="添加存储" class="icon huge">-->
+                                            <!--<i class="icon-plus-sign"></i></a>-->
+                                            <!--<a href="javascript:;"-->
+                                            <!--ng-click="extractedMaterial(artist.artistId, 'artist')"-->
+                                            <!--title="重新抽取素材" class="icon huge">-->
+                                            <!--<i class="icon-signout"></i></a>-->
+                                            <!--</div>-->
+                                            <!--</span>-->
+                                            <!--</label>-->
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <ng-include src="'app/views/partials/pagination.html'"></ng-include>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<style>
+    .badge.badge-warning{
+        cursor: pointer;
+    }
+</style>
+<!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">-->
+<div class="panel panel-default ">
+    <div class="panel-heading">
+        <em class="icon-playlist"></em>{{siteName.cn}}歌单
+							<!--<span class="tools">-->
+							<!--<a ui-sref="songForm.more({site:'wangyi'})" class="">更多</a>-->
+							<!--</span>-->
+    </div>
+    <div class="panel-body">
+        <div class="row-fluid" style="background-color: #fff;z-index:99;">
+            <ul class="ul-groups" style="position:relative;">
+                <!--<li class="li-first" style="width: 200px;background: #f7fcfd !important;border: 1px solid #5faee3;border-radius: 25px 25px 25px 25px;">-->
+                <li class="li-first" style="background: #f7fcfd !important;">
+                    <input type="text" style="width: 95%;" ng-model="searchName">
+                    <!--<input type="text" style="width: 92%;margin-left: 0px;"  ng-model="tag" uib-typeahead="tag as tag.name for tag in zNodes | filter:{name:$viewValue}"  typeahead-on-select="searchTag($item)">-->
+                </li>
+                <ul class="dropdown-search" style="  top: 85%;left: 17px;width: 250px;">
+                    <div class="list">
+                    </div>
+                </ul>
+                <li class="li-last" style="border-left: 0;  font-size: 19px;width: 40px;background-color: #5faee3;"><i class="icon-magnifier" ui-sref="songForm.more({firstIndex:0,searchName:searchName})"></i></li>
+            </ul>
+            <ul class="ul-groups">
+                <li class="li-last" id="chooseList" style="width: 120px;position: relative;border-radius: 25px 25px 25px 25px;border-left: 1px solid #5faee3;" ng-mouseenter="showList = true" ng-mouseleave="showList = false" >
+                    排序
+                    <ul class="dropdown-search" id="thList" style="min-width: 120px;height: auto;max-height: none;" ng-class="{'opensearch': showList}">
+                        <div class="list" style="max-height: none;">
+                            <li class="chooseth" ui-sref="app.songForm.more({order:'ctime'})">
+                                最新
+                            </li>
+                            <li class="chooseth" ui-sref="app.songForm.more({order:'play_num'})">
+                                最热
+                            </li>
+                        </div>
+                    </ul>
+                    <i class="triangle_down"></i>
+                </li>
+            </ul>
+        </div>
+        <hr style="margin: 0px;border-top: 1px solid #d3eaf7;">
+        <div class="row-fluid" style="background-color: rgb(255, 255, 255); z-index: 99; position: static;">
+            <div class="artist" ng-repeat="songList in moreList">
+                <div class="image">
+                    <!--<img src="http://img.xiami.net/images/artistlogo/38/14060004412838_1.jpg">-->
+                    <!--<a href="/artist/135"><i></i></a>-->
+                                <span ng-if="songList.img == ''">
+                                    <img src="app/img/album-separate.gif" style="width:100px;height:100px;">
+                                </span>
+                                <span ng-if="songList.img != ''">
+                                    <img src="{{songList.img}}" style="width:100px;height:100px;">
+                                </span>
+                    <a ui-sref="app.songForm.detail({site:siteName.en,id:songList.id})"><i></i></a>
+                    <!--<a href="/mls/artist?artistId={{artist.artistId}}"><i></i></a>-->
+                </div>
+                <div class="info">
+                    <p style="width:100px;overflow:hidden;">
+                        <strong><a ui-sref="app.songForm.detail({site:site,id:songList.id})" title="{{songList.name}}">{{songList.name}}</a></strong>
+                    </p>
+                    <!--<p>{{songList.ctime | date:'yyyy/MM/dd'}}</p>-->
+                    <p>试听:{{songList.listenNum}}</p>
+                    <!--<p>歌曲:{{songList.songNum}}</p>-->
+                    <!--<p>标签:{{songList.tag}}</p>-->
+                </div>
+            </div>
+
+        </div>
+        <div class="row-fluid paginate">
+            <ng-include src="'app/views/partials/pagination.html'"></ng-include>
+            <!--<div class="dataTables_length" style="margin-top: 5px;">-->
+                <!--<uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后" rotate="false" style="margin-top: 0px;margin-bottom: 0px;width: 550px;"></uib-pagination>-->
+            <!--</div>-->
+        </div>
+
+    </div>
+</div>

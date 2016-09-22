@@ -1,0 +1,160 @@
+<style>
+    .detail table tbody tr{
+        height: 35px;
+    }
+    .detail table tbody tr td.name{
+        width: 6%;
+    }
+    .detail table tbody tr td.content{
+        width: 13%;
+    }
+    .detail table tbody tr td select{
+        border-radius: 0;
+        height: 22px;
+    }
+    .detail .well{
+        margin-bottom: 0;
+    }
+    .detail table tbody tr td.name {
+        text-align: right;
+    }
+    .detail table tbody tr td select{
+        border-radius: 0;
+        height: 21px;
+    }
+    .dropdown-menu table{
+        margin-left: 0;
+    }
+    .dropdown-menu .btn{
+        padding: 0;
+    }
+    .dropdown-menu table thead tr{
+        height: 20px;
+    }
+    .dropdown-menu table tbody tr{
+        height: 20px;
+    }
+    #body div #page #list_part div #widget-body div ul li ul li{
+        float: none;
+        height: 26px;
+        margin: 0 0 0 0;
+        border: none;
+        width: 250px;
+        text-align: left;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" id="panelDemo2">
+            <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo2}" >歌曲列表 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+            <div collapse="panelDemo2" class="panel-wrapper">
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="param-name" class="col-sm-1 control-label" >歌曲名</label>
+                            <div class="col-sm-2">
+                                <input id="param-name" type="text" placeholder="请输入歌曲名" class="form-control input-sm" ng-model="params.searchSongName">
+                            </div>
+                            <label for="param-artist" class="col-sm-1 control-label" >歌手名</label>
+                            <div class="col-sm-2">
+                                <input id="param-artist" type="text" placeholder="请输入歌手名" class="form-control input-sm" ng-model="params.searchArtistName">
+                            </div>
+                            <label for="param-3" class="col-sm-1 control-label" >歌曲ID</label>
+                            <div class="col-sm-2">
+                                <input id="param-3" type="text" placeholder="请输入歌曲ID" class="form-control input-sm" >
+                            </div>
+                            <label for="param-4" class="col-sm-1 control-label" >版权ID</label>
+                            <div class="col-sm-2">
+                                <input id="param-4" type="text" placeholder="请输入版权ID" class="form-control input-sm" ng-model="params.searchCpId">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="param-5" class="col-sm-1 control-label" >用户名</label>
+                            <div class="col-sm-2">
+                                <input id="param-5" type="text" placeholder="请输入用户名" class="form-control input-sm" ng-model="params.searchUser">
+                            </div>
+                            <label for="param-6" class="col-sm-1 control-label" >从</label>
+                            <div class="col-sm-2">
+                                <input id="param-6" type="text"  placeholder="请输入起始时间"  ng-click="open(1)"  class="form-control input-sm" uib-datepicker-popup ng-model="params.dt1" is-open="dateStatus.opened1" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM" />
+                            </div>
+                            <label for="param-7" class="col-sm-1 control-label" >到</label>
+                            <div class="col-sm-2">
+                                <input id="param-7" type="text"  placeholder="请输入截止时间"  ng-click="open(2)" class="form-control input-sm" uib-datepicker-popup ng-model="params.dt2" is-open="dateStatus.opened2" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM" />
+                            </div>
+                            <label class="col-sm-1 control-label" >排序规则</label>
+                            <div class="col-sm-2">
+                                <select ng-model="params.searchOrder" class="form-control input-sm"  ng-change="selectOrder(params)">
+                                    <option value=""></option>
+                                    <option value="utime"><a ui-sref="app.tag.list.cpr.tagId({tagId:tagId,tagName:tagName,firstIndex:0,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:'utime'})">操作时间</a></option>
+                                    <option value="num"><a ui-sref="app.tag.list.cpr.tagId({tagId:tagId,tagName:tagName,firstIndex:0,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:'num'})">权重值</a></option>
+                                    <option value="phtime"><a ui-sref="app.tag.list.cpr.tagId({tagId:tagId,tagName:tagName,firstIndex:0,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:'phtime'})">发行时间</a></option>
+                                    <option value="score"><a ui-sref="app.tag.list.cpr.tagId({tagId:tagId,tagName:tagName,firstIndex:0,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:'score'})">热度</a></option>
+                                    <option value="ranked"><a ui-sref="app.tag.list.cpr.tagId({tagId:tagId,tagName:tagName,firstIndex:0,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:'ranked'})">综合排序</a></option>
+                                    <option value="id"><a ui-sref="app.tag.list.cpr.tagId({tagId:tagId,tagName:tagName,firstIndex:0,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:'id'})">ID</a></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="param-8" class="col-sm-1 control-label" >排序置顶</label>
+                            <div class="col-sm-2">
+                                <input id="param-8" type="text" placeholder="输入查询条件点击添加当前标签" class="form-control input-sm" ng-model="song" uib-typeahead="song as song.allstr for song in getSearchResult($viewValue)"  typeahead-on-select="addSong2Tag($item)">
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="btn-group" >
+                                    <button has-permission="tag/tag_manage/tag_manage_import" class="btn btn-default btn-sm disabled" >导入</button>
+                                    <button has-permission="tag/tag_manage/tag_manage_export" class="btn btn-default btn-sm" href="" onclick="downloadExcel();" >导出</button>
+                                    <button class="btn btn-default btn-sm" ui-sref="app.tag.list.cpr.tagIdCr({firstIndex:0,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:params.searchOrder})">搜索</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div ui-view="tag-uib-tab">
+                        <ul class="nav nav-tabs">
+                            <li ui-sref-active="active" ><a ui-sref="app.tag.list.cpr.tagId({tagId:tagId,tagName:tagName,firstIndex:firstIndex,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:params.searchOrder})">全部({{allNum}})</a></li>
+                            <li ui-sref-active="active" ><a ui-sref="app.tag.list.cpr.tagIdCr({tagId:tagId,tagName:tagName,firstIndex:firstIndex,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:params.searchOrder})">正式未过期版权({{crNum}})</a></li>
+                            <li ui-sref-active="active" ><a ui-sref="app.tag.list.cpr.tagIdHc({tagId:tagId,tagName:tagName,firstIndex:firstIndex,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:params.searchOrder})">互联网版权</a></li>
+                            <li ui-sref-active="active" ><a ui-sref="app.tag.list.cpr.tagIdCp({tagId:tagId,tagName:tagName,firstIndex:firstIndex,status:status,ctype:ctype,searchSongName:params.searchSongName,searchArtistName:params.searchArtistName,searchCpId:params.searchCpId,searchUser:params.searchUser.userId,dt1:params.dt1,dt2:params.dt2,searchOrder:params.searchOrder})">正式过期版权</a></li>
+                        </ul>
+                        <div ui-view="data-list" class="table-responsive" >
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<ul class="nav nav-tabs">-->
+    <!--<li ui-sref-active="active" ><a ui-sref="tag.list.cpr.tagId({tagId:tagId,tagName:tagName,firstIndex:firstIndex,status:status,ctype:ctype})">全部（{{allNum}}）</a></li>-->
+    <!--<li ui-sref-active="active" ><a ui-sref="tag.list.cpr.tagIdCr({tagId:tagId,tagName:tagName,firstIndex:firstIndex,status:status,ctype:ctype})">正式未过期版权（{{crNum}}）</a></li>-->
+    <!--<li ui-sref-active="active" ><a ui-sref="tag.list.cpr.tagIdHc({tagId:tagId,tagName:tagName,firstIndex:firstIndex,status:status,ctype:ctype})">互联网版权</a></li>-->
+    <!--<li ui-sref-active="active" ><a ui-sref="tag.list.cpr.tagIdCp({tagId:tagId,tagName:tagName,firstIndex:firstIndex,status:status,ctype:ctype})">正式过期版权</a></li>-->
+<!--</ul>-->
+<!--<div ui-view="data-list">-->
+<!--</div>-->
+
+<!--添加弹出层-->
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">人工数据排序</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <form class="form-horizontal" name="projectForm" style="margin-bottom: 0px;">
+        <div class="control-group">
+            <label class="control-label">排序位置</label>
+            <div class="controls">
+                <input type="number" class="span3" ng-model="position">
+                <button class="btn btn-primary" type="button" style="margin-left: 5px;cursor:pointer;" ng-click="setPosition(position)">提交排序</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <!--<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>-->
+            <button class="btn btn-warning" type="button" ng-click="cancel()">关闭</button>
+        </div>
+    </form>
+</script>
+<!--添加弹出层end-->

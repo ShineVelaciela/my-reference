@@ -1,0 +1,148 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="form-1" class="col-sm-1 control-label" >版权ID</label>
+        <div class="col-sm-2">
+            <input id="form-1" type="text" placeholder="请输入版权ID" class="form-control input-sm" ng-model="params.cid">
+        </div>
+        <label for="form-2" class="col-sm-1 control-label" >歌曲ID</label>
+        <div class="col-sm-2">
+            <input id="form-2" type="text" placeholder="请输入歌曲ID" class="form-control input-sm" ng-model="params.songId">
+        </div>
+        <label class="col-sm-1 control-label" >歌曲状态</label>
+        <div class="col-sm-2">
+            <select ng-model="params.status" class="form-control input-sm">
+                <option value="">请选择</option>
+                <option value="-1">未关联曲库</option>
+                <option value="0">初始</option>
+                <option value="1">抽取</option>
+                <option value="10">正常</option>
+                <option value="12">待审核</option>
+                <option value="14">审核中</option>
+                <option value="15">编辑中</option>
+                <option value="20">待删除</option>
+                <option value="30">禁用</option>
+                <option value="111">审核未通过</option>
+            </select>
+        </div>
+        <label for="form-3" class="col-sm-1 control-label">歌曲名称</label>
+        <div class="col-sm-2">
+            <input id="form-3" type="text" placeholder="请输入歌曲名称" class="form-control input-sm" ng-model="params.songName">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="form-4" class="col-sm-1 control-label" >专辑名称</label>
+        <div class="col-sm-2">
+            <input id="form-4" type="text" placeholder="请输入专辑名称" class="form-control input-sm" ng-model="params.albumName">
+        </div>
+        <label for="form-5" class="col-sm-1 control-label" >歌手名称</label>
+        <div class="col-sm-2">
+            <input id="form-5" type="text" placeholder="请输入歌手名称" class="form-control input-sm" ng-model="params.artistName">
+        </div>
+        <label for="form-6" class="col-sm-1 control-label" >词作者</label>
+        <div class="col-sm-2">
+            <input id="form-6" type="text" placeholder="请输入词作者" class="form-control input-sm" ng-model="params.lyricPerson">
+        </div>
+        <label for="form-7" class="col-sm-1 control-label">曲作者</label>
+        <div class="col-sm-2">
+            <input id="form-7" type="text" placeholder="请输入曲作者" class="form-control input-sm" ng-model="params.composePerson">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="form-8" class="col-sm-1 control-label" >指挥者</label>
+        <div class="col-sm-2">
+            <input id="form-8" type="text" placeholder="请输入指挥者" class="form-control input-sm" ng-model="params.conductor">
+        </div>
+        <label for="form-9" class="col-sm-1 control-label" >演奏者</label>
+        <div class="col-sm-2">
+            <input id="form-9" type="text" placeholder="请输入演奏者" class="form-control input-sm" ng-model="params.player">
+        </div>
+        <label for="form-10" class="col-sm-1 control-label" >编辑提交起</label>
+        <div class="col-sm-2">
+            <input id="form-10" type="text" my-date class="form-control input-sm" ng-model="params.editSubmitStart" ng-click="open(1)" uib-datepicker-popup  is-open="dateStatus.opened1" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+        <label for="form-11" class="col-sm-1 control-label">编辑提交止</label>
+        <div class="col-sm-2">
+            <input id="form-11" type="text" my-date class="form-control input-sm" ng-model="params.editSubmitEnd" ng-click="open(2)" uib-datepicker-popup  is-open="dateStatus.opened2" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="form-12" class="col-sm-1 control-label"  ng-if="pId != '9002'">最后编辑人</label>
+        <div class="col-sm-2"  ng-if="pId != '9002'">
+            <input id="form-12" placeholder="请输入最后编辑人" class="form-control input-sm" ng-model="params.lastEditSearch"
+                   uib-typeahead="user.name as user.allname for user in users | filter:{allname:$viewValue}" typeahead-on-select="selectLastEditor($item)">
+        </div>
+        <label class="col-sm-1 control-label" ng-if="pageType != 'unassigned' && userRole == 'fzr' ">人员列表</label>
+        <div class="col-sm-2" ng-if="pageType != 'unassigned' && userRole == 'fzr' ">
+            <select ng-model="params.uId" ng-options="cyr.uid as cyr.uName for cyr in cyr_list" class="form-control input-sm">
+                <option value="">请选择人员</option>
+            </select>
+        </div>
+        <label for="form-13" class="col-sm-1 control-label" ng-if="pId != '9002' && pageType != 'unassigned'">分配时间起</label>
+        <div class="col-sm-2" ng-if="pId != '9002' && pageType != 'unassigned'">
+            <input id="form-13" type="text" my-date class="form-control input-sm"  ng-model="params.distributionTimeStart" ng-click="open(3)" uib-datepicker-popup  is-open="dateStatus.opened3" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+        <label for="form-14" class="col-sm-1 control-label" ng-if="pId != '9002' && pageType != 'unassigned'">分配时间止</label>
+        <div class="col-sm-2" ng-if="pId != '9002' && pageType != 'unassigned'">
+            <input id="form-14" type="text" my-date class="form-control input-sm" ng-model="params.distributionTimeEnd" ng-click="open(4)" uib-datepicker-popup  is-open="dateStatus.opened4" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" format-day-title="MM yyyy" format-month="MM">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-1 " uib-dropdown dropdown-append-to-body auto-close="outsideClick">
+            <button uib-dropdown-toggle class="btn btn-default btn-sm">歌曲标签<b class="caret"></b></button>
+            <div class="dropdown-menu sp" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                <ul class="nav nav-tabs">
+                    <li ng-repeat="tag in tags_title" ui-sref-active="active">
+                        <a class="pointer" ng-click="selectMainTag(tag)">{{tag.name}} </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <label><h5>
+                            <a ng-repeat="tag in tag_list" ng-click="songSelectSearchTag(tag)">{{tag.name}}</a>
+                        </h5></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <label class="control-label col-sm-8" style="text-align: left">
+            <span class='label label-default tag' ng-repeat="tag in searchTag  track by $index">
+                <i>{{tag.name}}</i>&nbsp;<em class="fa fa-remove" ng-click="songTagRemove(tag)"></em>
+            </span>
+        </label>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-2 ">
+            <div class="btn-group">
+            <button class="btn btn-default btn-sm" ng-click="paramsSearchClick($parent.pageType)">查询</button>
+            <button class="btn btn-default btn-sm" ng-click="openImport(pId,uId,p_type);" ng-if="pId != '9002' && userRole == 'fzr'">导入</button>
+            <button class="btn btn-default btn-sm" ng-click="reset()">重置</button>
+                </div>
+        </div>
+    </div>
+</form>
+<script type="text/ng-template" id="import.html">
+    <div class="modal-header">
+        <h3 class="modal-title">导入excel数据</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <form class="form-horizontal" >
+        <div class="form-group">
+            <label class="control-label col-sm-2">下载模板</label>
+            <div class="col-sm-4">
+                <a href="http://temp.karakal.com.cn:18089/uc/resources/excel/moban.xls" target="_blank">下载模板</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">上传附件</label>
+            <div class="col-sm-4">
+                <input type="file" id="excelFile" name="excelFile" class="form-control input-sm" fileread="uploadme.src">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span style="color: red;">{{error}}</span>
+            <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </form>
+</script>

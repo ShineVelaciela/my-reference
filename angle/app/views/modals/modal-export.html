@@ -1,0 +1,58 @@
+<!--Created by hao.cheng on 2016/7/25.-->
+<script type="text/ng-template" id="exportTpl.html">
+   <div class="modal-header">
+      <button type="button" ng-click="cancel();" class="close">×</button>
+      <h4 id="myModalLabel" class="modal-title">导出</h4>
+   </div>
+   <div class="modal-body">
+      <form class="form-horizontal">
+         <div class="form-group">
+            <div style="float: left;margin-left: 15px;" class="radio c-radio c-radio-nofont">
+               <label>
+                  <input type="radio" value="1" ng-model="export.type" />
+                  <span></span>
+               </label>
+            </div>
+            <label class="control-label">按选中导出</label>
+         </div>
+         <div class="form-group">
+            <div style="float: left;margin-left: 15px;" class="radio c-radio c-radio-nofont">
+               <label>
+                  <input type="radio" value="2" ng-model="export.type" />
+                  <span></span>
+               </label>
+            </div>
+            <label class="control-label">按序号导出</label>
+            <label class="control-label col-sm-1">起</label>
+            <div class="col-sm-2">
+               <input type="text" ng-model="export.startNo" class="form-control input-sm" />
+            </div>
+            <label class="control-label col-sm-1">止</label>
+            <div class="col-sm-2">
+               <input type="text" ng-model="export.endNo" class="form-control input-sm" />
+            </div>
+         </div>
+         <div class="form-group">
+            <div style="float: left;margin-left: 15px;" class="radio c-radio c-radio-nofont">
+               <label>
+                  <input type="radio" value="3" ng-model="export.type" />
+                  <span></span>
+               </label>
+            </div>
+            <label class="control-label">按页数导出</label>
+            <label class="control-label col-sm-1">起</label>
+            <div class="col-sm-2">
+               <input type="text" ng-model="export.pageStart" class="form-control input-sm" />
+            </div>
+            <label class="control-label col-sm-1">止</label>
+            <div class="col-sm-2">
+               <input type="text" ng-model="export.pageEnd" class="form-control input-sm" />
+            </div>
+         </div>
+      </form>
+   </div>
+   <div class="modal-footer">
+      <button type="button" ng-click="export();" class="btn btn-primary">确认</button>
+      <button type="button" ng-click="cancel();" class="btn btn-warning">取消</button>
+   </div>
+</script>

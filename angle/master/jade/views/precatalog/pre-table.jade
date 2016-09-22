@@ -1,0 +1,49 @@
+//
+   Created by hao.cheng on 2016/7/25.
+table.table.table-striped
+    thead
+        tr
+            th(style="width: 50px")
+                check-all-btn
+            th(style="width: 40px;") 序号
+            th(style="width: 120px;") 版权ID
+            th(style="width: 120px;") 歌曲ID
+            th(style="width: 140px;") 编目歌曲名
+            th(style="width: 140px;") 编目专辑名
+            th(style="width: 140px;") 编目艺人名
+            th(style="width: 100px;") 详情
+            th(style="width: 100px;") 导入者
+            th(style="width: 120px;") 状态
+            th(style="width: 120px;") 操作
+    tbody
+        tr.gradeX.odd(ng-repeat="data in $parent.datas track by $index")
+            td
+                div.checkbox.c-checkbox
+                    label
+                        input(type="checkbox",ng-model="data.isCheck")
+                        span.fa.fa-check
+            td {{$index+1}}
+            td {{data.copyrightId}}
+            td {{data.songId}}
+            td
+                td-song
+                td-song-search
+            td
+                td-albums
+            td
+                td-artists
+            td
+                div 时长：{{data.playTime}}
+                div &nbsp;&nbsp;标签数：{{data.tagcount}}
+            td {{data.uname}}
+            td
+                span.label.label-default.tag(ng-if="data.catalogStatus == 0") 未编目
+                span.label.label-default.tag(ng-if="data.catalogStatus == 1") 已编目
+                span.label.label-default.tag(ng-if="data.songStatus == 0 && data.catalogStatus == 1") 未完成
+                span.label.label-default.tag(ng-if="data.songStatus == 1 && data.catalogStatus == 1") 已完成
+            td
+                a(ng-click="delete(data.copyrightId);",ng-if="data.catalogStatus != 1") 删除&nbsp;
+                a(ng-if="data.catalogStatus == 1",ui-sref="app.catalog.info({copyId:data.copyrightId})") 编目&nbsp;
+                a(ng-if="data.catalogStatus == 1",ng-click="tagging(data, '_self');",ng-right-click="tagging(data, '_blank');") 打标签&nbsp;
+                a(ng-if="data.songStatus == 0 && data.catalogStatus == 1",ng-click="dataConfirm(data.copyrightId);") 确认&nbsp;
+ng-include(src="'app/views/partials/pagination.html'")

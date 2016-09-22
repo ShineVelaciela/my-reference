@@ -1,0 +1,117 @@
+
+<div ui-view="form-more">
+    <!-- 网易歌单-->
+    <div class="panel panel-default ">
+        <div class="panel-heading">
+            <em class="icon-playlist"></em>网易歌单
+							<span class="tools pull-right">
+							<a ui-sref="app.songForm.more({site:'wangyi',firstIndex:0,order:'play_num'})" class="">更多</a>
+							</span>
+        </div>
+        <div class="panel-body">
+            <div class="row-fluid" style="background-color: rgb(255, 255, 255); z-index: 99; position: static;">
+                <div class="artist" ng-repeat="songList in wangyi">
+                    <div class="image" ui-sref="app.songForm.detail({site:'wangyi',id:songList.id})">
+                        <!--<img src="http://img.xiami.net/images/artistlogo/38/14060004412838_1.jpg">-->
+                        <!--<a href="/artist/135"><i></i></a>-->
+                                <span ng-if="songList.img == ''">
+                                    <img src="app/img/album-separate.gif" style="width:100px;height:100px;">
+                                </span>
+                                <span ng-if="songList.img != ''">
+                                    <img src="{{songList.img}}" style="width:100px;height:100px;">
+                                </span>
+                        <a ui-sref="app.songForm.detail({site:'wangyi',id:songList.id})"><i></i></a>
+                        <!--<a href="/mls/artist?artistId={{artist.artistId}}"><i></i></a>-->
+                    </div>
+                    <div class="info">
+                        <p style="width:100px;overflow:hidden;">
+                            <strong><a ui-sref="app.songForm.detail({site:'wangyi',id:songList.id})" title="{{songList.name}}">{{songList.name}}</a></strong>
+                        </p>
+                        <!--<p>{{songList.ctime | date:'yyyy/MM/dd'}}</p>-->
+                        <p>试听:{{songList.listenNum}}</p>
+                        <!--<p>歌曲:{{songList.songNum}}</p>-->
+                        <!--<p>标签:{{songList.tag}}</p>-->
+                    </div>
+                </div>
+            </div>
+            <div class="dataTables_wrapper form-inline" ui-view="data-list">
+            </div>
+        </div>
+    </div>
+    <!-- 虾米歌单-->
+    <div class="panel panel-default ">
+        <div class="panel-heading">
+            <em class="icon-playlist"></em>虾米歌单
+							<span class="tools pull-right">
+							<a ui-sref="app.songForm.more({site:'xiami',firstIndex:0,order:'play_num'})" class="">更多</a>
+							</span>
+        </div>
+        <div class="panel-body">
+            <div class="row-fluid" style="background-color: rgb(255, 255, 255); z-index: 99; position: static;">
+                <div class="artist" ng-repeat="songList in xiami">
+                    <div class="image">
+                        <!--<img src="http://img.xiami.net/images/artistlogo/38/14060004412838_1.jpg">-->
+                        <!--<a href="/artist/135"><i></i></a>-->
+                                <span ng-if="songList.img == ''">
+                                    <img src="app/img/album-separate.gif" style="width:100px;height:100px;">
+                                </span>
+                                <span ng-if="songList.img != ''">
+                                    <img src="{{songList.img}}" style="width:100px;height:100px;">
+                                </span>
+                        <a ui-sref="songForm.detail({site:'xiami',id:songList.id})"><i></i></a>
+                        <!--<a href="/mls/artist?artistId={{artist.artistId}}"><i></i></a>-->
+                    </div>
+                    <div class="info">
+                        <p style="width:100px;overflow:hidden;">
+                            <strong><a ui-sref="app.songForm.detail({site:'xiami',id:songList.id})" title="{{songList.name}}">{{songList.name}}</a></strong>
+                        </p>
+                        <!--<p>{{songList.ctime | date:'yyyy/MM/dd'}}</p>-->
+                        <p>试听:{{songList.listenNum}}</p>
+                        <!--<p>歌曲:{{songList.songNum}}</p>-->
+                        <!--<p>标签:{{songList.tag}}</p>-->
+                    </div>
+                </div>
+            </div>
+            <div class="dataTables_wrapper form-inline" ui-view="data-list">
+            </div>
+        </div>
+    </div>
+    <!--腾讯歌单-->
+    <div class="panel panel-default  ">
+        <div class="panel-heading">
+            <em class="icon-playlist"></em>腾讯歌单
+							<span class="tools pull-right">
+							<a ui-sref="app.songForm.more({site:'tencent',firstIndex:0,order:'play_num'})" class="">更多</a>
+							</span>
+        </div>
+        <div class="panel-body">
+            <div class="row-fluid" style="background-color: rgb(255, 255, 255); z-index: 99; position: static;">
+                <div class="artist" ng-repeat="songList in tencent">
+                    <div class="image">
+                        <!--<img src="http://img.xiami.net/images/artistlogo/38/14060004412838_1.jpg">-->
+                        <!--<a href="/artist/135"><i></i></a>-->
+                                <span ng-if="songList.img == ''">
+                                    <img src="app/img/album-separate.gif" style="width:100px;height:100px;">
+                                </span>
+                                <span ng-if="songList.img != ''">
+                                    <img src="{{songList.img}}" style="width:100px;height:100px;">
+                                </span>
+                        <a ui-sref="app.songForm.detail({site:'tencent',id:songList.id})"><i></i></a>
+                        <!--<a href="/mls/artist?artistId={{artist.artistId}}"><i></i></a>-->
+                    </div>
+                    <div class="info">
+                        <p style="width:100px;overflow:hidden;">
+                            <strong><a ui-sref="app.songForm.detail({site:'tencent',id:songList.id})" title="{{songList.name}}">{{songList.name}}</a></strong>
+                        </p>
+                        <!--<p>{{songList.ctime | date:'yyyy/MM/dd'}}</p>-->
+                        <p>试听:{{songList.listenNum}}</p>
+                        <!--<p>歌曲:{{songList.songNum}}</p>-->
+                        <!--<p>标签:{{songList.tag}}</p>-->
+                    </div>
+                </div>
+            </div>
+            <div class="dataTables_wrapper form-inline" ui-view="data-list">
+            </div>
+        </div>
+    </div>
+</div>

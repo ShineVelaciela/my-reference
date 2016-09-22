@@ -1,0 +1,446 @@
+[
+  {
+    "text": "艺人管理",
+    "sref": "#",
+    "icon": "icon-users",
+    "permission": "artist",
+    "sref": "app.artist",
+    "options": {
+      "reload": false
+    }
+  },
+  {
+    "text": "专辑管理",
+    "sref": "#",
+    "icon": "icon-disc",
+    "permission": "album",
+    "sref": "app.album",
+    "options": {
+      "inherit": false,
+      "reload": false
+    }
+  },
+  {
+    "text": "歌曲管理",
+    "sref": "#",
+    "permission": "song",
+    "icon": "icon-list",
+    "sref": "app.song"
+  },
+  {
+    "text": "标签管理",
+    "sref": "#",
+    "icon": "icon-tag",
+    "permission": "tag",
+    "submenu": [
+      {
+        "text": "精品标签",
+        "sref": "app.qualityTag.list",
+        "permission": "tag/quality-tag",
+        "options": {
+          "inherit": false,
+          "reload": true
+        },
+        "params": {
+          "pageSize": "20",
+          "pageNo": "1",
+          "tagStatus": "0"
+        }
+      },
+      {
+        "text": "标签知识库",
+        "sref": "app.knowledge",
+        "permission": "tag/tag_knowledge",
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      },
+      {
+        "text": "标签树管理",
+        "sref": "app.tagTree",
+        "permission": "tag/tag_manage",
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      },
+      {
+        "text": "设置对应关系",
+        "sref": "app.relationship",
+        "permission": "tag/tag_manage",
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      }
+    ]
+  },
+  {
+    "text": "编目管理",
+    "sref": "#",
+    "icon": "icon-link",
+    "permission":"catalog",
+    "submenu": [
+      {
+        "text": "手动编目",
+        "permission":"catalog/catalog-hand",
+        "sref": "app.catalog.search",
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      }
+    ]
+  },
+  {
+    "text": "榜单管理",
+    "sref": "#",
+    "icon": "icon-bar-chart",
+    "permission":"top",
+    "submenu": [
+      {
+        "text": "日榜",
+        "sref": "app.top-list.day",
+        "permission":"top/top_day"
+      },
+      {
+        "text": "周榜",
+        "sref": "app.top-list.week",
+        "permission":"top/top_week"
+      },
+      {
+        "text": "缺歌对标",
+        "sref": "app.song-lack",
+        "permission":"top/song_lack"
+      }
+    ]
+  },
+  {
+    "text": "歌单管理",
+    "sref": "app.songForm.main",
+    "icon": "icon-playlist",
+    "permission":"song_form"
+  },
+  {
+    "text": "评论审核",
+    "sref": "#",
+    "icon": "icon-bubbles",
+    "permission":"comment",
+    "submenu": [
+      {
+        "text": "专辑评论",
+        "sref": "app.comment",
+        "permission":"comment/comment-album",
+        "params": {
+          "type": 0
+        }
+      },
+      {
+        "text": "歌曲评论",
+        "sref": "app.comment",
+        "permission":"comment/comment-song",
+        "params": {
+          "type": 1
+        }
+      },
+      {
+        "text": "歌单评论",
+        "sref": "app.comment",
+        "permission":"comment/comment-songform",
+        "params": {
+          "type": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "优质内容",
+    "sref": "#",
+    "icon": "icon-star",
+    "permission":"quality_content",
+    "submenu": [
+      {
+        "text": "优质艺人",
+        "sref": "app.qualityContent.data",
+        "permission":"quality_content/quality-artist",
+        "params": {
+          "type": 1
+        },
+        "options": {
+          "inherit": false
+        }
+      },
+      {
+        "text": "优质专辑",
+        "sref": "app.qualityContent.data",
+        "permission":"quality_content/quality-album",
+        "params": {
+          "type": 2
+        },
+        "options": {
+          "inherit": false
+        }
+      },
+      {
+        "text": "优质歌曲",
+        "sref": "app.qualityContent.data",
+        "permission":"quality_content/quality-song",
+        "params": {
+          "type": 3
+        },
+        "options": {
+          "inherit": false
+        }
+      }
+    ]
+  },
+  {
+    "text": "垃圾库",
+    "sref": "#",
+    "permission": "garbage",
+    "icon": "icon-trash",
+    "submenu": [
+      {"text": "垃圾歌曲", "sref": "app.waste-song", "permission":"garbage/garbage-song" }
+    ]
+  },
+  {
+    "text": "专项库",
+    "sref": "#",
+    "permission": "special",
+    "icon": "icon-envelope-letter",
+    "submenu": [
+      {"text": "专项歌曲", "sref": "app.special-song","permission":"special/special-song" }
+    ]
+  },
+  {
+    "text": "项目管理",
+    "sref": "#",
+    "permission": "pro",
+    "icon": "icon-briefcase",
+    "submenu": [
+      {
+        "text": "内置-新歌项目",
+        "sref": "app.uc_task_new_song.uncompelete",
+        "permission": "pro/pro-in-newsong",
+        "params": {
+          "pId": "9010",
+          "taskStatusList": "-1,1,2",
+          "pageSize": 50,
+          "pageNo": 1
+        },
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      },
+      {
+        "text": "内置-审核管理",
+        "sref": "app.examine.1",
+        "permission": "pro/pro-in-examine",
+        "params": {
+          "type": 1
+        },
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      },
+      {
+        "text": "内置-手动编目",
+        "sref": "app.catalogTask.module",
+        "permission": "pro/pro-in-handcatalog",
+        "params": {
+          "projectId": "9014",
+          "module": "-1,1,2",
+          "pageSize": 50,
+          "pageNo": 1
+        },
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      },
+      {
+        "text": "内置-预编目工单",
+        "sref": "app.preCatalog.list",
+        "permission": "pro/pro-in-precatalog",
+        "params": {
+          "pageNo": 1,
+          "pageSize": 50
+        },
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      },
+      {
+        "text": "内置-歌曲抽查",
+        "sref": "app.uc_task_check_song.uncompelete",
+        "permission": "pro/pro-in-checksong",
+        "params": {
+          "pId": "9137",
+          "taskStatusList": "-1,1,2"
+        },
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      },
+      {
+        "text": "内置-专辑抽查",
+        "sref": "app.uc_task_check_album.uncompelete",
+        "permission": "pro/pro-in-checkalbum",
+        "params": {
+          "pId": "9138",
+          "taskStatusList": "-1,1,2"
+        },
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      },
+      {
+        "text": "内置-艺人抽查",
+        "sref": "app.uc_task_check_artist.uncompelete",
+        "permission": "pro/pro-in-checkartist",
+        "params": {
+          "pId": "9139",
+          "taskStatusList": "-1,1,2"
+        },
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      },
+      {
+        "text": "项目中心",
+        "sref": "app.uc.fz",
+        "permission": "pro/pro-in-projectcenter",
+        "params": {
+          "type": 1
+        },
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      }
+    ]
+  },
+  {
+    "text": "用户中心",
+    "sref": "#",
+    "permission": "uc",
+    "icon": "icon-user",
+    "submenu": [
+      {
+        "text": "数据字典",
+        "sref": "#",
+        "permission": "uc/uc-dictionary",
+        "submenu": [
+          {
+            "text": "国家配置",
+            "sref": "app.dictionary.country",
+            "permission": "uc/uc-dictionary",
+            "options": {
+              "inherit": false,
+              "reload": true
+            },
+            "params": {
+              "pageSize": 50,
+              "pageNo": 1
+            }
+          },
+          {
+            "text": "民族配置",
+            "sref": "app.dictionary.nation",
+            "permission": "uc/uc-dictionary",
+            "options": {
+              "inherit": false,
+              "reload": true
+            },
+            "params": {
+              "pageSize": 50,
+              "pageNo": 1
+            }
+          }
+        ]
+      },
+      {
+        "text": "后台任务配置",
+        "sref": "#",
+        "permission": "uc/uc-timetask",
+        "submenu": [
+          {
+            "text": "系统常量配置",
+            "sref": "app.constant.list",
+            "permission": "uc/uc-timetask",
+            "options": {
+              "inherit": false,
+              "reload": true
+            },
+            "params": {
+              "pageSize": 50,
+              "pageNo": 1
+            }
+          },
+          {
+            "text": "定时任务配置",
+            "sref": "app.regular.list",
+            "permission": "uc/uc-timetask",
+            "options": {
+              "inherit": false,
+              "reload": true
+            },
+            "params": {
+              "pageSize": 50,
+              "pageNo": 1
+            }
+          }
+        ]
+      },
+      {
+        "text": "权限管理",
+        "sref": "app.authority",
+        "permission": "uc/uc_authority",
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      }
+    ]
+  },
+  {
+    "text": "统计报表",
+    "sref": "#",
+    "icon": "icon-graph",
+    "submenu": [
+      {
+        "text": "统计报表",
+        "sref": "app.charts.catch",
+        "options": {
+          "inherit": false
+        }
+      }
+    ]
+  },
+  {
+    "text": "九天歌单",
+    "sref": "#",
+    "icon": "icon-layers",
+    "submenu": [
+      {
+        "text": "九天歌单",
+        "sref": "app.jtsongForm.main",
+        "params": {
+          "index": 0
+        },
+        "options": {
+          "inherit": false,
+          "reload": true
+        }
+      }
+    ]
+  }
+
+]

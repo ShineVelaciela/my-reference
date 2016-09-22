@@ -1,0 +1,4 @@
+<!--Created by hao.cheng on 2016/8/15.-->
+<span ng-repeat="artist in data.artists"><a ui-sref="artistInfo({artistId:artist.artistId})">{{artist.artistName}}</a>
+   <span ng-if="!$last">、</span>
+</span>

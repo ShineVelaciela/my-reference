@@ -1,0 +1,30 @@
+<!--Created by kiracheng on 2016/7/18.-->
+<table class="table table-striped">
+   <thead>
+      <tr>
+         <th style="width: 50px;">选择</th>
+         <th style="width: 200px;">姓名</th>
+         <th style="width: 120px;">艺人ID</th>
+         <th style="width: 200px;">别名</th>
+         <th style="width: 120px;">昵称</th>
+         <th style="width: 100px;">国家/地区</th>
+         <th style="width: 100px;">性别</th>
+         <th style="width: 120px;">操作</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="data in datas" class="gradeX odd">
+         <td>
+            <radio-button></radio-button>
+         </td>
+         <td>{{data.artistName}}</td>
+         <td>{{data.artistId}}</td>
+         <td>{{data.artistNameAlias}}</td>
+         <td>{{data.nickName}}</td>
+         <td>{{data.nation}}</td>
+         <td>{{data.sex}}</td>
+         <td><a ui-sref="artistInfo({artistId:data.artistId})">查看&nbsp</a><a ng-click="remove(datas,data)">删除</a></td>
+      </tr>
+   </tbody>
+</table>
+<ng-include src="'app/views/merge/merge-btn.html'"></ng-include>

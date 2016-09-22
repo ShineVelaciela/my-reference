@@ -1,0 +1,29 @@
+<div class="project" ng-repeat="p in projects_fz">
+    <div class="project_ panel-body">
+        <div class="project_title">
+            <h5 style="margin: 0 0 0 5px;line-height: 58px;"><i class="icon-briefcase" style="font-size: 38px"></i>{{p.name | cut: true: 9: '...'}}</h5>
+        </div>
+        <div class="project_content">
+            <p>项目进度：{{p.progress}}%</p>
+            <p>负责人：<span ng-repeat="f in p.fzrList">{{f.uName | cut: true: 5: '...'}};</span></p>
+            <p>共有{{p.cyrList.length}}人参与&nbsp;<i class="icon-plus-sign" title=""></i></p>
+        </div>
+        <div class="project_foot">
+            <p>{{p.start}}&nbsp;&nbsp;至&nbsp;&nbsp;{{p.end}}</p>
+        </div>
+        <div>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_pdetail({pId:p.id})">详情</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.artistTask.module({projectId:p.id,module:'-1,1,2',uid:user.id})" ng-if="p.flowType == 0">艺人列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.albumTask.module({projectId:p.id,module:'-1,1,2',uid:user.id})" ng-if="p.flowType == 1">专辑列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.songTask.module({projectId:p.id,module:'-1,1,2',uid:user.id})" ng-if="p.flowType == 2">歌曲列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.catalogTask.module({projectId:p.id,module:'-1,1,2',pageSize:50,pageNo:1})" ng-if="p.flowType == 4">编目列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.songtagTask.module({projectId:p.id,module:'-1,1,2',pageSize:50,pageNo:1})" ng-if="p.flowType == 3">标签列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_new_song.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uId:user.id})" ng-if="p.flowType == 10">新歌列表</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_new_song_tag.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uId:user.id})" ng-if="p.flowType == 11">新歌标签</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_check_song.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uid:user.id})" ng-if="p.flowType == 22">歌曲抽查</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_check_album.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uid:user.id})" ng-if="p.flowType == 23">专辑抽查</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_check_artist.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uid:user.id})" ng-if="p.flowType == 24">艺人抽查</button>
+            <button class="btn btn-default btn-sm" ui-sref="app.uc_task_check_song.uncompelete({pId:p.id,taskStatusList:'-1,1,2',uid:user.id,dataType:'songTag'})" ng-if="p.flowType == 25">歌曲标签抽查</button>
+        </div>
+    </div>
+</div>

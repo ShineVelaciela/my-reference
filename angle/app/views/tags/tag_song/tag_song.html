@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>标签管理
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">标签歌曲列表</div>
+                <div class="panel-body">
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-keypress="enter($event, tagName)" ng-model="tagName" placeholder="请输入标签名搜索">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button"
+                                        ui-sref="app.tagSong.song({tagName:tagName,firstIndex:firstIndex})"
+                                        ><em
+                                        class="icon-magnifier"></em></button>
+                            </span>
+                        </div>
+                    </div>
+                    <!--搜索后单个标签展示-->
+                    <div class="table-responsive" ui-view="song-view">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

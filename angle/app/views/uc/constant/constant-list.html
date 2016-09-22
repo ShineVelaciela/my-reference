@@ -1,0 +1,62 @@
+<!--Created by YuChunzhuo-Dev on 2016/8/8.
+-->
+<div class="container-fluid">
+   <div class="row-fluid">
+      <div class="span12">
+         <h3 class="page-title">
+            <span class="divider">媒资库/用户中心/系统常量配置</span>
+            <!--span 用户中心-->
+            <!--span.divider /-->
+            <!--span 系统常量配置-->
+         </h3>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="panelDemo1" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':panelDemo1}" class="panel-heading">配置列表
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="panelDemo1" class="panel-wrapper">
+               <div class="panel-body">
+                  <div class="col-sm-3">
+                     <div class="input-group">
+                        <input type="text" placeholder="请输入关键字搜索" ng-model="search.$" class="form-control" />
+                        <span class="input-group-btn">
+                           <button type="button" class="btn btn-default">
+                              <em class="icon-magnifier"></em>
+                           </button>
+                        </span>
+                     </div>
+                  </div>
+                  <div class="col-sm-3 pull-right">
+                     <div class="btn-group">
+                        <button ui-sref="app.constant.edit" class="btn btn-default">新增</button>
+                     </div>
+                  </div>
+                  <div style="padding-top: 10px;" class="table-responsive">
+                     <table class="table table-striped">
+                        <thead>
+                           <tr role="row">
+                              <th style="width: 35%;">常量名称</th>
+                              <th style="width: 35%;">常量值</th>
+                              <th style="width: 20%;">常量描述</th>
+                              <th style="width: 10%;">操作</th>
+                           </tr>
+                        </thead>
+                        <tbody role="alert">
+                           <tr ng-repeat="data in datas | filter:search" class="gradeX odd">
+                              <td><a ui-sref="app.constant.edit({key: data.config, readonly: true})">{{data.config}}</a></td>
+                              <td>{{data.value}}</td>
+                              <td>{{data.description}}</td>
+                              <td><a href="javascript:;" ui-sref="app.constant.edit({key: data.config})">编辑</a><a href="javascript:;" ng-click="deleteData(data)"> 删除</a></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

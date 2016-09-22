@@ -1,0 +1,52 @@
+//
+   Created by YuChunzhuo-Dev on 2016/8/22.
+
+.container-fluid
+    .row-fluid
+        .span12
+            h3.page-title
+                span.divider 媒资库/用户中心/定时任务配置
+    .row
+        .col-lg-12
+            #panelDemo1.panel.panel-default
+                .panel-heading(ng-class="{'panel-heading-collapsed':panelDemo1}") 配置列表
+                    paneltool(tool-collapse="tool-collapse")
+                .panel-wrapper(collapse="panelDemo1")
+                    .panel-body(ng-controller="RegularListController")
+                        .col-sm-3
+                            .input-group
+                                input.form-control(type="text" placeholder="请输入关键字搜索" ng-model="form.triggerName")
+                                span.input-group-btn
+                                    button.btn.btn-default(type="button" task-submit="")
+                                        em.icon-magnifier
+                        .col-sm-3.pull-right
+                            .btn-group
+                                button.btn.btn-default(ui-sref="app.regular.edit") 新增
+                        .table-responsive(style="padding-top: 10px;")
+                            table.table.table-striped
+                                thead
+                                    tr(role="row")
+                                        th(style="width: 30%;") 名称
+                                        th(style="width: 25%;") 时间
+                                        th(style="width: 25%;") 来源
+                                        th(style="width: 10%;") 任务状态
+                                        th(style="width: 10%;") 操作
+                                tbody(role="alert")
+                                    tr.gradeX.odd(ng-repeat="data in datas | filter:search")
+                                        td
+                                            a(ui-sref="app.regular.edit({taskId: data.taskId, readonly: true})") {{data.triggerName}}
+                                        td {{data.time}}
+                                        td
+                                            span(ng-if="data.dataSource == 1") 统一CMS
+                                            span(ng-if="data.dataSource == 2") 媒资库运营
+                                            span(ng-if="data.dataSource == 3") 产品库
+                                        td
+                                            span(ng-if="data.state == 0") 禁用
+                                            span(ng-if="data.state == 1") 启用
+                                        td
+                                            a(href="javascript:;" ui-sref="app.regular.edit({taskId: data.taskId})") 编辑
+                                            a(href="javascript:;" ng-click="deleteData(data)")  删除
+                                            a(href="javascript:;" ng-click="enableOrDisable(data)")
+                                                span(ng-if="data.state == 0") 启用
+                                                span(ng-if="data.state == 1") 禁用
+                            ng-include(src="'app/views/partials/pagination.html'")

@@ -1,0 +1,58 @@
+//
+   Created by kiracheng on 2016/5/5.
+
+.container-fluid(ng-controller="SongAllController as song")
+   .row
+      .col-lg-12
+         #songSearch.panel.panel-info
+            .panel-heading
+               | 查询条件
+            .panel-wrapper
+               .panel-body
+                  .form-inline(role="form")
+                     .form-group
+                        label.control-label 歌曲ID：{{param.songIds}}
+                        input.form-control.input-sm(placeholder="请输入歌曲ID",type="number",ng-model="param.songIds",name="param.songIds")
+                     .form-group
+                        label.control-label 歌曲名称：
+                        input.form-control.input-sm(placeholder="请输入歌曲名称",type="text",ng-model="param.songName",name="param.songName")
+                     button.btn.btn-default(ui-sref="app.song-all({songIds:param.songIds})") 查询
+   .row
+      .col-lg-12
+         .panel.panel-info
+            .panel-heading
+               | 歌曲列表
+            .panel-wrapper
+               .panel-body
+                  button.btn.btn-pill-left.btn-info(type='button') 导入
+                  button.btn.btn-pill-right.btn-info(type='button') 导出
+                  .table-responsive
+                     table.table.table-hover
+                        thead
+                           tr
+                              th 状态
+                              th 曲库状态
+                              th 版权ID
+                              th 歌曲ID
+                              th 歌曲名
+                              th 歌手
+                              th 专辑名
+                              th 时长
+                              th 执行人
+                              th 审核状态
+                              th 操作
+                        tbody
+                           tr(ng-repeat="data in datas")
+                              td 1
+                              td 2
+                              td {{data.songId}}
+                              td {{data.songName}}
+                              td 1
+                              td 2
+                              td 3
+                              td 4
+                              td 1
+                              td 2
+                              td 3
+
+

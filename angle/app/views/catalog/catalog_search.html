@@ -1,0 +1,150 @@
+<style>
+    a.search-btn{
+        height: 100%;
+        padding: 5px;
+        background: #2B96DA;
+        color: #fff;
+        text-decoration: inherit;
+        margin-left: 10px;
+    }
+    a.search-btn:hover{
+        background: #65A8D2;
+    }
+    a.search-btn:active{
+        background: #2D6C94;
+    }
+</style>
+<div class="row-fluid">
+    <div class="span12">
+        <h3 class="page-title">
+            <i class="icon-home"></i>&nbsp;&nbsp;媒资库<span class="divider">/</span>编目管理
+        </h3>
+    </div>
+</div>
+<div id="page" class="dashboard">
+    <div class="widget ">
+        <div class="row-fluid">
+            <div class="span12" ui-view="form-content" style="background-color: rgb(255, 255, 255);">
+                <div class="widget-title">
+                    <h4><i class="icon list-icon"></i>自定义查询</h4>
+                        <span class="tools">
+                            <a href="javascript:;" class="chevron-down" onclick="hideBody(this);"></a>
+                        </span>
+                </div>
+                <div class="widget-body">
+                    <div class="detail" style="padding: 0 !important;">
+                        <div>
+                            <form class="form-inline">
+                                <div class="well" style="margin-top: 0;">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td class="name">是否编目:</td>
+                                            <td class="content">
+                                                <select ng-model="params.twoStatus">
+                                                    <option></option>
+                                                    <option value="忽略">忽略</option>
+                                                    <option value="已编目">已编目</option>
+                                                    <option value="未编目">未编目</option>
+                                                </select>
+                                            </td>
+                                            <td class="name">版权ID:</td>
+                                            <td class="content"><input type="text" class="border1px" ng-model="params.singerName"></td>
+                                            <td class="name">产品名称:</td>
+                                            <td class="content"><input type="text" class="border1px" ng-model="params.copyfName"></td>
+                                            <td class="name">产品歌手:</td>
+                                            <td class="content"><input type="text" class="border1px" ng-model="params.lange"></td>
+                                            <td class="name">产品专辑:</td>
+                                            <td class="content"><input type="text" class="border1px" ng-model="params.lange"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="name">歌曲名称:</td>
+                                            <td class="content">
+                                                <input type="text" class="border1px" ng-model="params.stdbDate" />
+                                            </td>
+                                            <td class="name">歌手名称:</td>
+                                            <td class="content">
+                                                <input type="text" class="border1px" ng-model="params.stdbDate" />
+                                            </td>
+                                            <td class="name">专辑名称:</td>
+                                            <td class="content" >
+                                                <input type="text" class="border1px" ng-model="params.stdbDate" />
+                                            </td>
+                                            <td class="name">产品ID:</td>
+                                            <td class="content" colspan="3">
+                                                <input type="text" class="border1px" ng-model="params.enddbDate" style="width: 212px;"/>
+                                                <a class="search-btn" href="javascript:;">查询</a>
+                                                <a class="search-btn" href="javascript:;">重填</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="widget">
+        <div class="widget-title">
+            <h4><i class="icon search-icon"></i>编目列表</h4>
+                       <span class="tools">
+                       <a href="javascript:;" class="chevron-down" onclick="hideBody(this);"></a>
+                       </span>
+        </div>
+        <div class="widget-body form">
+            <!--搜索后单个标签展示-->
+            <div class="row-fluid ng-scope">
+                <table class="table table-striped dataTable">
+                    <thead>
+                    <tr role="row">
+                        <th style="width: 100px;">版权ID</th>
+                        <th style="width: 100px;">版权类型</th>
+                        <th style="width: 100px;">更新时间</th>
+                        <th style="width: 80px;">版权状态</th>
+                        <th style="width: 100px;">版权过期日期</th>
+                        <th style="width: 40px;">操作</th>
+                    </thead>
+                    <tbody role="alert" >
+                        <tr class="gradeX odd" ng-repeat="data in datas">
+                            <td>{{data.copyrightId}}</td>
+                            <td>
+                                <span ng-if="data.copyrightType == 10">歌曲</span>
+                                <span ng-if="data.copyrightType == 20">MV</span>
+                                <span ng-if="data.copyrightType == 30">图片</span>
+                            </td>
+                            <td>{{data.utime | date:'yyyy-MM-dd' }}</td>
+                            <td>
+                                <span ng-if="data.karakalStatus == 10">正常</span>
+                                <span ng-if="data.karakalStatus == 11">正常待编目</span>
+                                <span ng-if="data.karakalStatus == 12">正常待审核</span>
+                                <span ng-if="data.karakalStatus == 14">审核中</span>
+                                <span ng-if="data.karakalStatus == 15">编辑中</span>
+                                <span ng-if="data.karakalStatus == 20">删除</span>
+                                <span ng-if="data.karakalStatus == 30">禁用</span>
+                                <span ng-if="data.karakalStatus == 111">审核未通过</span>
+                                <span ng-if="data.karakalStatus == -1">未关联曲库</span>
+                            </td>
+                            <td>{{data.vDate | date:'yyyy-MM-dd'}}</td>
+                            <td>
+                                <span ng-if="data.songId != undefined">
+                                    <a ui-sref="catalog.info">重新编目</a>
+                                </span>
+                                <span ng-if="data.songId == undefined">
+                                    <a ui-sref="catalog.info">编目</a>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr ng-if="datas.length < 1">
+                            <td colspan="6">暂无数据</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <span class="page-detail">总共{{totalPage}}页,共{{bigTotalItems}}条记录,每页显示{{itemsPerPage}}条记录</span>
+                <uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>
+            </div>
+        </div>
+    </div>
+</div>

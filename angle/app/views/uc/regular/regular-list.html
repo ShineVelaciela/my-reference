@@ -1,0 +1,74 @@
+<!--Created by YuChunzhuo-Dev on 2016/8/22.
+-->
+<div class="container-fluid">
+   <div class="row-fluid">
+      <div class="span12">
+         <h3 class="page-title">
+            <span class="divider">媒资库/用户中心/定时任务配置</span>
+         </h3>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="panelDemo1" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':panelDemo1}" class="panel-heading">配置列表
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="panelDemo1" class="panel-wrapper">
+               <div ng-controller="RegularListController" class="panel-body">
+                  <div class="col-sm-3">
+                     <div class="input-group">
+                        <input type="text" placeholder="请输入关键字搜索" ng-model="form.triggerName" class="form-control" />
+                        <span class="input-group-btn">
+                           <button type="button" task-submit="" class="btn btn-default">
+                              <em class="icon-magnifier"></em>
+                           </button>
+                        </span>
+                     </div>
+                  </div>
+                  <div class="col-sm-3 pull-right">
+                     <div class="btn-group">
+                        <button ui-sref="app.regular.edit" class="btn btn-default">新增</button>
+                     </div>
+                  </div>
+                  <div style="padding-top: 10px;" class="table-responsive">
+                     <table class="table table-striped">
+                        <thead>
+                           <tr role="row">
+                              <th style="width: 30%;">名称</th>
+                              <th style="width: 25%;">时间</th>
+                              <th style="width: 25%;">来源</th>
+                              <th style="width: 10%;">任务状态</th>
+                              <th style="width: 10%;">操作</th>
+                           </tr>
+                        </thead>
+                        <tbody role="alert">
+                           <tr ng-repeat="data in datas | filter:search" class="gradeX odd">
+                              <td><a ui-sref="app.regular.edit({taskId: data.taskId, readonly: true})">{{data.triggerName}}</a></td>
+                              <td>{{data.time}}</td>
+                              <td>
+                                 <span ng-if="data.dataSource == 1">统一CMS</span>
+                                 <span ng-if="data.dataSource == 2">媒资库运营</span>
+                                 <span ng-if="data.dataSource == 3">产品库</span>
+                              </td>
+                              <td>
+                                 <span ng-if="data.state == 0">禁用</span>
+                                 <span ng-if="data.state == 1">启用</span>
+                              </td>
+                              <td><a href="javascript:;" ui-sref="app.regular.edit({taskId: data.taskId})">编辑</a><a href="javascript:;" ng-click="deleteData(data)"> 删除</a>
+                                 <a href="javascript:;" ng-click="enableOrDisable(data)">
+                                    <span ng-if="data.state == 0">启用</span>
+                                    <span ng-if="data.state == 1">禁用</span>
+                                 </a>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <ng-include src="'app/views/partials/pagination.html'"></ng-include>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

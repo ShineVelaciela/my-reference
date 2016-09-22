@@ -1,0 +1,51 @@
+.block-center.mt-xl.wd-xl(ng-controller="RegisterFormController as reg")
+  // START panel
+  .panel.panel-dark.panel-flat
+    .panel-heading.text-center
+      a(href="#")
+        img.block-center.img-rounded(src='app/img/logo.png', alt='Image')
+    .panel-body
+      p.text-center.pv 新用户注册
+      form.form-validate.mb-lg(role='form', name="reg.registerForm", novalidate='', ng-submit="reg.register()")
+        .form-group.has-feedback
+          label.text-muted 邮箱地址
+          input.form-control(type='email', name="account_email" placeholder='请输入邮箱地址', autocomplete="off", ng-model="reg.account.email", required='')
+          span.fa.fa-envelope.form-control-feedback.text-muted
+          span.text-danger(ng-show="reg.registerForm.account_email.$dirty && reg.registerForm.account_email.$error.required") 邮箱地址不能为空
+          span.text-danger(ng-show="reg.registerForm.account_email.$dirty && reg.registerForm.account_email.$error.email") 只能输入邮箱地址
+        .form-group.has-feedback
+          label.text-muted 密码
+          input#id-password.form-control(type='password', name="account_password", ng-model="reg.register.password", ng-pattern="/^[a-zA-Z0-9]{6,10}$/", required='')
+          span.fa.fa-lock.form-control-feedback.text-muted
+          span.text-danger(ng-show="reg.registerForm.account_password.$dirty && reg.registerForm.account_password.$error.required") 密码不能为空
+          span.text-danger(ng-show="reg.registerForm.account_password.$dirty && reg.registerForm.account_password.$error.pattern") 密码只能是英文字母和数字，6-8个字符组成
+        .form-group.has-feedback
+          label.text-muted 确认密码
+          input.form-control(type='password', name="account_password_confirm", ng-model="reg.register.account_password_confirm",required='', ui-validate="'$value==reg.register.password'" ui-validate-watch="'reg.register.password'")
+          span.fa.fa-lock.form-control-feedback.text-muted
+          span.text-danger(ng-show="reg.registerForm.account_password_confirm.$dirty && reg.registerForm.account_password_confirm.$error.validator") 确认密码输入错误
+          span.text-danger(ng-show="reg.registerForm.account_password_confirm.$dirty && reg.registerForm.account_password_confirm.$error.required") 确认密码不能为空
+        .clearfix
+          .checkbox.c-checkbox.pull-left.mt0
+            label
+              input(type='checkbox', required='', name="account_agreed", ng-model="reg.account.agreed")
+              span.fa.fa-check
+              |  阅读并接受
+              a(href="#") 《用户协议》
+        .text-danger(ng-show="reg.registerForm.account_agreed.$dirty && reg.registerForm.account_agreed.$error.required") 您还未接受用户协议
+        
+        button.btn.btn-block.btn-primary.mt-lg(type='submit') 创建账号
+      
+      .alert.alert-danger.text-center(ng-show='reg.authMsg') {{reg.authMsg}}      
+      
+      p.pt-lg.text-center 已经有登陆用户？
+      a(ui-sref="page.login").btn.btn-block.btn-default 登陆
+
+  // END panel
+  .p-lg.text-center
+    span &copy; 
+    span(ng-bind="app.year") 
+    span  - 
+    span(ng-bind="app.name")
+    br
+    span(ng-bind="app.description")

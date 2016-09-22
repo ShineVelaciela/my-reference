@@ -1,0 +1,28 @@
+//
+   Created by YuChunzhuo on 2016/8/26.
+div
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/copyright-id.html'")
+        ng-include(src="'app/views/partials/search-conditions/song-id.html'")
+        ng-include(src="'app/views/partials/search-conditions/song-name.html'")
+        ng-include(src="'app/views/partials/search-conditions/artist-name.html'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/user.html'")
+        ng-include(src="'app/views/partials/search-conditions/time-operating.html'")
+        ng-include(src="'app/views/partials/search-conditions/tag-order.html'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/hotscore.html'")
+        ng-include(src="'app/views/partials/search-conditions/mscore.html'")
+        ng-include(src="'app/views/partials/search-conditions/tag-type.html'")
+        ng-include(src="'app/views/partials/search-conditions/status-tag.html'")
+    div.form-group
+        ng-include(src="'app/views/partials/search-conditions/tagsearch-onetag.html'")
+    div.form-group
+        div.col-sm-4
+            div.btn-group(ng-controller="ModalCtrl")
+                button.btn.btn-default.btn-sm(task-submit="") 查询
+                button.btn.btn-default.btn-sm(task-reset="") 重置
+                button.btn.btn-default.btn-sm(ng-click="qualityTagExport(datas, form);") 导出
+                //button.btn.btn-default.btn-sm 收藏
+                //button.btn.btn-default.btn-sm(ng-click="qualityTagBatch($parent.datas, form);") 批量操作
+div(ng-include="'app/views/modals/modal-export.html'")

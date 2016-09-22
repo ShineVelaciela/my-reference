@@ -1,0 +1,18 @@
+//
+   Created by kiracheng on 2016/6/15.
+div.modal-header
+    h3.modal-title 导入excel数据
+div.modal-body
+    form.form-horizontal
+        div.form-group
+            label.control-label.col-sm-2 下载模板
+            label.control-label.col-sm-3
+                a(href="javascript:;",target="_blank",ng-click="downloadTemplet();") 点击下载模板
+        div.form-group
+            label.control-label.col-sm-2 上传附件
+            div.col-sm-4
+                input(type="file" id="excelFile" name="excelFile" fileread="uploadme.src").form-control
+div.modal-footer
+    span.bg-danger {{error}}
+    button.btn.btn-primary(type="button", ng-click="ok();") 确认
+    button.btn.btn-warning(type="button", ng-click="cancel();") 取消

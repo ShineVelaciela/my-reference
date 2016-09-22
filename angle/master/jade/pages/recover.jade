@@ -1,0 +1,26 @@
+.block-center.mt-xl.wd-xl
+  // START panel
+  .panel.panel-dark.panel-flat
+    .panel-heading.text-center
+      a(href="#")
+        img.block-center.img-rounded(src='app/img/logo.png', alt='Image')
+    .panel-body
+      p.text-center.pv 重新设置密码
+      form.form-validate(role='form', name="recoverForm", novalidate='')
+        p.text-center 重新设置后的密码会自动发送到你的邮箱，收到新密码后请重新设置自己想要的密码
+        .form-group.has-feedback
+          label.text-muted 邮箱地址
+          input.form-control(type='email', name='email', placeholder='请输入邮箱地址', autocomplete="off", ng-model="recover.email", required='')
+          span.fa.fa-envelope.form-control-feedback.text-muted
+          span.text-danger(ng-show="recoverForm.email.$dirty && recoverForm.email.$error.required") 邮箱地址不能为空
+          span.text-danger(ng-show="recoverForm.email.$dirty && recoverForm.email.$error.email") 只能输入邮箱地址
+        button.btn.btn-danger.btn-block(type='submit') 重新设置
+            
+  // END panel
+  .p-lg.text-center
+    span &copy; 
+    span(ng-bind="app.year") 
+    span  - 
+    span(ng-bind="app.name")
+    br
+    span(ng-bind="app.description")

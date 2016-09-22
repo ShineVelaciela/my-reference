@@ -1,0 +1,166 @@
+<!--Created by hao.cheng on 2016/7/19.-->
+<div class="row-fluid">
+   <h3 class="page-title"> 媒资库
+      <span class="divider">/</span>
+      <span>歌曲批量修改</span>
+   </h3>
+</div>
+<div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="paneDemo1" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':paneDemo1}" class="panel-heading">条件查询
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="paneDemo1" class="panel-wrapper">
+               <div class="panel-body">
+                  <form class="form-horizontal">
+                     <div ng-if="!batchLocal" class="form-group">
+                        <label class="col-sm-1 control-label">批量修改</label>
+                        <div class="col-sm-2">
+                           <select ng-model="form.type" ng-init="form.type = 'artist'" ng-change="changeUpdateType(form.type);" class="form-control input-sm">
+                              <option value="artist">艺人</option>
+                              <option value="album">歌曲专辑</option>
+                              <option value="lyricser">词作者</option>
+                              <option value="composer">曲作者</option>
+                              <option value="lyric">歌词</option>
+                              <option value="tag">标签</option>
+                           </select>
+                        </div>
+                        <div class="col-sm-2">
+                           <input type="text" placeholder="请输入选择添加的歌曲ID" ng-model="form.ids" class="form-control input-sm" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <!--工单批量-->
+                        <label ng-if="batchLocal" class="col-sm-1 control-label">批量修改</label>
+                        <!--歌曲标签工单批量-->
+                        <div ng-if="batchLocal &amp;&amp; !batchLocal.all" class="col-sm-2">
+                           <select ng-model="form.type" ng-init="form.type = 'tag'" ng-change="changeUpdateType(form.type);" class="form-control input-sm">
+                              <option value="tag">标签</option>
+                           </select>
+                        </div>
+                        <!--存量工单批量-->
+                        <div ng-if="batchLocal &amp;&amp; batchLocal.all" class="col-sm-2">
+                           <select ng-model="form.type" ng-init="form.type = 'artist'" ng-change="changeUpdateType(form.type);" class="form-control input-sm">
+                              <option value="artist">艺人</option>
+                              <option value="album">歌曲专辑</option>
+                              <option value="lyricser">词作者</option>
+                              <option value="composer">曲作者</option>
+                              <option value="lyric">歌词</option>
+                              <option value="tag">标签</option>
+                           </select>
+                        </div>
+                        <label ng-if="!batchLocal" class="col-sm-1 control-label"></label>
+                        <div ng-if="!batchLocal" class="col-sm-2"></div>
+                        <div ng-if="form.type == 'artist'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择删除的歌手ID" ng-model="form.delArtistIds" autocomplete="off" typeahead-focus-first="false" uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')" typeahead-on-select="addDelArtist($item,'artist');"
+                              class="form-control input-sm" />
+                        </div>
+                        <div ng-if="form.type == 'album'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择删除的专辑ID" ng-model="form.delAlbumIds" autocomplete="off" typeahead-focus-first="false" uib-typeahead="data.albumId as data.allstr for data in getArtistInputSearch($viewValue,'album')" typeahead-on-select="addDelArtist($item,'album');"
+                              class="form-control input-sm" />
+                        </div>
+                        <div ng-if="form.type == 'lyricser'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择删除的词作者ID" ng-model="form.delLyricserIds" autocomplete="off" typeahead-focus-first="false" uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')" typeahead-on-select="addDelArtist($item,'artist');"
+                              class="form-control input-sm" />
+                        </div>
+                        <div ng-if="form.type == 'composer'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择删除的曲作者ID" ng-model="form.delComposerIds" autocomplete="off" typeahead-focus-first="false" uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')" typeahead-on-select="addDelArtist($item,'artist');"
+                              class="form-control input-sm" />
+                        </div>
+                        <div ng-if="form.type == 'lyric'" class="col-sm-2">
+                           <input type="file" name="lyricFile" id="lyricFile" placeholder="请选择文件" onchange="angular.element(this).scope().uploadLyric(this)" class="form-control input-sm" />
+                        </div>
+                        <div ng-if="form.type == 'tag'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择删除的标签" ng-model="form.delTagIds" uib-typeahead="tag as tag.name for tag in tagTree | filter:{name:$viewValue}" typeahead-focus-first="false" typeahead-on-select="addDelTags($item)" class="form-control input-sm"
+                           />
+                        </div>
+                        <div ng-if="form.type == 'lyric'" class="col-sm-1">
+                           <span>{{form.fileName}}</span>
+                        </div>
+                        <label ng-if="form.delArtists" class="col-sm-6 control-label">
+                           <span ng-repeat="artist in form.delArtists" class="label label-default tag">{{artist.artistName}}
+                              <em ng-click="removeRelationData('delArtists',artist);" class="fa fa-remove"></em>
+                           </span>
+                        </label>
+                        <label ng-if="form.delAlbums" class="col-sm-6 control-label">
+                           <span ng-repeat="album in form.delAlbums" class="label label-default tag">{{album.albumName}}
+                              <em ng-click="removeRelationData('delAlbums',album);" class="fa fa-remove"></em>
+                           </span>
+                        </label>
+                        <label ng-if="form.delTags" class="col-sm-6 control-label">
+                           <span ng-repeat="tag in form.delTags" class="label label-default tag">{{tag.tagName}}
+                              <em ng-click="removeRelationData('delTags',tag);" class="fa fa-remove"></em>
+                           </span>
+                        </label>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-2"></div>
+                        <div ng-if="form.type == 'artist'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择新增的歌手ID" ng-model="form.addArtistIds" autocomplete="off" typeahead-focus-first="false" uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')" typeahead-on-select="addAddArtist($item,'artist');"
+                              class="form-control input-sm" />
+                        </div>
+                        <div ng-if="form.type == 'album'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择新增的专辑ID" ng-model="form.addAlbumIds" autocomplete="off" typeahead-focus-first="false" uib-typeahead="data.albumId as data.allstr for data in getArtistInputSearch($viewValue,'album')" typeahead-on-select="addAddArtist($item,'album');"
+                              class="form-control input-sm" />
+                        </div>
+                        <div ng-if="form.type == 'lyricser'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择新增的词作者ID" ng-model="form.addLyricserIds" autocomplete="off" typeahead-focus-first="false" uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')" typeahead-on-select="addAddArtist($item,'artist');"
+                              class="form-control input-sm" />
+                        </div>
+                        <div ng-if="form.type == 'composer'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择新增的曲作者ID" ng-model="form.addcomposerIds" autocomplete="off" typeahead-focus-first="false" uib-typeahead="data.artistId as data.allstr for data in getArtistInputSearch($viewValue,'artist')" typeahead-on-select="addAddArtist($item,'artist');"
+                              class="form-control input-sm" />
+                        </div>
+                        <div ng-if="form.type == 'tag'" class="col-sm-2">
+                           <input type="text" placeholder="请输入选择新增的标签" ng-model="form.addTagIds" uib-typeahead="tag as tag.name for tag in tagTree | filter:{name:$viewValue}" typeahead-focus-first="false" typeahead-on-select="addAddTags($item)" class="form-control input-sm"
+                           />
+                        </div>
+                        <label ng-if="form.addArtists" class="col-sm-6 control-label">
+                           <span ng-repeat="artist in form.addArtists" class="label label-default tag">{{artist.artistName}}
+                              <em ng-click="removeRelationData('addArtists',artist);" class="fa fa-remove"></em>
+                           </span>
+                        </label>
+                        <label ng-if="form.addAlbums" class="col-sm-6 control-label">
+                           <span ng-repeat="album in form.addAlbums" class="label label-default tag">{{album.albumName}}
+                              <em ng-click="removeRelationData('addAlbums',album);" class="fa fa-remove"></em>
+                           </span>
+                        </label>
+                        <label ng-if="form.addTags" class="col-sm-6 control-label">
+                           <span ng-repeat="tag in form.addTags" class="label label-default tag">{{tag.tagName}}
+                              <em ng-click="removeRelationData('addTags',tag);" class="fa fa-remove"></em>
+                           </span>
+                        </label>
+                     </div>
+                     <div class="form-group">
+                        <div class="col-sm-4">
+                           <div class="btn-group">
+                              <button ng-click="add();" ng-if="!batchLocal" class="btn btn-default btn-sm">添加</button>
+                              <button ng-click="submit();" class="btn btn-default btn-sm">提交</button>
+                              <button ng-click="reset();" class="btn btn-default btn-sm">重置</button>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div id="paneDemo2" class="panel panel-default">
+            <div ng-class="{'panel-heading-collapsed':paneDemo2}" class="panel-heading">数据列表
+               <paneltool tool-collapse="tool-collapse"></paneltool>
+            </div>
+            <div collapse="paneDemo2" class="panel-wrapper">
+               <div class="panel-body">
+                  <div ui-view="data-list" class="table-responsive"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

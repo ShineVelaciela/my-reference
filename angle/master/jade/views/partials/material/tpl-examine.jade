@@ -1,0 +1,15 @@
+//
+   Created by hao.cheng on 2016/8/31.
+div.examine(ng-class="{'examineOp':app.examineStyle}",ng-if="examine",ng-mouseleave="app.examineStyle = !app.examineStyle")
+    div.panel-body
+        form.form-horizontal
+            div.form-group
+                label.col-sm-2.control-label 审核操作
+                div.col-sm-2
+                    select.form-control.input-sm(ng-model="$parent.$parent.examineResult",ng-init="$parent.$parent.examineResult = $parent.$parent.examineResult || '1'",last-examine="")
+                        option(value="1") 通过
+                        option(value="0") 不通过
+            div.form-group
+                label.col-sm-2.control-label 审核意见
+                div.col-sm-8
+                    textarea.form-control(ng-model="$parent.$parent.examineSuggest",style="height: 100px;",placeholder="请输入审核意见",last-examine="")

@@ -1,0 +1,17 @@
+//
+   Created by YuChunzhuo-Dev on 2016/8/31.
+
+script(type="text/ng-template" id="orderTpl.html")
+    .modal-header
+        h3.modal-title 人工数据排序
+    .modal-body
+        form.form-horizontal(name="form")
+            .form-group
+                label.control-label(style="float: left;margin-left: 15px;") 排序位置
+                .col-sm-5
+                    input.form-control.input-sm(type="number" ng-model="position" ng-required="true" placeholder="请输入大于0的整数")
+                    //input.span3(type=number ng-model="position")
+                button.btn.btn-primary(type="button" style="margin-left: 5px;cursor:pointer;" ng-click="setPosition(position)" ng-disabled="form.$invalid") 提交排序
+    .modal-footer
+        //span(style="color: red;") {{error}}
+        button.btn.btn-warning(type="button" ng-click="cancel()") 关闭

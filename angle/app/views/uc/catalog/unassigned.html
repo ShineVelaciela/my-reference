@@ -1,0 +1,89 @@
+<div class="row-fluid" style="background-color: #fff;z-index:99;height: 150px;">
+    <div class="detail" style="padding: 0 !important;">
+        <div>
+            <form class="form-inline">
+                <div class="well" style="margin-top: 0;">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td class="name">是否紧急</td>
+                            <td class="content">
+                                <select>
+                                    <option>请选择</option>
+                                    <option>否</option>
+                                    <option>是</option>
+                                </select>
+                            </td>
+                            <td class="name">过期日期</td>
+                            <td class="content">
+                                <input type="text" class="form-control border1px" readonly="readonly"
+                                       uib-datepicker-popup ng-model="params.dt0" is-open="dateStatus.opened0"
+                                       datepicker-options="dateOptions" ng-required="true" close-text="关闭"/>
+                                <a class="icon-calendar" ng-click="open(0)"></a>
+                            </td>
+                            <td class="name">版权ID</td>
+                            <td class="content">
+                                <input class="form-control border1px">
+                            </td>
+                            <td class="name">歌曲名</td>
+                            <td class="content">
+                                <input class="form-control border1px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">产品专辑名</td>
+                            <td class="content">
+                                <input class="border1px">
+                            </td>
+                            <td class="name">新歌/首发</td>
+                            <td class="content">
+                                <input class="form-control border1px">
+                            </td>
+                            <td class="name">优质度</td>
+                            <td class="content">
+                                <input class="form-control border1px">
+                            </td>
+                            <td class="name">项目名称</td>
+                            <td class="content">
+                                <input class="form-control border1px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">歌手名</td>
+                            <td class="content">
+                                <input class="form-control border1px">
+                            </td>
+                            <td class="name">创建时间起</td>
+                            <td class="content">
+                                <input type="text" class="form-control border1px" readonly="readonly"
+                                       uib-datepicker-popup ng-model="params.dt1" is-open="dateStatus.opened1"
+                                       datepicker-options="dateOptions" ng-required="true" close-text="关闭"/>
+                                <a class="icon-calendar" ng-click="open(1)"></a>
+                            </td>
+                            <td class="name">创建时间止</td>
+                            <td class="content">
+                                <input type="text" class="form-control border1px" readonly="readonly"
+                                       uib-datepicker-popup ng-model="params.dt2" is-open="dateStatus.opened2"
+                                       datepicker-options="dateOptions" ng-required="true" close-text="关闭"/>
+                                <a class="icon-calendar" ng-click="open(2)"></a>
+                            </td>
+                            <td class="name">创建日期</td>
+                            <td class="content">
+                                <input type="text" class="form-control border1px" readonly="readonly"
+                                       uib-datepicker-popup ng-model="params.dt3" is-open="dateStatus.opened3"
+                                       datepicker-options="dateOptions" ng-required="true" close-text="关闭"/>
+                                <a class="icon-calendar" ng-click="open(3)"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row-fluid" style="background-color: #fff;z-index:99;">
+    <ul class="ul-groups">
+        <li class="onlyOne" ui-sref="app.uc_task_catalog.unassigned({taskStatus:params.taskStatus,isCrash:params.isCrash,assignTimeS:params.dt1,assignTimeE:params.dt2,songName:params.songName,artistName:params.artistName,productAlbumName:params.productAlbumName,cid:params.cid,newOrFirst:params.newOrFirst,highQuality:params.highQuality,projectName:params.projectName})">搜索</li>
+    </ul>
+</div>

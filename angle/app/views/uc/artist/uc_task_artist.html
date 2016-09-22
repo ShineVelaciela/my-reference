@@ -1,0 +1,226 @@
+<style>
+    .detail table tbody tr{
+        height: 35px;
+    }
+    .detail table tbody tr td.name{
+        width: 6%;
+    }
+    .detail table tbody tr td.content{
+        width: 17%;
+    }
+    .detail table tbody tr td select{
+        border-radius: 0;
+        height: 22px;
+        width: 81%;
+    }
+    .detail table tbody tr td input{
+        width: 80%;
+    }
+    /*.detail table tbody tr td.name {*/
+    /*text-align: right;*/
+    /*}*/
+    /*.detail table tbody tr td select{*/
+    /*border-radius: 0;*/
+    /*height: 21px;*/
+    /*}*/
+
+    .dropdown-menu table{
+        margin-left: 0;
+    }
+    .dropdown-menu .btn{
+        padding: 0;
+    }
+    .dropdown-menu table thead tr{
+        height: 20px;
+    }
+    .dropdown-menu table tbody tr{
+        height: 20px;
+    }
+    #body div #page #list_part div #widget-body div ul li ul li{
+        float: none;
+        height: 26px;
+        margin: 0 0 0 0;
+        border: none;
+        width: 250px;
+        text-align: left;
+    }
+    .row-fluid .onlyOne {
+        border: 1px solid #5faee3;
+        border-radius: 25px 25px 25px 25px;
+    }
+    div form div table tbody tr td input {
+        margin-bottom: 5px;
+        margin-top: 5px;
+        width: 125px;
+    }
+    div form div table tbody tr td input[readonly] {
+        cursor: auto;
+        background-color: white;
+    }
+    .uc-task-count {
+        height: 33px;
+        border-bottom: 2px solid #5EAFE3;
+    }
+    .uc-task-count .sub{
+        margin: 9px 0 0 20px;
+        float: left;
+    }
+    /*div form div table tbody tr td a {*/
+        /*font-size: 20px;*/
+        /*margin: 5px;*/
+    /*}*/
+    [class^="icon-"], [class*=" icon-"]{
+        vertical-align: middle;
+    }
+    a {
+        cursor: pointer;
+    }
+    div.checker span input{
+        margin-left: 0px;
+    }
+    ul.ul-groups li.border-right{
+        border-right: 1px solid #5faee3;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title">
+                媒资库<span class="divider">/</span>用户中心
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default" id="panelDemo1">
+                <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" ><span ng-if="p_type == 0">艺人编辑流程</span><span ng-if="p_type == 5">艺人审核流程</span> <paneltool tool-collapse="tool-collapse"></paneltool></div>
+                <div collapse="panelDemo1" class="panel-wrapper">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-pill-left btn-default btn-sm" ng-if="userRole == 'fzr' && pId != '9000'" ng-class="pageType == 'unassigned' ? 'active':''" ui-sref="app.uc_task_artist.unassigned({pId:pId,taskStatusList:'',taskStatus:0,uId:'',pageNo:''})" >未分配</button>
+                                        <button type="button" class="btn btn-default btn-sm " ng-if="userRole == 'fzr' && pId != '9000'" ng-class="pageType == 'assigned' ? 'active':''" ui-sref="app.uc_task_artist.assigned({pId:pId,taskStatusList:'-1,1,2',taskStatus:'',uId:'',pageNo:''})">已分配</button>
+                                        <button type="button" class="btn btn-default btn-sm " ng-if="p_type == 0" ng-class="pageType == 'uncompelete' ? 'active':''" ui-sref="app.uc_task_artist.uncompelete({pId:pId,taskStatusList:'-1,1,2',taskStatus:'',uId:uId,pageNo:''})">未完成</button>
+                                        <button type="button" class="btn btn-pill-right btn-default btn-sm" ng-if="p_type == 0 && userRole == 'fzr'" ng-class="pageType == 'compelete' ? 'active':''"  ui-sref="app.uc_task_artist.compelete({pId:pId,taskStatusList:'',taskStatus:3,uId:'',pageNo:''})">已完成</button>
+                                        <button type="button" class="btn btn-pill-right btn-default btn-sm" ng-if="p_type == 0 && userRole == 'cyr'" ng-class="pageType == 'compelete' ? 'active':''"  ui-sref="app.uc_task_artist.compelete({pId:pId,taskStatusList:'',taskStatus:3,uId:uId,pageNo:''})">已完成</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" ng-if="pageType == 'unassigned' || pageType == 'assigned'">
+                                    <select class="form-control input-sm" ng-options="cyr as cyr.uName for cyr in cyr_list" ng-change="selectCyr(params.selectedUser)" ng-model="params.selectedUser">
+                                        <option value="">全部</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2" ng-if="pageType == 'unassigned' || pageType == 'assigned'">
+                                    <select class="form-control input-sm" ng-options="setting as setting.name for setting in authoritySetting" ng-model="params.task_auth_setting"></select>
+                                </div>
+                                <div class="col-sm-2" ng-if="pageType == 'unassigned' || pageType == 'assigned'">
+                                    <button class="btn btn-default btn-sm" ng-if="distribution == 1 && user.name != undefined">确定分配</button>
+                                    <button class="btn btn-default btn-sm" ng-if="distribution == 1 && user.name == undefined">确定分配</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div ui-view="condition"></div>
+
+                        <div class="uc-task-count">
+                        <span class="sub">
+                            当前一共{{params.totalItems}}条任务
+                            <!--<span ng-if="params.selectedUser == ''">全部</span>-->
+                            <!--<span ng-if="params.selectedUser != ''">用户{{params.selectedUser}}</span>-->
+                            <!--一共{{params.totalItems}}条任务-->
+                        </span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 24px;" class="sorting_disabled">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-click='checkAll(allIsCheck, datas)'/>
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[allIsCheck]">-->
+                                                <!--<input type="checkbox" class="group-checkable" ng-model="allIsCheck" data-set=".checkboxes" ng-click='checkAll(allIsCheck, datas)' style="opacity: 0;margin-top:0;">-->
+                                            <!--</span>-->
+                                        <!--</div>-->
+                                    </th>
+                                    <th >艺术家ID</th>
+                                    <th >姓名</th>
+                                    <th >地域</th>
+                                    <th >风格</th>
+                                    <th >档次</th>
+                                    <th >类型</th>
+                                    <th >编辑人</th>
+                                    <th>状态</th>
+                                    <th ng-if="pageType != 'uncompelete'">操作功能</th>
+                                    <th ng-if="pageType == 'uncompelete'">
+                                        <a ng-click="batchDealArtist(datas)">批量处理</a>
+                                    </th>
+                                </thead>
+
+                                <tbody role="alert" >
+                                <tr class="gradeX odd" ng-repeat="data in datas track by $index">
+                                    <td class="sorting_1">
+                                        <div class="checkbox c-checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="data.isCheck"/>
+                                                <span class="fa fa-check"></span>
+                                            </label>
+                                        </div>
+                                        <!--<div class="checker">-->
+                                            <!--<span ng-class="{true: 'checked', false: ''}[data.isCheck]">-->
+                                                <!--<input type="checkbox" name="check_box" class="checkboxes" style="opacity: 0;" ng-true-value="true" ng-click="chk(data, data.isCheck)">-->
+                                            <!--</span>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="hidden-phone">{{data.artistId}}</td>
+                                    <td><a ng-click="showArtistInfo(data)">{{data.artistName}}</a></td>
+                                    <td>{{data.area}}</td>
+                                    <td>{{data.style}}</td>
+                                    <td>{{data.grade}}</td>
+                                    <td>
+                                        <span ng-switch="data.type">
+                                            <span ng-switch-when="0">个性化</span>
+                                            <span ng-switch-when="1">单人</span>
+                                            <span ng-switch-when="2">组合</span>
+                                            <span ng-switch-when="3">乐队</span>
+                                            <span ng-switch-when="4">乐团</span>
+                                        </span>
+                                    </td>
+                                    <td>{{data.aEdit.name}}</td>
+                                    <td>
+                                        <span ng-switch="data.status">
+                                            <span ng-switch-when="-1">未关联曲库</span>
+                                            <span ng-switch-when="0">初始</span>
+                                            <span ng-switch-when="1">抽取</span>
+                                            <span ng-switch-when="10">正常</span>
+                                            <span ng-switch-when="12">待审核</span>
+                                            <span ng-switch-when="111">审核未通过</span>
+                                            <span ng-switch-when="20">待删除</span>
+                                            <span ng-switch-when="30">禁用</span>
+                                            <span ng-switch-when="15">编辑中</span>
+                                            <span ng-switch-when="14">审核中</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a ng-click="dealArtist(data)" ng-if="pageType == 'uncompelete'">处理</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="row-fluid paginate">
+                                <div class="dataTables_length" style="margin-top: 5px;">
+                                    <uib-pagination total-items="params.totalItems" items-per-page="params.itemsPerPage" ng-change="choosePage(pageType);" ng-model="params.currentPage" max-size="params.maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后" rotate="false" style="margin-top: 0px;margin-bottom: 0px;width: 550px;"></uib-pagination>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

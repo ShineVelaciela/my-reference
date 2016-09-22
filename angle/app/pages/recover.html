@@ -1,0 +1,33 @@
+<div class="block-center mt-xl wd-xl">
+   <!-- START panel-->
+   <div class="panel panel-dark panel-flat">
+      <div class="panel-heading text-center">
+         <a href="#">
+            <img src="app/img/logo.png" alt="Image" class="block-center img-rounded" />
+         </a>
+      </div>
+      <div class="panel-body">
+         <p class="text-center pv">重新设置密码</p>
+         <form role="form" name="recoverForm" novalidate="" class="form-validate">
+            <p class="text-center">重新设置后的密码会自动发送到你的邮箱，收到新密码后请重新设置自己想要的密码</p>
+            <div class="form-group has-feedback">
+               <label class="text-muted">邮箱地址</label>
+               <input type="email" name="email" placeholder="请输入邮箱地址" autocomplete="off" ng-model="recover.email" required="" class="form-control" />
+               <span class="fa fa-envelope form-control-feedback text-muted"></span>
+               <span ng-show="recoverForm.email.$dirty &amp;&amp; recoverForm.email.$error.required" class="text-danger">邮箱地址不能为空</span>
+               <span ng-show="recoverForm.email.$dirty &amp;&amp; recoverForm.email.$error.email" class="text-danger">只能输入邮箱地址</span>
+            </div>
+            <button type="submit" class="btn btn-danger btn-block">重新设置</button>
+         </form>
+      </div>
+   </div>
+   <!-- END panel-->
+   <div class="p-lg text-center">
+      <span>&copy; </span>
+      <span ng-bind="app.year"> </span>
+      <span> - </span>
+      <span ng-bind="app.name"></span>
+      <br/>
+      <span ng-bind="app.description"></span>
+   </div>
+</div>

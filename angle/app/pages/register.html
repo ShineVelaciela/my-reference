@@ -1,0 +1,56 @@
+<div ng-controller="RegisterFormController as reg" class="block-center mt-xl wd-xl">
+   <!-- START panel-->
+   <div class="panel panel-dark panel-flat">
+      <div class="panel-heading text-center">
+         <a href="#">
+            <img src="app/img/logo.png" alt="Image" class="block-center img-rounded" />
+         </a>
+      </div>
+      <div class="panel-body">
+         <p class="text-center pv">新用户注册</p>
+         <form role="form" name="reg.registerForm" novalidate="" ng-submit="reg.register()" class="form-validate mb-lg">
+            <div class="form-group has-feedback">
+               <label class="text-muted">邮箱地址</label>
+               <input type="email" name="account_email" placeholder="请输入邮箱地址" autocomplete="off" ng-model="reg.account.email" required="" class="form-control" />
+               <span class="fa fa-envelope form-control-feedback text-muted"></span>
+               <span ng-show="reg.registerForm.account_email.$dirty &amp;&amp; reg.registerForm.account_email.$error.required" class="text-danger">邮箱地址不能为空</span>
+               <span ng-show="reg.registerForm.account_email.$dirty &amp;&amp; reg.registerForm.account_email.$error.email" class="text-danger">只能输入邮箱地址</span>
+            </div>
+            <div class="form-group has-feedback">
+               <label class="text-muted">密码</label>
+               <input id="id-password" type="password" name="account_password" ng-model="reg.register.password" ng-pattern="/^[a-zA-Z0-9]{6,10}$/" required="" class="form-control" />
+               <span class="fa fa-lock form-control-feedback text-muted"></span>
+               <span ng-show="reg.registerForm.account_password.$dirty &amp;&amp; reg.registerForm.account_password.$error.required" class="text-danger">密码不能为空</span>
+               <span ng-show="reg.registerForm.account_password.$dirty &amp;&amp; reg.registerForm.account_password.$error.pattern" class="text-danger">密码只能是英文字母和数字，6-8个字符组成</span>
+            </div>
+            <div class="form-group has-feedback">
+               <label class="text-muted">确认密码</label>
+               <input type="password" name="account_password_confirm" ng-model="reg.register.account_password_confirm" required="" ui-validate="'$value==reg.register.password'" ui-validate-watch="'reg.register.password'" class="form-control"
+               />
+               <span class="fa fa-lock form-control-feedback text-muted"></span>
+               <span ng-show="reg.registerForm.account_password_confirm.$dirty &amp;&amp; reg.registerForm.account_password_confirm.$error.validator" class="text-danger">确认密码输入错误</span>
+               <span ng-show="reg.registerForm.account_password_confirm.$dirty &amp;&amp; reg.registerForm.account_password_confirm.$error.required" class="text-danger">确认密码不能为空</span>
+            </div>
+            <div class="clearfix">
+               <div class="checkbox c-checkbox pull-left mt0">
+                  <label>
+                     <input type="checkbox" required="" name="account_agreed" ng-model="reg.account.agreed" />
+                     <span class="fa fa-check"></span> 阅读并接受<a href="#">《用户协议》</a></label>
+               </div>
+            </div>
+            <div ng-show="reg.registerForm.account_agreed.$dirty &amp;&amp; reg.registerForm.account_agreed.$error.required" class="text-danger">您还未接受用户协议</div>
+            <button type="submit" class="btn btn-block btn-primary mt-lg">创建账号</button>
+         </form>
+         <div ng-show="reg.authMsg" class="alert alert-danger text-center">{{reg.authMsg}} </div>
+         <p class="pt-lg text-center">已经有登陆用户？</p><a ui-sref="page.login" class="btn btn-block btn-default">登陆</a></div>
+   </div>
+   <!-- END panel-->
+   <div class="p-lg text-center">
+      <span>&copy; </span>
+      <span ng-bind="app.year"> </span>
+      <span> - </span>
+      <span ng-bind="app.name"></span>
+      <br/>
+      <span ng-bind="app.description"></span>
+   </div>
+</div>

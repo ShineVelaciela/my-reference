@@ -1,0 +1,66 @@
+<table class="table table-striped">
+    <thead>
+    <tr role="row">
+        <th style="width: 100px;">歌曲ID</th>
+        <th style="width: 100px;">歌曲名称</th>
+        <th style="width: 100px;">专辑名称</th>
+        <th style="width: 80px;">歌手名称</th>
+        <th style="width: 100px;">歌曲语言</th>
+        <th style="width: 100px;">歌曲时长</th>
+        <th style="width: 100px;">状态</th>
+        <th style="width: 40px;">操作</th>
+    </thead>
+    <tbody role="alert" >
+    <tr class="gradeX odd" ng-repeat="data in datas">
+        <td>{{data.songId}}</td>
+        <td>
+            <i class="icon-play-circle" ng-click="addPlaySong(data.songId,data.cids.copyrightId);"></i>&nbsp;&nbsp;&nbsp;<a  href="/mls/song/search?songId={{data.songId}}" target="_blank">{{data.songName}}</a>
+        </td>
+        <td>
+            <span ng-if="data.albums.length == 1">
+                <a href="/mls/album/search?albumId={{data.albums[0].albumId}}" target="_blank">{{data.albums[0].albumName}}</a>
+            </span>
+            <span ng-if="data.albums.length > 1">
+                <a href="/mls/album/search?albumId={{data.albums[0].albumId}}" target="_blank">{{data.albums[0].albumName}}</a>
+                <span uib-dropdown>
+                    <i class="icon-double-angle-down" uib-dropdown-toggle></i>
+                    <ul class="dropdown-menu" role="menu"  style="max-width: 234px;width: auto;">
+                        <li role="menuitem" ng-repeat="album in data.albums track by $index" >
+                            <p title="{{album.albumName}}" ng-if="$index > 0" style="width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a href="/mls/album/search?albumId={{album.albumId}}" target="_blank">{{album.albumName}}</a></p>
+                        </li>
+                    </ul>
+                </span>
+            </span>
+        </td>
+        <td>
+            <span ng-if="data.artists.length == 1">
+                <a ng-repeat="artist in data.artists" href="/mls/artist/search?artistId={{artist.artistId}}" target="_blank">{{artist.artistName}}</a>
+            </span>
+            <span ng-if="data.artists.length > 1">
+                <a ng-repeat="artist in data.artists" href="/mls/artist/search?artistId={{artist.artistId}}" target="_blank">{{artist.artistName}};</a>
+            </span>
+        </td>
+        <td>{{data.language}}</td>
+        <td>{{data.playTime}}</td>
+        <td>
+            <span ng-if="data.karakalStatus == 10">正常</span>
+            <span ng-if="data.karakalStatus == 11">正常待编目</span>
+            <span ng-if="data.karakalStatus == 12">正常待审核</span>
+            <span ng-if="data.karakalStatus == 14">审核中</span>
+            <span ng-if="data.karakalStatus == 15">编辑中</span>
+            <span ng-if="data.karakalStatus == 20">删除</span>
+            <span ng-if="data.karakalStatus == 30">禁用</span>
+            <span ng-if="data.karakalStatus == 111">审核未通过</span>
+            <span ng-if="data.karakalStatus == -1">未关联曲库</span>
+        </td>
+        <td><a href="" ng-click="taggingCheck(data.songId);">打标签</a></td>
+    </tr>
+    <tr ng-if="datas.length < 1">
+        <td colspan="8">暂无数据</td>
+    </tr>
+    </tbody>
+</table>
+<ng-include src="'app/views/partials/pagination.html'"></ng-include>
+<!--<span class="page-detail">总共{{totalPage}}页,共{{bigTotalItems}}条记录,每页显示{{itemsPerPage}}条记录</span>-->
+<!--<uib-pagination total-items="bigTotalItems" items-per-page="itemsPerPage" ng-change="choosePage();" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" previous-text="往前" first-text="第一页" last-text="最后一页" next-text="往后"></uib-pagination>-->
+           

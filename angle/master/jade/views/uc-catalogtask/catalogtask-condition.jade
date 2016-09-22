@@ -1,0 +1,105 @@
+//
+   Created by hao.cheng on 2016/8/2.
+div.form-group
+    div.col-sm-4(ng-include="'app/views/partials/taskswitch-tpl.html'")
+    div(ng-include="'app/views/partials/taskassign-tpl.html'")
+//
+    通用
+div.form-group
+    label.col-sm-1.control-label 版权ID
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入版权ID",ng-model="form.copyrightId")
+    label.col-sm-1.control-label 产品歌曲名
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入产品歌曲名",ng-model="form.cpSongName")
+    label.col-sm-1.control-label 产品歌手名
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入产品歌手名",ng-model="form.cpArtistName")
+    label.col-sm-1.control-label 产品专辑名
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入产品专辑名",ng-model="form.cpAlbumName")
+div.form-group
+    label.col-sm-1.control-label(ng-if="module == 0") 创建时间起
+    div.col-sm-2(ng-if="module == 0")
+        input.form-control.input-sm(type="text",placeholder="请输入创建时间起",ng-model="form.createStartTime",my-date="",uib-datepicker-popup="",is-open="date1",datepicker-options="dateOptions",close-text="关闭",clear-text="清除",current-text="今天",ng-click="date1 = !date1")
+    label.col-sm-1.control-label(ng-if="module == 0") 创建时间止
+    div.col-sm-2(ng-if="module == 0")
+        input.form-control.input-sm(type="text",placeholder="请输入创建时间止",ng-model="form.createEndTime",my-date="",uib-datepicker-popup="",is-open="date2",datepicker-options="dateOptions",close-text="关闭",clear-text="清除",current-text="今天",ng-click="date2 = !date2")
+    label.col-sm-1.control-label(ng-if="module != 0") 分配时间起
+    div.col-sm-2(ng-if="module != 0")
+        input.form-control.input-sm(type="text",placeholder="请输入分配时间起",ng-model="form.distributionStartTime",my-date="",uib-datepicker-popup="",is-open="date1",datepicker-options="dateOptions",close-text="关闭",clear-text="清除",current-text="今天",ng-click="date1 = !date1")
+    label.col-sm-1.control-label(ng-if="module != 0") 分配时间止
+    div.col-sm-2(ng-if="module != 0")
+        input.form-control.input-sm(type="text",placeholder="请输入分配时间止",ng-model="form.distributionEndTime",my-date="",uib-datepicker-popup="",is-open="date2",datepicker-options="dateOptions",close-text="关闭",clear-text="清除",current-text="今天",ng-click="date2 = !date2")
+    label.col-sm-1.control-label 紧急程度
+    div.col-sm-2
+        select.form-control.input-sm(ng-model="form.urgentDegree")
+            option(value="") 请选择
+            option(value="5") 5
+            option(value="4") 4
+            option(value="3") 3
+            option(value="2") 2
+            option(value="1") 1
+            option(value="0") 0
+    label.col-sm-1.control-label 新歌/首发
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入新歌/首发",ng-model="form.newSong")
+//
+    通用
+div.form-group
+    label.col-sm-1.control-label 优质度
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入优质度",ng-model="form.degree")
+    label.col-sm-1.control-label 人工评分
+    div.col-sm-1
+        input.form-control.input-sm(type="text",placeholder="起始",ng-model="form.mscoreMin")
+    div.col-sm-1
+        input.form-control.input-sm(type="text",placeholder="截止",ng-model="form.mscoreMax")
+    label.col-sm-1.control-label 热度评分
+    div.col-sm-1
+        input.form-control.input-sm(type="text",placeholder="起始",ng-model="form.hotScoreMin")
+    div.col-sm-1
+        input.form-control.input-sm(type="text",placeholder="截止",ng-model="form.hotScoreMax")
+    label.col-sm-1.control-label 语言
+    div.col-sm-2
+        input.form-control.input-sm(type="text",placeholder="请输入语言",ng-model="form.language")
+div.form-group(ng-if="module != 0")
+    label.col-sm-1.control-label(ng-if="module == 1 || module == '-1,1,2'") 工单状态
+    div.col-sm-2(ng-if="module == 1 || module == '-1,1,2'")
+        select.form-control.input-sm(ng-model="form.taskStatus")
+            option(value="") 全部
+            option(value="1") 待办
+            option(value="2") 待审核
+            option(value="-1") 审核未通过
+    label.col-sm-1.control-label(ng-if="module == 1 || module == 3") 用户
+    div.col-sm-2(ng-if="module == 1 || module == 3")
+        edit-user-tpl
+    label.col-sm-1.control-label(ng-if="module == '-1,1,2'") 编目状态
+    div.col-sm-2(ng-if="module == '-1,1,2'")
+        select.form-control.input-sm(ng-model="form.karakalStatus")
+            option(value="") 全部
+            option(value="10") 已编目
+            option(value="11") 未编目
+div.form-group
+    div.col-sm-4
+        div.btn-group(ng-controller="ModalCtrl")
+            button.btn.btn-default.btn-sm(ng-click="submit();") 查询
+            button.btn.btn-default.btn-sm(ng-click="reset();") 重置
+            button.btn.btn-default.btn-sm(ng-click="unAssign(datas);",ng-if="module == 0") 导出可分配数据
+            script( type="text/ng-template",id="unAssign.html")
+                div.modal-header
+                    button.close(type="button",ng-click="cancel();") ×
+                    h4.modal-title(id="myModalLabel") 导出可分配
+                div.modal-body
+                    form.form-horizontal
+                        div.form-group
+                            label.control-label.col-sm-2 开始日期
+                            div.col-sm-4
+                                input.form-control.input-sm(type="text",ng-model="startTime",placeholder="请输入开始日期",my-date="",uib-datepicker-popup="",is-open="date1",datepicker-options="dateOptions",close-text="关闭",clear-text="清除",current-text="今天",ng-click="date1 = !date1")
+                        div.form-group
+                            label.control-label.col-sm-2 结束日期
+                            div.col-sm-4
+                                input.form-control.input-sm(type="text",ng-model="endTime",placeholder="请输入结束日期",my-date="",uib-datepicker-popup="",is-open="date2",datepicker-options="dateOptions",close-text="关闭",clear-text="清除",current-text="今天",ng-click="date2 = !date2")
+                div.modal-footer
+                    button.btn.btn-primary(type="button",ng-click="export(startTime, endTime);") 确认
+                    button.btn.btn-warning(type="button",ng-click="cancel();") 取消

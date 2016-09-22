@@ -1,0 +1,97 @@
+<div class="row-fluid" style="background-color: #fff;z-index:99;height: 200px;">
+    <div class="detail" style="padding: 0 !important;">
+        <div>
+            <form class="form-inline">
+                <div class="well" style="margin-top: 0;">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td class="name">歌曲ID(门户)</td>
+                            <td class="content">
+                                <input class="form-control border1px " type="text">
+                            </td>
+                            <td class="name">歌曲名称</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                            <td class="name">歌手名称</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                            <td class="name">专辑名称</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">歌曲标签</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                            <td class="name">歌曲状态</td>
+                            <td class="content">
+                                <select ng-model="params.status">
+                                    <option value="请选择">请选择</option>
+                                    <option value="否">正常</option>
+                                    <option value="是">待审核</option>
+                                    <option value="是">审核未通过</option>
+                                    <option value="是">待删除</option>
+                                    <option value="是">禁用</option>
+                                    <option value="是">编辑中</option>
+                                    <option value="是">审核中</option>
+                                </select>
+                            </td>
+                            <td class="name">词作者</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                            <td class="name">曲作者</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">最后编辑者</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                            <td class="name">歌曲类型</td>
+                            <td class="content">
+                                <select ng-model="params.albumType">
+                                    <option value="请选择">请选择</option>
+                                    <option value="男">正常</option>
+                                    <option value="女">个性化</option>
+                                    <option value="组合">批量歌曲</option>
+                                </select>
+                            </td>
+                            <td class="name">版权ID</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                            <td class="name">新歌/首发</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">优质度</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                            <td class="name">项目名称</td>
+                            <td class="content">
+                                <input class="form-control border1px" type="text">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row-fluid" style="background-color: #fff;z-index:99;">
+    <ul class="ul-groups">
+        <li class="onlyOne" ui-sref="app.uc_task_tag.uncompelete({taskStatus:params.taskStatus,isCrash:params.isCrash,assignTimeS:params.dt1,assignTimeE:params.dt2,songName:params.songName,artistName:params.artistName,productAlbumName:params.productAlbumName,cid:params.cid,newOrFirst:params.newOrFirst,highQuality:params.highQuality,projectName:params.projectName})">搜索</li>
+    </ul>
+</div>

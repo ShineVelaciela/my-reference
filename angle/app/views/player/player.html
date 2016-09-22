@@ -1,0 +1,827 @@
+<link href="../../../vendor/jplayer/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../css/style.css">
+<script type="text/javascript" src="../../../vendor/jquery/dist/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../../../vendor/jplayer/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="../../../vendor/jplayer/jplayer.playlist.min.js"></script>
+<script src="../../../vendor/jplayer/h5utils.js"></script>
+<script src="../../../vendor/jplayer/lrc-min.js"></script>
+<style>
+    body{
+        margin: 0;
+        overflow-y: hidden;
+    }
+    .p-fixed{
+        height: 53px;
+        /*border: 1px solid red;*/
+        width: 99.9%;
+        bottom: 0px;
+        position: absolute;
+        margin: auto;
+    }
+    .m-player .updn .right,.m-player .updn .left,.m-player .updn .btn,.m-player .p-bg{
+        background: url("../../../vendor/jplayer/blue.monday/image/playbar.png") no-repeat 0 9999px;
+    }
+    .m-player .p-bg{
+        height: 53px;
+        zoom: 1;
+        margin-right: 67px;
+        background-position: 0 0;
+        background-repeat: repeat-x;
+    }
+    .m-player .hand{
+        position: absolute;
+        top: -10px;
+        width: 100%;
+        height: 20px;
+        cursor: pointer;
+    }
+    .m-player .updn .left{
+        position: absolute;
+        top: -14px;
+        right: 15px;
+        width: 52px;
+        height: 67px;
+        background-position: 0 -380px;
+    }
+    .m-player .updn .right{
+        position: absolute;
+        top: -1px;
+        right: 0;
+        width: 15px;
+        height: 54px;
+        background-position: -52px -393px;
+        pointer-events: none;
+    }
+    .m-player .updn{
+         position: relative;
+         z-index: 11;
+    }
+    .m-player .updn .btn{
+        display: block;
+        width: 18px;
+        height: 18px;
+        margin: 6px 0 0 17px;
+    }
+    .m-player-unlock .updn .btn{
+        background-position: -80px -380px;
+    }
+    .m-player-unlock .updn .btn:hover{
+        background-position: -80px -400px;
+    }
+    .m-player-lock .updn .btn{
+        background-position: -100px -380px;
+    }
+    .m-player-lock .updn .btn:hover{
+        background-position: -100px -400px;
+    }
+
+    .jp-audio{
+        width: 720px;
+    }
+    .jp-audio .jp-controls{
+        padding: 0;
+        padding-top: 8px;
+    }
+    .jp-audio .jp-progress{
+        top: 30px;
+    }
+    .jp-audio .jp-interface, .jp-audio-stream .jp-interface{
+        height: 53px;
+        background: url("../../../vendor/jplayer/blue.monday/image/playbar.png") no-repeat 0 9999px;
+        background-position: 0 0;
+        background-repeat: repeat-x;
+    }
+    .jp-next, .jp-previous, .jp-stop,.jp-play,.jp-mute,.jp-repeat,.jp-shuffle,.jp-state-muted .jp-mute,.jp-volume-max,.m-player .icn{
+        background: url("../../../vendor/jplayer/blue.monday/image/playbar.png") no-repeat 0 9999px;
+    }
+    /*.jp-playlist-item-remove,.clear-all{*/
+        /*background: url("../../../img/icon-download.png");*/
+    /*}*/
+    .jp-previous{
+        background-position: 0 -130px;
+    }
+    .jp-previous:hover{
+        background-position: -30px -130px;
+    }
+    .jp-play{
+        background-position: 0 -204px;
+    }
+    .jp-play:hover{
+        background-position: -40px -204px;
+    }
+    .jp-next{
+        background-position: -80px -130px;
+    }
+    .jp-next:hover{
+        background-position: -110px -130px;
+    }
+    .jp-mute{
+        background-position: -2px -248px;
+        width: 25px;
+        height: 25px;
+    }
+    .jp-mute:hover{
+        background-position: -31px -248px;
+    }
+    .jp-state-muted .jp-mute{
+        background-position: -104px -69px;
+    }
+    .jp-volume-max{
+        background-position: -2px -248px;
+        width: 25px;
+        height: 25px;
+    }
+    .jp-volume-max:focus{
+        background-position: -2px -248px;
+    }
+    .jp-volume-bar-value{
+        background: #D92A39;
+    }
+    .jp-play-bar{
+        background: #D92A39;
+    }
+    .jp-repeat{
+        background-position: -3px -344px;
+    }
+    .jp-repeat:hover{
+        background-position: -33px -344px;
+    }
+    .jp-shuffle{
+        background-position: -66px -248px;
+    }
+    .jp-shuffle:hover{
+        background-position:-93px -248px;
+    }
+    .jp-volume-controls{
+        top: 12px;
+        left: 458px;
+    }
+    .jp-type-playlist{
+        background: #303030;
+    }
+    .jp-audio .jp-type-playlist .jp-toggles{
+        top: 30px;
+        left: 480px;
+    }
+    .jp-details, .jp-playlist{
+        height: 200px;
+        position: relative;
+        top: -47px;
+        overflow-y: auto;
+    }
+    .jp-playlist ul{
+        margin-top: 50px;
+    }
+    div.jp-type-playlist div.jp-playlist a{
+        color: #fff;
+    }
+    .jp-audio .jp-time-holder{
+        top: 33px;
+    }
+    .jp-audio .jp-progress{
+        height: 7px;
+    }
+    .jp-audio, .jp-audio-stream, .jp-video{
+        color: #fff;
+        opacity: 0.9;
+    }
+
+    .jp-volume-bar{
+        top: 10px;
+        left: 25px;
+        width: 66px;
+    }
+    .jp-volume-max{
+        left: 104px;
+    }
+    .jp-audio .jp-type-playlist .jp-progress{
+        width: 320px;
+        left: 116px;
+    }
+    div.jp-type-playlist div.jp-playlist a.jp-playlist-current, div.jp-type-playlist div.jp-playlist a:hover{
+        color: #D7A35C;
+    }
+    .m-player .icn-list{
+        display: block;
+        float: none;
+        width: 38px;
+        padding-left: 21px;
+        background-position: -42px -68px;
+        line-height: 27px;
+        text-align: center;
+        color: #666;
+        text-shadow: 0 1px 0 #080707;
+        text-indent: 0;
+        text-decoration: none;
+    }
+    .add.f-pr{
+        left: 150px;
+        position: absolute;
+        font-size: 12px;
+    }
+    .jp-playlist li:hover .jp-playlist-item-remove,.clear-all{
+        background-position: -51px 0;
+        height: 16px;
+        width: 13px;
+        visibility: visible;
+    }
+    .clear-all{
+        margin-left: 5px;
+        position: relative;
+        top: 3px;
+    }
+    .jp-playlist-item-remove{
+        visibility: hidden;
+    }
+    
+    #center_container{
+        top: -47px;
+    }
+    .jp-playlist{
+        height: 46px;
+    }
+    .jp-playlist ul{
+        display: none;
+    }
+    .jp-audio .jp-type-playlist .jp-time-holder{
+        left: 116px;
+    }
+    .jp-song-info{
+        position: absolute;
+        top: 10px;
+        left: 110px;
+        font-size: 13px;
+    }
+    .jp-song-info .info{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .jp-songname{
+        float: left;
+        width: auto;
+        max-width: 230px;
+    }
+    .jp-songartist{
+        float: right;
+        color: rgba(204, 204, 204, 0.58);
+        margin-left: 10px;
+        width: auto;
+        max-width: 110px;
+    }
+    .content{
+        top: 0px;
+        left: 180px;
+        position: absolute;
+        color: #fff;
+        max-height: 150px;
+        overflow-y: auto;
+        width: 706px;
+        font-size: 13px;display: none;
+    }
+    #lrc_list{
+        font-family: 'Segoe UI', Arial, 'Microsoft Yahei', Simsun, sans-serif;
+        list-style: none;
+    }
+    #lrc_list .ui-lrc-sentence.ui-lrc-current{
+        color: #C62937;
+    }
+    .content ul li{
+        margin: 3px 0;
+    }
+    .icon-remove-circle{
+        background: transparent url("../../img/close.png") no-repeat scroll 50% 50%;
+    }
+    #center_container:hover div.close-btn{
+        display: inline-block;
+    }
+    #window-alert-tooltip {
+        display: block;
+        position: fixed;
+        z-index: 100000;
+        /*bottom: 0;*/
+        /*right: 0px;*/
+        top: 0;
+        /*left: 0;*/
+        left: -250px;
+        color: rgb(204, 204, 204);
+        width: 200px;
+        white-space: nowrap;
+        border-radius: 0 10px 10px 0;
+        /*border-top-left-radius: 10px;*/
+        /*border-bottom-left-radius: 10px;*/
+        background: 10px 10px no-repeat rgba(0, 0, 0, 0.8);
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        padding: 5px 0px 5px 40px;
+        font: 11px Tahoma, Verdana, sans-serif;
+        transition: left 0.3s;
+    }
+    #window-alert-tooltip.show{
+        /*display: block;*/
+        left: 0;
+    }
+</style>
+<script type="text/javascript">
+    /*媒资库素材接口*/
+//    const http_url = 'http://media.karakal.com.cn:18089/api';		//formal
+    const http_url = 'http://temp.karakal.com.cn:18089/cms';		//test
+    const song_lrc = http_url + '/lyric/queryBySongId/';            //歌词接口
+    var flag,songId;
+    var lrc_map = {};
+    var myPlaylist = '';
+    var i = 0;
+    //<![CDATA[
+    $(document).ready(function () {
+        myPlaylist = new jPlayerPlaylist({
+            jPlayer: "#jquery_jplayer_1",
+            cssSelectorAncestor: "#jp_container_1"
+        }, [
+//            {
+//                "title": "Because You Are Good To Me(国)(彩铃)",
+//                "artist": "陈奕迅&nbsp;(60084401951)&nbsp;",
+//                "mp3": "http://tyst.migu.cn/public%2Fringmaker01%2Fn3%2FProduct%2F2011%2F06%2F2011%E5%B9%B44%E6%9C%8810%E6%97%A5%E9%A2%84%E5%AE%A1%E7%A6%BE%E4%BF%A1390%E9%A6%96%2F%E5%BD%A9%E9%93%83%2F4_816%2FBecause+You+are+Good+To+Me%28%E5%9B%BD%29-%E9%99%88%E5%A5%95%E8%BF%85.wav"
+//            }
+        ], {
+            swfPath: "/mls/resources/jplayer",
+            supplied: "oga, mp3",
+            wmode: "window",
+            useStateClassSkin: true,
+            autoBlur: false,
+            smoothPlayBar: true,
+            keyEnabled: true,
+            playlistOptions: {
+                enableRemoveControls: true
+            },
+            timeupdate: function (event) {
+                console.log(localStorage.getItem('playerid'));
+                var artist = myPlaylist.playlist[myPlaylist.current].artist;
+                var songId = artist.substring(artist.lastIndexOf('&nbsp;')+6);
+                var playerid = songId + myPlaylist.playlist[myPlaylist.current].time;
+                if(localStorage.getItem('playerid') && (localStorage.getItem('playerid') != playerid)){
+                    myPlaylist.pause();
+                }
+                if (event.jPlayer.status.currentTime == 0) {
+                    time = "";
+                } else {
+                    time = event.jPlayer.status.currentTime;
+                }
+            },
+            play: function (event) {
+                $('.jp-songname').text(myPlaylist.playlist[myPlaylist.current].title);
+                $('.jp-songname').attr('title',myPlaylist.playlist[myPlaylist.current].title);
+                $('.jp-songartist').text(myPlaylist.playlist[myPlaylist.current].artist.replace('&nbsp;',''));
+                $('.jp-songartist').attr('title',myPlaylist.playlist[myPlaylist.current].artist.replace('&nbsp;',''));
+                //点击开始方法调用lrc。start歌词方法 返回时间time
+                var artist = myPlaylist.playlist[myPlaylist.current].artist;
+                songId = artist.substring(artist.lastIndexOf('&nbsp;')+6);
+                var playerid = songId + myPlaylist.playlist[myPlaylist.current].time;
+                console.log('time'+myPlaylist.playlist[myPlaylist.current].time);
+                console.log('artist:'+artist);
+                console.log('songId:'+songId);
+                localStorage.setItem('playerid',playerid);
+                var lrcNum = myPlaylist.current;
+                $('#list_num').text(myPlaylist.playlist.length);
+                console.log(lrcNum);
+
+                //获取歌词
+//                $.ajax({
+//                    type: 'get',
+//                    url: song_lrc + songId + '.json',
+//                    dataType: 'jsonp',
+//                    data: {},
+//                    success: function (results) {
+//                        //解决txt文本的歌词无法显示的问题
+//                        var regx1 = "\\[\\d{2}:\\d{2}.\\d{2}\\]";   //匹配[00:00.00]
+//                        var regx2 = "\\[\\d{2}:\\d{2}\\]";          //匹配[00:00]
+//                        if(results.data.length < 1){
+//                            $('#lrc_list').html('<li>暂无歌词...</li>');
+//                            return;
+//                        }
+//                        $.lrc.start(results.data, function () {
+//                            return time;
+//                        });
+////                        if(results.match(regx1) == null || results.match(regx2 == null)){
+////                            $('#lrc_list').html('<textarea autoHeight="true">'+results+'</textarea>');
+////                            // textarea高度自适应
+////                            $.fn.autoHeight = function(){
+////                                function autoHeight(elem){
+////                                    elem.style.height = 'auto';
+////                                    elem.style.height = elem.scrollHeight + 'px';
+////                                    elem.style.scrollTop = elem.scrollHeight + 'px'; //防抖动
+////                                }
+////
+////                                this.each(function(){
+////                                    autoHeight(this);
+////                                    $(this).on('keydown', function(){
+////                                        autoHeight(this);
+////                                    });
+////                                });
+////                            }
+////                            $('textarea[autoHeight]').autoHeight(this);
+////                        }else{
+////                            $.lrc.start(results, function () {
+////                                return time;
+////                            });
+////                        }
+//                    },
+//                    error: function (results) {
+//
+//                    }
+//                })
+
+//                $.ajax({
+//                    type: 'get',
+//                    url: http_url + '/song/lrc/'+songId+'.json',
+//                    dataType: 'json',
+//                    data: {},
+//                    success: function (res) {
+//                        if(res.data.length < 1){
+//                            $('#lrc_list').html('<li>暂无歌词...</li>');
+//                            return;
+//                        }
+//                        lrc_map.lrcId = res.data[0].id;
+////                            console.log('onclick:'+$('.'+songId).attr('onclick'));
+//                        $('.delete_'+songId).attr('onclick','deleteLrc('+res.data[0].id+')')
+////                            console.log(res.data[0].path);
+//                        $.ajax({
+//                            type: 'get',
+//                            url: http_url + '/slrc/' + res.data[0].path,
+//                            dataType: 'text',
+//                            data: {},
+//                            success: function (results) {
+//                                //解决txt文本的歌词无法显示的问题
+//                                var regx1 = "\\[\\d{2}:\\d{2}.\\d{2}\\]";   //匹配[00:00.00]
+//                                var regx2 = "\\[\\d{2}:\\d{2}\\]";          //匹配[00:00]
+//                                if(results.match(regx1) == null || results.match(regx2 == null)){
+//                                    $('#lrc_list').html('<textarea autoHeight="true">'+results+'</textarea>');
+//                                    // textarea高度自适应
+//                                    $.fn.autoHeight = function(){
+//                                        function autoHeight(elem){
+//                                            elem.style.height = 'auto';
+//                                            elem.style.height = elem.scrollHeight + 'px';
+//                                            elem.style.scrollTop = elem.scrollHeight + 'px'; //防抖动
+//                                        }
+//
+//                                        this.each(function(){
+//                                            autoHeight(this);
+//                                            $(this).on('keydown', function(){
+//                                                autoHeight(this);
+//                                            });
+//                                        });
+//                                    }
+//                                    $('textarea[autoHeight]').autoHeight(this);
+//                                }else{
+//                                    $.lrc.start(results, function () {
+//                                        return time;
+//                                    });
+//                                }
+//                            },
+//                            error: function (results) {
+//
+//                            }
+//                        })
+//                    }
+//                })
+            },
+            ended: function (event) {
+                $("#lrc_list").removeAttr("style").html("<li>歌曲播放完毕！</li>");
+            }
+        });
+
+        $('#player_up').click(function () {
+            if ($('.jp-playlist').css('display') == 'none') {
+                $('.jp-playlist').show();
+                $('#player_up').removeClass('icon-chevron-up');
+                $('#player_up').addClass('icon-chevron-down');
+            } else {
+                $('.jp-playlist').hide();
+                $('#player_up').removeClass('icon-chevron-down');
+                $('#player_up').addClass('icon-chevron-up');
+            }
+        });
+        $('#player_close').click(function () {
+            $('#jp_container_1').addClass('hide');
+        });
+        //监听获取本地存储歌曲信息
+//        addEvent(window, 'storage', function (event) {
+//            console.log(event.key);
+//            if (event.key == 'audioSong') {
+//                console.log('audioSong:'+event.newValue);
+//                var value = event.newValue;
+//                var copyId = value.substring(0,value.lastIndexOf(','));
+//                var songId = value.substring(value.lastIndexOf(',') + 1);
+//                getSong(copyId,songId);
+//            }else if(event.key == 'batchSong'){
+//                console.log('batchSong:'+event.newValue);
+//                var str = event.newValue;
+//                var strs= new Array(); //定义一数组
+//                strs = str.split(',');
+//                var songId = '';
+//                var copyId = '';
+//                for(var i = 0; i < strs.length; i++){
+//                    songId = strs[i].substring(0,strs[i].lastIndexOf('-'));
+//                    copyId = strs[i].substring(strs[i].lastIndexOf('-')+1);
+//                    getSong(copyId,songId);
+//                }
+//            }
+//            flag = 1;
+//        });
+//        if (flag == 1) {
+//            //首先获取本地缓存的数据
+//            var value = localStorage.getItem('audioSong');
+//            if(value != null){
+//                var copyId = value.substring(0,value.lastIndexOf(','));
+//                var songId = value.substring(value.lastIndexOf(',') + 1);
+//                getSong(copyId,songId);
+//            }
+//            var str = localStorage.getItem('batchSong');
+//            if(str != null){
+//                var strs= new Array(); //定义一数组
+//                strs = str.split(',');
+//                for(var i = 0; i < strs.length; i++){
+//                    songId = strs[i].substring(0,strs[i].lastIndexOf('-'));
+//                    copyId = strs[i].substring(strs[i].lastIndexOf('-')+1);
+//                    getSong(copyId,songId);
+//                }
+//            }
+//        }
+        $('#m_player').hover(function(){showIframe();},function(){hideIframe();});
+        console.log(localStorage.getItem('batchSong'));
+//        playLocalStorage();
+    });
+    function  playLocalStorage(){//刷新自动添加本地缓存的歌曲
+        var str = localStorage.getItem('batchSong');
+        if(str != null){
+            var strs= new Array(); //定义一数组
+            strs = str.split(',');
+//            $('#list_num').text(strs.length);
+            for(var i = 0; i < strs.length; i++){
+                songId = strs[i].substring(0,strs[i].lastIndexOf('-'));
+                copyId = strs[i].substring(strs[i].lastIndexOf('-')+1);
+                getSong(copyId,songId);
+            }
+        }
+    }
+    //]]>
+    //获取歌曲并添加歌曲
+    function getSong(copyId,songId) {       //已弃用
+        var lrcId = '';
+        var tp = '';
+//        $.ajax({
+//            type: 'get',
+//            url: http_url + '/song/lrc/'+songId+'.json',
+//            dataType: 'jsonp',
+//            data: {},
+//            success: function (res) {
+//                if(res.data.length < 1){
+//                }else{
+//                    lrcId = res.data[0].id;
+//                    console.log(lrcId);
+//                }
+//            }
+//        })
+        $.ajax({
+            url: 'http://218.200.230.40:18089/catalog/productioncatalog!getCopyrightPlayList.action',
+            data: 'copyrightFormBean.copyrightId=' + copyId,
+            dataType: 'jsonp',
+            type: 'get',
+            success: function (res) {
+                if (res['result'] != undefined || res.length < 1) {
+//                        alert('暂无试听地址');
+                } else {
+                    var type = ['全曲', '随身听', '振铃', '彩铃'];
+                    //优先选取全曲，然后随身听以此类推
+                    choose:
+                            for (var i = 0; i < type.length; i++) {
+                                for (var j = 0; j < res.length; j++) {
+                                    if (res[j].title.indexOf(type[i]) != -1) {
+                                        myPlaylist.add(res[j]);
+//                                        myPlaylist.play(-1);
+//                                        $.ajax({
+//                                            type: 'get',
+//                                            url: http_url + '/song/lrc/'+songId+'.json',
+//                                            dataType: 'jsonp',
+//                                            data: {},
+//                                            success: function (data) {
+//                                                if(data.data.length > 0){
+//                                                    tp = data.data[0].tp;
+//                                                }
+//                                                var songList = {};
+//                                                songList.title = res[j].title;
+////                                            songList.artist = res[j].artist + '-<span style="color: #009be3;">'+songId + '&nbsp;</span>';
+//                                                songList.artist = res[j].artist + songId + '<a href="javascript:;" class="delete_'+songId+'" style="color: #009be3;margin-left: 10px;" onclick="deleteLrc('+lrcId+')">删除歌词</a><a style="color: #009be3;margin-left: 10px;" href="javascript:;" onclick="toTxt('+lrcId+','+songId+')">歌词转TXT</a><span class="'+songId+'">('+tp+')</span><input name="excel_check" type="checkbox" value="'+songId+'" style="margin-left: 10px;">';
+//                                                songList.mp3 = res[j].mp3;
+//                                                myPlaylist.add(songList);
+//                                                myPlaylist.play(-1);
+//                                            }
+//                                        })
+                                        break choose;
+                                    }
+                                }
+                            }
+                }
+            }
+        })
+    }
+    var flag = true;
+    function hideSongList(){
+        if(flag){
+            hideList();
+//            $('.content').css('display','none');
+            flag = false;
+        }else{
+            showList();
+//            $('.content').css('display','block');
+            flag = true;
+        }
+    }
+    function showList(){//显示歌曲列表
+        $('#center_container').css('top','-201px');
+        $('.jp-playlist').css('height','200px');
+        $('.jp-playlist ul').css('display','block');
+        $(parent.document).find('#player_iframe').css({'height':'200px'});
+        $('.content').css('display','block');
+    }
+    function hideList(){//隐藏歌曲列表
+        $('#center_container').css('top','-47px');
+        $('.jp-playlist').css('height','46px');
+        $('.jp-playlist ul').css('display','none');
+        $(parent.document).find('#player_iframe').css({'height':'70px'});
+        $('.content').css('display','none');
+    }
+    function hidePlayer(){
+        hideList();
+        $(parent.document).find('#player_iframe').css({'bottom':'-45px','height':'70px'});
+    }
+    function showIframe(){//鼠标hover显示player
+        if(checkClassById('m_player','m-player-unlock')){
+            $(parent.document).find('#player_iframe').css({'bottom':'0','height':'70px'});
+        }
+    }
+    function hideIframe(){//鼠标移开隐藏player
+        if(checkClassById('m_player','m-player-unlock')){
+            hidePlayer();
+        }
+//        setTimeout(function(){
+//            if(checkClassById('m_player','m-player-unlock')){
+//                hidePlayer();
+//            }
+//        },1500);
+    }
+    function checkClassById(id,classname){//根据ID判断对应的class是否存在
+        if($('#'+id).attr('class').indexOf(classname) == -1){//不存在返回false
+            return false;
+        }else{
+            return true;
+        }
+    }
+    var lock_flag = true;
+    function lockPlayer(obj){//锁定player
+        if(lock_flag){
+            $(obj).parents('#m_player').removeClass('m-player-unlock');
+            $(obj).parents('#m_player').addClass('m-player-lock');
+            lock_flag = false;
+        }else{
+            $(obj).parents('#m_player').removeClass('m-player-lock');
+            $(obj).parents('#m_player').addClass('m-player-unlock');
+            lock_flag = true;
+            setTimeout(function(){
+                hideIframe();
+            },2000);
+        }
+    }
+    function clearLocalStorage(){//清空歌曲列表的本地缓存
+        localStorage.removeItem('batchSong');
+        if(localStorage.getItem('batchSong') == null){
+            myPlaylist.remove();
+//            $('#list_num').text('0');
+            $('.jp-songname').text('');
+            $('.jp-songartist').text('');
+        }
+    }
+    function extractedMaterial(){//重新抽取素材
+        if(songId == undefined || songId == null || songId == ''){
+            alert('无歌曲,抽取失败');
+            return;
+        }
+        showTooltip();
+        $.ajax({
+            url: http_url + '/extract/song/' + songId + '.json',
+            data:'',
+            type : 'get',
+            dataType : 'json',
+            cache: false,
+            async: false,
+            success:function(res){
+                if(res.status == 1){
+//                    alert('抽取素材成功');
+                    showTooltipDelay('抽取素材成功');
+                    myPlaylist.play(-1);
+                } else {
+                    showTooltipDelay('抽取素材失败');
+//                    alert(res.msg);
+                }
+            },
+            error:function(res){
+//                alert('连接错误');
+                showTooltipDelay('连接错误');
+            }
+        });
+    }
+    function showTooltipDelay(msg){//延时显示tooltip
+        $('.tooltipTitle').text(msg);
+        setTimeout(function(){
+            $('#window-alert-tooltip').removeClass('show');
+        },2000);
+    }
+    function showTooltip(){//显示tooltip
+        $('#window-alert-tooltip').addClass('show');
+    }
+    function hideTooltip(){//隐藏tooltip
+        $('#window-alert-tooltip').removeClass('show');
+    }
+</script>
+<div class="m-player p-fixed m-player-unlock" id="m_player">
+    <div class="updn">
+        <div class="left f-fl"><a href="javascript:;" class="btn" onclick="lockPlayer(this);"></a></div>
+        <div class="right f-fl"></div>
+    </div>
+    <div class="p-bg"></div>
+    <div class="hand"></div>
+    <div id="center_container" style="/*width:1052px;*/margin: auto;position: relative;overflow-x: hidden;">
+        <div>
+            <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+            <div id="jp_container_1" class="jp-audio overlay-dialog--animate" role="application" aria-label="media player "
+                 style="margin: auto;z-index: 9999;max-height: 420px;overflow-y: hidden;overflow-x: hidden;border: 0">
+                <div class="jp-type-playlist" style="position: relative;">
+                    <div class="jp-gui jp-interface" style="position: absolute;width:720px;  border-bottom: 1px solid #ccc;bottom: -1px;">
+                        <a href="javascript:;"><i class="icon-chevron-down" style="position: absolute;right: 5px;"
+                                                  id="player_up"></i></a>
+
+                        <div class="jp-controls">
+                            <button class="jp-previous" role="button" tabindex="0">previous</button>
+                            <button class="jp-play" role="button" tabindex="0">play</button>
+                            <button class="jp-next" role="button" tabindex="0">next</button>
+                            <button class="jp-stop" role="button" tabindex="0">stop</button>
+                        </div>
+                        <div class="jp-progress">
+                            <div class="jp-seek-bar">
+                                <div class="jp-play-bar"></div>
+                            </div>
+                        </div>
+                        <div class="jp-volume-controls">
+                            <button class="jp-mute" role="button" tabindex="0">mute</button>
+                            <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+                            <div class="jp-volume-bar">
+                                <div class="jp-volume-bar-value"></div>
+                            </div>
+                            <span class="add f-pr" onclick="hideSongList();">
+                                <a href="javascript:;" title="歌词" hidefocus="true" data-action="panel" class="icn icn-list s-fc3" id="list_num">list</a>
+                            </span>
+                        </div>
+                        <div class="jp-song-info">
+                            <div class="jp-songname info" title=""></div>
+                            <div class="jp-songartist info" title=""></div>
+                        </div>
+                        <div class="jp-time-holder">
+                            <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                            <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                        </div>
+                        <div class="jp-toggles" style="width: 105px;">
+                            <button class="jp-repeat" role="button" tabindex="0">repeat</button>
+                            <!--<button class="clear-all" role="button" tabindex="0" title="抽取素材" onclick="extractedMaterial();">清空</button>-->
+                        </div>
+                    </div>
+                    <div class="jp-playlist" >
+                        <ul>
+                            <!-- The method Playlist.displayPlaylist() uses this unordered list -->
+                            <li>&nbsp;</li>
+                        </ul>
+                    </div>
+                    <div class="jp-no-solution">
+                        <span>Update Required</span>
+                        To play the media you will need to either update your browser to a recent version or update your <a
+                            href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="close-btn" style="width: 30px;height: 30px;    display: none;top: 0;position: absolute;left: 168px;">
+            <i class="icon-remove-circle" style="width: 100%;height: 100%;display: inline-block;border-radius: 30px;"></i>
+        </div>
+        <!--<div class="content">-->
+            <!--<ul id="lrc_list" style="list-style: none;">-->
+                <!--<li>暂无歌词！</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    </div>
+</div>
+<div id="window-alert-tooltip">
+    <span class="tooltipTitle">素材抽取中... </span>
+    <!--<span class="tooltipWidth" id="winWidth">1920</span>-->
+    <!--x <span class="tooltipHeight" id="winHeight">1040</span><br>-->
+    <!--<span class="tooltipTitle">Viewport size: </span>-->
+    <!--<span class="tooltipWidth" id="vpWidth">1920</span> x-->
+    <!--<span class="tooltipHeight" id="vpHeight">554</span>-->
+</div>

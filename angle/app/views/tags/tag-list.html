@@ -1,0 +1,32 @@
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" id="panelDemo1">
+            <div class="panel-heading" ng-class="{'panel-heading-collapsed':panelDemo1}" >条件查询 <paneltool tool-collapse="tool-collapse"></paneltool></div>
+            <div collapse="panelDemo1" class="panel-wrapper">
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div >
+                            <ul class="nav nav-tabs">
+                                <li ng-repeat="tag in tags_title" ui-sref-active="active" ><a ui-sref="app.tag.list({id:tag.id})">{{tag.name}} </a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active">
+                                    <label><h5>
+                                        <a ng-repeat="tag in tags_list" ui-sref="app.tag.list.cpr.tagIdCr({tagId:tag.id,tagName:tag.name,firstIndex:0,status:0,ctype:99})" >{{tag.name}}</a>
+                                    </h5></label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row-fluid" ui-view="tag-view">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ui-view="tag-uib-tab">
+</div>
